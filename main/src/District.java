@@ -1,3 +1,7 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class District {
 
     private final String state;
@@ -75,5 +79,34 @@ public class District {
 
     public double getBantorMargin() {
         return bantorMargin;
+    }
+
+    public double getFundamentalMargin() {
+        return fundamentalMargin;
+    }
+
+    public void setFundamentalMargin(double fundamentalMargin) {
+        this.fundamentalMargin = fundamentalMargin;
+    }
+
+    public double getNationalCorrectionMargin() {
+        return nationalCorrectionMargin;
+    }
+
+    public void setNationalCorrectionMargin(double nationalCorrectionMargin) {
+        this.nationalCorrectionMargin = nationalCorrectionMargin;
+    }
+
+    public double getFinalMargin() {
+        return finalMargin;
+    }
+
+    public void setFinalMargin(double finalMargin) {
+        this.finalMargin = finalMargin;
+    }
+
+    public static District[] parseFromCSV(String filename) throws FileNotFoundException {
+        FileInputStream file = new FileInputStream(filename);
+        while (file.)
     }
 }
