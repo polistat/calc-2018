@@ -1,4 +1,5 @@
-public abstract class fundamentalCalculator {
+public interface fundamentalCalculator {
 
-    public double calcFundamentalMargin(District district)
+    void calcFundamentalMargin(District district);
+
 }
