@@ -7,13 +7,15 @@ public class Poll {
     private final int sampleSize;
     private final boolean registeredVoter;
     private final double houseLean;
+    private final String grade;
 
-    public Poll(Date dateTaken, double demMargin, int sampleSize, boolean registeredVoter, double houseLean) {
+    public Poll(Date dateTaken, double demMargin, int sampleSize, boolean registeredVoter, double houseLean, String grade) {
         this.dateTaken = dateTaken;
         this.demMargin = demMargin;
         this.sampleSize = sampleSize;
         this.registeredVoter = registeredVoter;
         this.houseLean = houseLean;
+        this.grade = grade;
     }
 
     public Date getDateTaken() {
@@ -34,5 +36,9 @@ public class Poll {
 
     public double getHouseLean() {
         return houseLean;
+    }
+
+    public String getGrade(){
+        return grade;
     }
 }
