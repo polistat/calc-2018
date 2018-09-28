@@ -1,3 +1,5 @@
+package polistat;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -17,8 +19,11 @@ public class District {
     private final double bantorMargin;
 
     private double fundamentalMargin;
+    private double fundamentalStdv;
     private double nationalCorrectionMargin;
+    private double nationalCorrectionStdv;
     private double finalMargin;
+    private double finalStdv;
 
     public District(String state, int district, Poll[] polls, boolean repIncumbent,
                     boolean demIncumbent, double obama2012, Double dem2014,
@@ -103,6 +108,30 @@ public class District {
 
     public void setFinalMargin(double finalMargin) {
         this.finalMargin = finalMargin;
+    }
+    
+    public double getFundamentalStdv() {
+        return fundamentalStdv;
+    }
+
+    public void setFundamentalStdv(double fundamentalStdv) {
+        this.fundamentalStdv = fundamentalStdv;
+    }
+    
+    public double getNationalCorrectionStdv() {
+        return nationalCorrectionStdv;
+    }
+
+    public void setNationalCorrectionStdv(double nationalCorrectionStdv) {
+        this.nationalCorrectionStdv = nationalCorrectionStdv;
+    }
+    
+    public double getFinalStdv() {
+        return finalStdv;
+    }
+
+    public void setFinalStdv(double finalStdv) {
+        this.finalStdv = finalStdv;
     }
 
     public static District[] parseFromCSV(String filename) throws FileNotFoundException {
