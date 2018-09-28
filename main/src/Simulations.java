@@ -9,14 +9,24 @@ public class Simulations {
 
 	}
 	
-	public static double[] percToProb(double[] racePerc, double[] raceStd) {
+	public static double[] simulate(District[] districts) {
+		double[] racePerc = new double[districts.length];
+		double[] raceStdv = new double[districts.length];
+		for (int i = 0; i < districts.length; i++) {
+			racePerc[i] = districts[i].getFinalMargin();
+			raceStdv[i] = districts[i].getFinalStdv();
+		}
+		double[] probs = percToProb(racePerc, raceStdv, 1000);
+		return probSimulate(probs, 10000);
+	}
+	
+	public static double[] percToProb(double[] racePerc, double[] raceStdv, int iter) {
 		double[] raceProb = new double[racePerc.length];
 		Random generator = new Random();
-		int iter = 1000000;
 		for (int i = 0; i < racePerc.length; i++) {
 			double demWins = 0.0;
 			for (int j = 0; j < iter; j++) {
-				if (generator.nextGaussian() * raceStd[i] + racePerc[i] > 0.5) {
+				if (generator.nextGaussian() * raceStdv[i] + racePerc[i] > 0.5) {
 					demWins++;
 				}
 			}
@@ -25,7 +35,7 @@ public class Simulations {
 		return raceProb;
 	}
 	
-	public static double[] simulate(double[] raceProb, int iter) {
+	public static double[] probSimulate(double[] raceProb, int iter) {
 		double[] distri = new double[raceProb.length + 1];
 		for (int i = 0; i < iter; i++) {
 			int demWins = 0;
