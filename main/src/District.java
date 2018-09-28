@@ -1,8 +1,10 @@
-package polistat;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class District {
 
@@ -16,7 +18,7 @@ public class District {
     private final double hillary2016;
     private final Double dem2016;
     private final double elasticity;
-    private final double bantorMargin;
+    private final Double bantorAdjustment;
 
     private double fundamentalMargin;
     private double fundamentalStdv;
@@ -28,7 +30,7 @@ public class District {
     public District(String state, int district, Poll[] polls, boolean repIncumbent,
                     boolean demIncumbent, double obama2012, Double dem2014,
                     double hillary2016, Double dem2016, double elasticity,
-                    double bantorMargin) {
+                    Double bantorAdjustment) {
         this.state = state;
         this.district = district;
         this.polls = polls;
@@ -39,7 +41,7 @@ public class District {
         this.hillary2016 = hillary2016;
         this.dem2016 = dem2016;
         this.elasticity = elasticity;
-        this.bantorMargin = bantorMargin;
+        this.bantorAdjustment = bantorAdjustment;
     }
 
     public String getState() {
@@ -82,8 +84,8 @@ public class District {
         return elasticity;
     }
 
-    public double getBantorMargin() {
-        return bantorMargin;
+    public Double getBantorAdjustment() {
+        return bantorAdjustment;
     }
 
     public double getFundamentalMargin() {
@@ -134,8 +136,71 @@ public class District {
         this.finalStdv = finalStdv;
     }
 
-    public static District[] parseFromCSV(String filename) throws FileNotFoundException {
-        FileInputStream file = new FileInputStream(filename);
-        while (file.)
+    public boolean hasPolls(){
+        return polls != null && !(polls.length == 0);
+    }
+
+    public static District[] parseFromCSV(String districtFile, String pollFile) throws IOException, ParseException {
+        String line;
+        DateFormat dateFormat = new SimpleDateFormat();
+        BufferedReader pollFileReader = new BufferedReader(new FileReader(pollFile));
+        //Clear header line
+        pollFileReader.readLine();
+        Map<String, List<Poll>> districtToPollMap = new HashMap<>();
+        while ((line = pollFileReader.readLine()) != null){
+            String[] commaSplit = line.split(",");
+            String district = commaSplit[0] + "," + commaSplit[1];
+            Date date = dateFormat.parse(commaSplit[2]);
+            double demMargin = Double.parseDouble(commaSplit[3]);
+            int sampleSize = Integer.parseInt(commaSplit[4]);
+            boolean registedVoter = Boolean.parseBoolean(commaSplit[5]);
+            double houseLean = Double.parseDouble(commaSplit[6]);
+            Poll poll = new Poll(date, demMargin, sampleSize, registedVoter, houseLean, commaSplit[7]);
+            if (districtToPollMap.containsKey(district)){
+                districtToPollMap.get(district).add(poll);
+            } else {
+                List<Poll> pollList = new ArrayList<>();
+                pollList.add(poll);
+                districtToPollMap.put(district, pollList);
+            }
+        }
+
+        BufferedReader districtFileReader = new BufferedReader(new FileReader(districtFile));
+        //Clear header line
+        districtFileReader.readLine();
+        List<District> toRet = new ArrayList<>();
+        while ((line = districtFileReader.readLine()) != null){
+            String[] commaSplit = line.split(",");
+            String state = commaSplit[0];
+            int districtNum = Integer.parseInt(commaSplit[1]);
+            boolean repIncumbent = Integer.parseInt(commaSplit[2]) == 1;
+            boolean demIncumbent = Integer.parseInt(commaSplit[3]) == 1;
+            double obama2012 = Double.parseDouble(commaSplit[4]);
+            Double dem2014 = Double.parseDouble(commaSplit[5]);
+            double hillary2016 = Double.parseDouble(commaSplit[6]);
+            Double dem2016 = Double.parseDouble(commaSplit[7]);
+            double elastity = Double.parseDouble(commaSplit[8]);
+            Double bantorAdjust;
+            if (commaSplit.length < 10 || commaSplit[9].isEmpty()) {
+                bantorAdjust = null;
+            } else {
+                bantorAdjust = Double.parseDouble(commaSplit[9]);
+            }
+            Poll[] polls;
+            if (districtToPollMap.containsKey(state + "," + districtNum)) {
+                polls = (Poll[]) districtToPollMap.get(state + "," + districtNum).toArray();
+            } else {
+                polls = null;
+            }
+            if (dem2014 == 0 || dem2014 == 1){
+                dem2014 = null;
+            }
+            if (dem2016 == 0 || dem2016 == 1){
+                dem2016 = null;
+            }
+            toRet.add(new District(state, districtNum, polls, repIncumbent, demIncumbent, obama2012, dem2014,
+                    hillary2016, dem2016, elastity, bantorAdjust));
+        }
+        return (District[]) toRet.toArray();
     }
 }
