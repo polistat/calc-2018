@@ -5,22 +5,44 @@ public class LogisticPollCalculator extends PollCalculator{
     private final Map<Character, Double> gradeQualityPoints;
     private final double daysCoefficient;
     private final double maxPollWeight;
-    private final double logisiticShift;
-    private final double logisiticSteepness;
+    private final double logisticShift;
+    private final double logisticSteepness;
+    private final double bantorWeight;
+    private final double bantorStdv;
 
-    public LogisticPollCalculator(PollAverager pollAverager) {
+    public LogisticPollCalculator(PollAverager pollAverager, Map<Character, Double> gradeQualityPoints,
+                                  double daysCoefficient, double maxPollWeight, double logisticShift,
+                                  double logisticSteepness, double bantorWeight, double bantorStdv) {
         super(pollAverager);
+        this.gradeQualityPoints = gradeQualityPoints;
+        this.daysCoefficient = daysCoefficient;
+        this.maxPollWeight = maxPollWeight;
+        this.logisticShift = logisticShift;
+        this.logisticSteepness = logisticSteepness;
+        this.bantorWeight = bantorWeight;
+        this.bantorStdv = bantorStdv;
     }
 
     @Override
     public double calculatePolls(District district) {
+        double pollAverage;
+        double pollStdv;
+        double pollWeight;
         if (district.hasPolls()) {
-            double average = pollAverager.getAverage(district.getPolls());
+            pollAverage = pollAverager.getAverage(district.getPolls());
+            pollStdv = pollAverager.getAverage(district.getPolls());
             double x = 0;
             for (Poll poll : district.getPolls()){
-                x += (Math.exp(-1*daysCoefficient*))*gradeQualityPoints.get(poll.getGrade());
+                x += (Math.exp(-1*daysCoefficient*poll.getDaysBeforeElection()))*gradeQualityPoints.get(poll.getGrade());
             }
+            pollWeight = maxPollWeight/(1+Math.exp(-logisticSteepness *(x- logisticShift)));
+        } else {
+            pollAverage = district.getBantorMargin();
+            pollStdv = bantorStdv;
+            pollWeight = bantorWeight;
         }
-        return 0;
+        district.setFinalMargin(pollWeight*pollAverage + (1-pollWeight)*district.getNationalCorrectionMargin());
+        district.setFinalStdv(Math.sqrt(Math.pow(pollStdv, 2)*pollWeight + Math.pow(district.getNationalCorrectionStdv(), 2)*(1-pollWeight)));
+        return district.getFinalMargin();
     }
 }

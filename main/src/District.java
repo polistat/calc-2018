@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class District {
@@ -18,7 +20,7 @@ public class District {
     private final double hillary2016;
     private final Double dem2016;
     private final double elasticity;
-    private final Double bantorAdjustment;
+    private final Double bantorMargin;
 
     private double fundamentalMargin;
     private double fundamentalStdv;
@@ -30,7 +32,7 @@ public class District {
     public District(String state, int district, Poll[] polls, boolean repIncumbent,
                     boolean demIncumbent, double obama2012, Double dem2014,
                     double hillary2016, Double dem2016, double elasticity,
-                    Double bantorAdjustment) {
+                    Double bantorMargin) {
         this.state = state;
         this.district = district;
         this.polls = polls;
@@ -41,7 +43,7 @@ public class District {
         this.hillary2016 = hillary2016;
         this.dem2016 = dem2016;
         this.elasticity = elasticity;
-        this.bantorAdjustment = bantorAdjustment;
+        this.bantorMargin = bantorMargin;
     }
 
     public String getState() {
@@ -84,8 +86,8 @@ public class District {
         return elasticity;
     }
 
-    public Double getBantorAdjustment() {
-        return bantorAdjustment;
+    public Double getBantorMargin() {
+        return bantorMargin;
     }
 
     public double getFundamentalMargin() {
@@ -142,7 +144,7 @@ public class District {
 
     public static District[] parseFromCSV(String districtFile, String pollFile) throws IOException, ParseException {
         String line;
-        DateFormat dateFormat = new SimpleDateFormat();
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         BufferedReader pollFileReader = new BufferedReader(new FileReader(pollFile));
         //Clear header line
         pollFileReader.readLine();
@@ -150,13 +152,13 @@ public class District {
         while ((line = pollFileReader.readLine()) != null){
             String[] commaSplit = line.split(",");
             String district = commaSplit[0] + "," + commaSplit[1];
-            Date date = dateFormat.parse(commaSplit[2]);
+            LocalDate date = LocalDate.parse(commaSplit[2], DateTimeFormatter.ofPattern("mm/dd/yy"));
             double demMargin = Double.parseDouble(commaSplit[3]);
             int sampleSize = Integer.parseInt(commaSplit[4]);
-            boolean registedVoter = Boolean.parseBoolean(commaSplit[5]);
+            boolean registeredVoter = Boolean.parseBoolean(commaSplit[5]);
             double houseLean = Double.parseDouble(commaSplit[6]);
             char vote = commaSplit[7].toLowerCase().charAt(0);
-            Poll poll = new Poll(date, demMargin, sampleSize, registedVoter, houseLean, vote);
+            Poll poll = new Poll(date, demMargin, sampleSize, registeredVoter, houseLean, vote);
             if (districtToPollMap.containsKey(district)){
                 districtToPollMap.get(district).add(poll);
             } else {
@@ -181,11 +183,11 @@ public class District {
             double hillary2016 = Double.parseDouble(commaSplit[6]);
             Double dem2016 = Double.parseDouble(commaSplit[7]);
             double elastity = Double.parseDouble(commaSplit[8]);
-            Double bantorAdjust;
+            Double bantorMargin;
             if (commaSplit.length < 10 || commaSplit[9].isEmpty()) {
-                bantorAdjust = null;
+                bantorMargin = null;
             } else {
-                bantorAdjust = Double.parseDouble(commaSplit[9]);
+                bantorMargin = Double.parseDouble(commaSplit[9]);
             }
             Poll[] polls;
             if (districtToPollMap.containsKey(state + "," + districtNum)) {
@@ -200,7 +202,7 @@ public class District {
                 dem2016 = null;
             }
             toRet.add(new District(state, districtNum, polls, repIncumbent, demIncumbent, obama2012, dem2014,
-                    hillary2016, dem2016, elastity, bantorAdjust));
+                    hillary2016, dem2016, elastity, bantorMargin));
         }
         return (District[]) toRet.toArray();
     }
