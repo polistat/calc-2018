@@ -1,5 +1,11 @@
-public interface NationalCorrectionCalculator {
+public abstract class NationalCorrectionCalculator {
 
-    double calcNationalCorrection(District district, double nationalShift);
-    double calcNationalStdv(District district, double nationalShift);
+    protected final double nationalShift;
+
+    public NationalCorrectionCalculator(double nationalShift){
+        this.nationalShift = nationalShift;
+    }
+
+    public abstract double calcNationalCorrection(District district);
+    public abstract double calcNationalStdv(District district);
 }
