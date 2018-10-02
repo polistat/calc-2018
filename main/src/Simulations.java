@@ -1,12 +1,42 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
 
 public class Simulations {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public static void main(String[] args) throws IOException {
+		
 	}
 	
+	public static void write(District[] districts) throws IOException {
+		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("/Users/stevenqu/Documents/12th Grade/PoliStat/outputP.txt")));
+		// output: margin with stdv, probability of winning, histogram
+		
+		double[] racePerc = new double[districts.length];
+		double[] raceStdv = new double[districts.length];
+		for (int i = 0; i < districts.length; i++) {
+			racePerc[i] = districts[i].getFinalMargin();
+			raceStdv[i] = districts[i].getFinalStdv();
+		}
+		
+		int sampleNormal = 1000;
+		int makeHisto = 10000;
+		double[] probs = percToProb(racePerc, raceStdv, sampleNormal);
+		double[] histo = probSimulate(probs, makeHisto);
+		
+		for (int i = 0; i < districts.length; i++) {
+			out.println(racePerc[i] + "," + raceStdv[i] + "," + probs[i]);
+		}
+		for (int i = 0; i < histo.length; i++) {
+			out.println(i + "," + (histo[i] / makeHisto));
+		}
+		
+	}
+	
+	
+	// unnecessary
 	public static double[] simulate(District[] districts) {
 		double[] racePerc = new double[districts.length];
 		double[] raceStdv = new double[districts.length];
