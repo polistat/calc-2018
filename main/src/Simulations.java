@@ -1,5 +1,3 @@
-package polistat;
-
 import java.util.Random;
 
 public class Simulations {
