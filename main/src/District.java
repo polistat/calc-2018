@@ -155,7 +155,8 @@ public class District {
             int sampleSize = Integer.parseInt(commaSplit[4]);
             boolean registedVoter = Boolean.parseBoolean(commaSplit[5]);
             double houseLean = Double.parseDouble(commaSplit[6]);
-            Poll poll = new Poll(date, demMargin, sampleSize, registedVoter, houseLean, commaSplit[7]);
+            char vote = commaSplit[7].toLowerCase().charAt(0);
+            Poll poll = new Poll(date, demMargin, sampleSize, registedVoter, houseLean, vote);
             if (districtToPollMap.containsKey(district)){
                 districtToPollMap.get(district).add(poll);
             } else {

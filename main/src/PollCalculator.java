@@ -1,4 +1,10 @@
-public interface PollCalculator {
+public abstract class PollCalculator {
 
-    double calculatePolls();
+    protected PollAverager pollAverager;
+
+    public PollCalculator(PollAverager pollAverager){
+        this.pollAverager = pollAverager;
+    }
+
+    public abstract double calculatePolls(District district);
 }
