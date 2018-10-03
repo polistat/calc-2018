@@ -13,21 +13,19 @@ public class Simulations {
 		
 	}
 	
-	public static void write(District[] districts) throws IOException {
-		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("/Users/stevenqu/Documents/12th Grade/PoliStat/outputP.txt")));
+	public static void write(District[] districts, int iterations) throws IOException {
+		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("outputP.txt")));
 		// output: margin with stdv, probability of winning, histogram
 		
 		double[] racePerc = new double[districts.length];
 		double[] raceStdv = new double[districts.length];
 		for (int i = 0; i < districts.length; i++) {
-			racePerc[i] = districts[i].getFinalMargin();
-			raceStdv[i] = districts[i].getFinalStdv();
+			racePerc[i] = districts[i].getFinalDemPercent();
+			raceStdv[i] = districts[i].getFinalDemPercent();
 		}
-		
-		int sampleNormal = 1000;
-		int makeHisto = 10000;
-		double[] probs = percToProb(racePerc, raceStdv, sampleNormal);
-		double[] histo = probSimulate(probs, makeHisto);
+
+		double[] probs = percToProb(racePerc, raceStdv, iterations);
+		double[] histo = probSimulate(probs, iterations);
 		
 		LocalDate today = LocalDate.now();
 		
@@ -36,8 +34,8 @@ public class Simulations {
 					today.getDayOfMonth() + "," +racePerc[i] + "," + 
 					raceStdv[i] + "," + probs[i]);
 		}
-		for (int i = 0; i < histo.length; i++) {
-			out.println((histo[i] / makeHisto));
+		for (double aHisto : histo) {
+			out.println((aHisto / iterations));
 		}
 		
 	}
@@ -48,8 +46,8 @@ public class Simulations {
 		double[] racePerc = new double[districts.length];
 		double[] raceStdv = new double[districts.length];
 		for (int i = 0; i < districts.length; i++) {
-			racePerc[i] = districts[i].getFinalMargin();
-			raceStdv[i] = districts[i].getFinalStdv();
+			racePerc[i] = districts[i].getFinalDemPercent();
+			raceStdv[i] = districts[i].getFinalStDv();
 		}
 		double[] probs = percToProb(racePerc, raceStdv, 1000);
 		return probSimulate(probs, 10000);
