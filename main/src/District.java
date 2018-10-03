@@ -1,12 +1,13 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class District {
 
@@ -136,7 +137,7 @@ public class District {
         return polls != null && !(polls.length == 0);
     }
 
-    public static District[] parseFromCSV(String districtFile, String pollFile) throws IOException, ParseException {
+    public static District[] parseFromCSV(String districtFile, String pollFile, String bantorFile) throws IOException, ParseException {
         String line;
         BufferedReader pollFileReader = new BufferedReader(new FileReader(pollFile));
         //Clear header line
@@ -161,6 +162,16 @@ public class District {
             }
         }
 
+        BufferedReader bantorFileReader = new BufferedReader(new FileReader(bantorFile));
+        //Clear header line
+        bantorFileReader.readLine();
+        Map<String, Double> nameToBantorMap = new HashMap<>();
+        while ((line = bantorFileReader.readLine()) != null) {
+            String[] commaSplit = line.split(",");
+            String name = getName(commaSplit[0], commaSplit[1]);
+            nameToBantorMap.put(name, Double.parseDouble(commaSplit[2]));
+        }
+
         BufferedReader districtFileReader = new BufferedReader(new FileReader(districtFile));
         //Clear header line
         districtFileReader.readLine();
@@ -175,18 +186,17 @@ public class District {
             double hillary2016 = Double.parseDouble(commaSplit[6]);
             Double dem2016 = Double.parseDouble(commaSplit[7]);
             double elastity = Double.parseDouble(commaSplit[8]);
-            Double bantorMargin;
-            if (commaSplit.length < 10 || commaSplit[9].isEmpty()) {
-                bantorMargin = null;
-            } else {
-                bantorMargin = Double.parseDouble(commaSplit[9]);
-            }
-            Poll[] polls;
+
+            Poll[] polls = null;
             if (nameToPollMap.containsKey(name)) {
                 polls = (Poll[]) nameToPollMap.get(name).toArray();
-            } else {
-                polls = null;
             }
+
+            Double bantorMargin = null;
+            if (nameToBantorMap.containsKey(name)) {
+                bantorMargin = nameToBantorMap.get(name);
+            }
+
             if (dem2014 == 0 || dem2014 == 1){
                 dem2014 = null;
             }
@@ -200,6 +210,6 @@ public class District {
     }
 
     public static String getName(String state, String districtNum){
-        return String.format("%s-%02d", state, Integer.parseInt(districtNum));
+        return String.format("%s-%02d", state.toUpperCase(), Integer.parseInt(districtNum));
     }
 }

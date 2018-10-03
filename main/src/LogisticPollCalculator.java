@@ -8,11 +8,11 @@ public class LogisticPollCalculator extends PollCalculator{
     private final double logisticShift;
     private final double logisticSteepness;
     private final double bantorWeight;
-    private final double bantorStdv;
+    private final double bantorStDv;
 
     public LogisticPollCalculator(PollAverager pollAverager, Map<Character, Double> gradeQualityPoints,
                                   double daysCoefficient, double maxPollWeight, double logisticShift,
-                                  double logisticSteepness, double bantorWeight, double bantorStdv) {
+                                  double logisticSteepness, double bantorWeight, double bantorStDv) {
         super(pollAverager);
         this.gradeQualityPoints = gradeQualityPoints;
         this.daysCoefficient = daysCoefficient;
@@ -20,7 +20,7 @@ public class LogisticPollCalculator extends PollCalculator{
         this.logisticShift = logisticShift;
         this.logisticSteepness = logisticSteepness;
         this.bantorWeight = bantorWeight;
-        this.bantorStdv = bantorStdv;
+        this.bantorStDv = bantorStDv;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class LogisticPollCalculator extends PollCalculator{
             pollWeight = maxPollWeight/(1+Math.exp(-logisticSteepness *(x- logisticShift)));
         } else {
             pollAverage = district.getBantorMargin();
-            pollStdv = bantorStdv;
+            pollStdv = bantorStDv;
             pollWeight = bantorWeight;
         }
         district.setFinalDemPercent(pollWeight*pollAverage + (1-pollWeight)*district.getGenericCorrectedDemPercent());

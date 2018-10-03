@@ -16,6 +16,8 @@ public class SimpleNatlShiftCalc implements NationalShiftCalculator {
     public double calcNationalShift(District[] districts, double genericDemPercent) throws IOException {
         String line;
         BufferedReader lastCongressionalFileReader =  new BufferedReader(new FileReader(lastCongressionalDataFile));
+        //Clear header
+        lastCongressionalFileReader.readLine();
         Map<String, Integer> districtToVoteMap = new HashMap<>();
         while ((line = lastCongressionalFileReader.readLine()) != null){
             String[] splitLine = line.split(",");
