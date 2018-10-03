@@ -6,8 +6,14 @@ import java.util.Map;
 
 public class SimpleNatlShiftCalc implements NationalShiftCalculator {
 
+    private final String lastCongressionalDataFile;
+
+    public SimpleNatlShiftCalc(String lastCongressionalDataFile) {
+        this.lastCongressionalDataFile = lastCongressionalDataFile;
+    }
+
     @Override
-    public double calcNationalShift(String lastCongressionalDataFile, District[] districts, double genericDemPercent) throws IOException {
+    public double calcNationalShift(District[] districts, double genericDemPercent) throws IOException {
         String line;
         BufferedReader lastCongressionalFileReader =  new BufferedReader(new FileReader(lastCongressionalDataFile));
         Map<String, Integer> districtToVoteMap = new HashMap<>();

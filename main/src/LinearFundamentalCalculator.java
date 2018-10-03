@@ -59,12 +59,12 @@ public class LinearFundamentalCalculator implements FundamentalCalculator {
 	
 	public double calcFundamentalStDv(District district) {
 		if (district.isDemIncumbent() || district.isRepIncumbent()) {
-			district.setFundamentalStDv(this.incumbentStDv);
-			return this.incumbentStDv;
+			district.setFundamentalStDv(this.incumbentStDv * 0.5);
+			return this.incumbentStDv * 0.5;
 		}
 		else {
-			district.setFundamentalStDv(this.openStDv);
-			return this.openStDv;
+			district.setFundamentalStDv(this.openStDv * 0.5);
+			return this.openStDv * 0.5;
 		}
 	}
 

@@ -6,6 +6,6 @@ public abstract class NationalCorrectionCalculator {
         this.nationalShift = nationalShift;
     }
 
-    public abstract double calcNationalCorrection(District district);
-    public abstract double calcNationalStdv(District district);
+    public abstract double calcNationalDemPercent(District district);
+    public abstract double calcNationalStDv(District district);
 }

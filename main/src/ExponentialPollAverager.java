@@ -11,21 +11,21 @@ public class ExponentialPollAverager implements PollAverager {
         double numerator = 0;
         double denominator = 0;
         for (Poll poll : polls){
-            numerator += poll.getDemMargin()*Math.exp(-exponentialCoefficient*poll.getDaysBeforeElection());
+            numerator += poll.getDemPercent()*Math.exp(-exponentialCoefficient*poll.getDaysBeforeElection());
             denominator += Math.exp(-exponentialCoefficient*poll.getDaysBeforeElection());
         }
         return numerator/denominator;
     }
 
     @Override
-    public double getStdv(Poll[] polls) {
+    public double getStDv(Poll[] polls) {
         double weightSum = 0;
         for (Poll poll : polls){
             weightSum += Math.exp(-exponentialCoefficient*poll.getDaysBeforeElection());
         }
         double variance = 0;
         for (Poll poll : polls) {
-            variance += Math.pow(Math.exp(-exponentialCoefficient*poll.getDaysBeforeElection())/weightSum*poll.getDemMargin(), 2);
+            variance += Math.pow(Math.exp(-exponentialCoefficient*poll.getDaysBeforeElection())/weightSum*poll.getDemPercent(), 2);
         }
         return Math.sqrt(variance);
     }
