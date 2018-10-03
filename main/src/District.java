@@ -10,8 +10,7 @@ import java.util.*;
 
 public class District {
 
-    private final String state;
-    private final int district;
+    private final String name;
     private final Poll[] polls;
     private final boolean repIncumbent;
     private final boolean demIncumbent;
@@ -22,19 +21,18 @@ public class District {
     private final double elasticity;
     private final Double bantorMargin;
 
-    private double fundamentalMargin;
-    private double fundamentalStdv;
-    private double nationalCorrectionMargin;
-    private double nationalCorrectionStdv;
-    private double finalMargin;
-    private double finalStdv;
+    private double fundamentalDemPercent;
+    private double fundamentalStDv;
+    private double genericCorrectedDemPercent;
+    private double genericCorrectedStDv;
+    private double finalDemPercent;
+    private double finalStDv;
 
-    public District(String state, int district, Poll[] polls, boolean repIncumbent,
+    private District(String name, Poll[] polls, boolean repIncumbent,
                     boolean demIncumbent, double obama2012, Double dem2014,
                     double hillary2016, Double dem2016, double elasticity,
                     Double bantorMargin) {
-        this.state = state;
-        this.district = district;
+        this.name = name;
         this.polls = polls;
         this.repIncumbent = repIncumbent;
         this.demIncumbent = demIncumbent;
@@ -46,12 +44,8 @@ public class District {
         this.bantorMargin = bantorMargin;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public int getDistrict() {
-        return district;
+    public String getName() {
+        return name;
     }
 
     public Poll[] getPolls() {
@@ -90,52 +84,52 @@ public class District {
         return bantorMargin;
     }
 
-    public double getFundamentalMargin() {
-        return fundamentalMargin;
+    public double getFundamentalDemPercent() {
+        return fundamentalDemPercent;
     }
 
-    public void setFundamentalMargin(double fundamentalMargin) {
-        this.fundamentalMargin = fundamentalMargin;
+    public void setFundamentalDemPercent(double fundamentalDemPercent) {
+        this.fundamentalDemPercent = fundamentalDemPercent;
     }
 
-    public double getNationalCorrectionMargin() {
-        return nationalCorrectionMargin;
+    public double getGenericCorrectedDemPercent() {
+        return genericCorrectedDemPercent;
     }
 
-    public void setNationalCorrectionMargin(double nationalCorrectionMargin) {
-        this.nationalCorrectionMargin = nationalCorrectionMargin;
+    public void setGenericCorrectedDemPercent(double genericCorrectedDemPercent) {
+        this.genericCorrectedDemPercent = genericCorrectedDemPercent;
     }
 
-    public double getFinalMargin() {
-        return finalMargin;
+    public double getFinalDemPercent() {
+        return finalDemPercent;
     }
 
-    public void setFinalMargin(double finalMargin) {
-        this.finalMargin = finalMargin;
+    public void setFinalDemPercent(double finalDemPercent) {
+        this.finalDemPercent = finalDemPercent;
     }
     
-    public double getFundamentalStdv() {
-        return fundamentalStdv;
+    public double getFundamentalStDv() {
+        return fundamentalStDv;
     }
 
-    public void setFundamentalStdv(double fundamentalStdv) {
-        this.fundamentalStdv = fundamentalStdv;
+    public void setFundamentalStDv(double fundamentalStDv) {
+        this.fundamentalStDv = fundamentalStDv;
     }
     
-    public double getNationalCorrectionStdv() {
-        return nationalCorrectionStdv;
+    public double getGenericCorrectedStDv() {
+        return genericCorrectedStDv;
     }
 
-    public void setNationalCorrectionStdv(double nationalCorrectionStdv) {
-        this.nationalCorrectionStdv = nationalCorrectionStdv;
+    public void setGenericCorrectedStDv(double genericCorrectedStDv) {
+        this.genericCorrectedStDv = genericCorrectedStDv;
     }
     
-    public double getFinalStdv() {
-        return finalStdv;
+    public double getFinalStDv() {
+        return finalStDv;
     }
 
-    public void setFinalStdv(double finalStdv) {
-        this.finalStdv = finalStdv;
+    public void setFinalStDv(double finalStDv) {
+        this.finalStDv = finalStDv;
     }
 
     public boolean hasPolls(){
@@ -144,14 +138,13 @@ public class District {
 
     public static District[] parseFromCSV(String districtFile, String pollFile) throws IOException, ParseException {
         String line;
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         BufferedReader pollFileReader = new BufferedReader(new FileReader(pollFile));
         //Clear header line
         pollFileReader.readLine();
-        Map<String, List<Poll>> districtToPollMap = new HashMap<>();
+        Map<String, List<Poll>> nameToPollMap = new HashMap<>();
         while ((line = pollFileReader.readLine()) != null){
             String[] commaSplit = line.split(",");
-            String district = commaSplit[0] + "," + commaSplit[1];
+            String name = getName(commaSplit[0], commaSplit[1]);
             LocalDate date = LocalDate.parse(commaSplit[2], DateTimeFormatter.ofPattern("mm/dd/yy"));
             double demMargin = Double.parseDouble(commaSplit[3]);
             int sampleSize = Integer.parseInt(commaSplit[4]);
@@ -159,12 +152,12 @@ public class District {
             double houseLean = Double.parseDouble(commaSplit[6]);
             char vote = commaSplit[7].toLowerCase().charAt(0);
             Poll poll = new Poll(date, demMargin, sampleSize, registeredVoter, houseLean, vote);
-            if (districtToPollMap.containsKey(district)){
-                districtToPollMap.get(district).add(poll);
+            if (nameToPollMap.containsKey(name)){
+                nameToPollMap.get(name).add(poll);
             } else {
                 List<Poll> pollList = new ArrayList<>();
                 pollList.add(poll);
-                districtToPollMap.put(district, pollList);
+                nameToPollMap.put(name, pollList);
             }
         }
 
@@ -174,8 +167,7 @@ public class District {
         List<District> toRet = new ArrayList<>();
         while ((line = districtFileReader.readLine()) != null){
             String[] commaSplit = line.split(",");
-            String state = commaSplit[0];
-            int districtNum = Integer.parseInt(commaSplit[1]);
+            String name = getName(commaSplit[0], commaSplit[1]);
             boolean repIncumbent = Integer.parseInt(commaSplit[2]) == 1;
             boolean demIncumbent = Integer.parseInt(commaSplit[3]) == 1;
             double obama2012 = Double.parseDouble(commaSplit[4]);
@@ -190,8 +182,8 @@ public class District {
                 bantorMargin = Double.parseDouble(commaSplit[9]);
             }
             Poll[] polls;
-            if (districtToPollMap.containsKey(state + "," + districtNum)) {
-                polls = (Poll[]) districtToPollMap.get(state + "," + districtNum).toArray();
+            if (nameToPollMap.containsKey(name)) {
+                polls = (Poll[]) nameToPollMap.get(name).toArray();
             } else {
                 polls = null;
             }
@@ -201,9 +193,13 @@ public class District {
             if (dem2016 == 0 || dem2016 == 1){
                 dem2016 = null;
             }
-            toRet.add(new District(state, districtNum, polls, repIncumbent, demIncumbent, obama2012, dem2014,
+            toRet.add(new District(name, polls, repIncumbent, demIncumbent, obama2012, dem2014,
                     hillary2016, dem2016, elastity, bantorMargin));
         }
         return (District[]) toRet.toArray();
+    }
+
+    public static String getName(String state, String districtNum){
+        return String.format("%s-%02d", state, Integer.parseInt(districtNum));
     }
 }

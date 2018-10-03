@@ -41,8 +41,8 @@ public class LogisticPollCalculator extends PollCalculator{
             pollStdv = bantorStdv;
             pollWeight = bantorWeight;
         }
-        district.setFinalMargin(pollWeight*pollAverage + (1-pollWeight)*district.getNationalCorrectionMargin());
-        district.setFinalStdv(Math.sqrt(Math.pow(pollStdv, 2)*pollWeight + Math.pow(district.getNationalCorrectionStdv(), 2)*(1-pollWeight)));
-        return district.getFinalMargin();
+        district.setFinalDemPercent(pollWeight*pollAverage + (1-pollWeight)*district.getGenericCorrectedDemPercent());
+        district.setFinalStDv(Math.sqrt(Math.pow(pollStdv, 2)*pollWeight + Math.pow(district.getGenericCorrectedStDv(), 2)*(1-pollWeight)));
+        return district.getFinalDemPercent();
     }
 }

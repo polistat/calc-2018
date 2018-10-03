@@ -11,8 +11,8 @@ public class Simulations {
 		double[] racePerc = new double[districts.length];
 		double[] raceStdv = new double[districts.length];
 		for (int i = 0; i < districts.length; i++) {
-			racePerc[i] = districts[i].getFinalMargin();
-			raceStdv[i] = districts[i].getFinalStdv();
+			racePerc[i] = districts[i].getFinalDemPercent();
+			raceStdv[i] = districts[i].getFinalStDv();
 		}
 		double[] probs = percToProb(racePerc, raceStdv, 1000);
 		return probSimulate(probs, 10000);

@@ -7,13 +7,13 @@ public class NationalShift extends NationalCorrectionCalculator{
     @Override
     public double calcNationalCorrection(District district) {
         double change = district.getElasticity() * nationalShift;
-        district.setNationalCorrectionMargin(district.getFundamentalMargin() + change);
-        return district.getNationalCorrectionMargin();
+        district.setGenericCorrectedDemPercent(district.getFundamentalDemPercent() + change);
+        return district.getGenericCorrectedDemPercent();
     }
 
     @Override
     public double calcNationalStdv(District district) {
-        district.setNationalCorrectionStdv(district.getFundamentalStdv());
-        return district.getNationalCorrectionStdv();
+        district.setGenericCorrectedStDv(district.getFundamentalStDv());
+        return district.getGenericCorrectedStDv();
     }
 }
