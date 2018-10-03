@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class Simulations {
 
+
 	public static void main(String[] args) throws IOException {
 		
 	}

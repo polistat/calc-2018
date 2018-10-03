@@ -1,29 +1,38 @@
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Poll {
 
-    private final Date dateTaken;
-    private final double demMargin;
+    public static final LocalDate ELECTION_DATE = LocalDate.of(2018, 11, 6);
+
+    private final LocalDate dateTaken;
+    private final double demPercent;
     private final int sampleSize;
     private final boolean registeredVoter;
     private final double houseLean;
-    private final String grade;
+    private final char grade;
+    private final long daysBeforeElection;
 
-    public Poll(Date dateTaken, double demMargin, int sampleSize, boolean registeredVoter, double houseLean, String grade) {
+    public Poll(LocalDate dateTaken, double demPercent, int sampleSize, boolean registeredVoter, double houseLean, char grade) {
         this.dateTaken = dateTaken;
-        this.demMargin = demMargin;
+        this.demPercent = demPercent;
         this.sampleSize = sampleSize;
         this.registeredVoter = registeredVoter;
         this.houseLean = houseLean;
         this.grade = grade;
+        this.daysBeforeElection = ChronoUnit.DAYS.between(dateTaken, ELECTION_DATE);
     }
 
-    public Date getDateTaken() {
+    public LocalDate getDateTaken() {
         return dateTaken;
     }
 
-    public double getDemMargin() {
-        return demMargin;
+    public long getDaysBeforeElection(){
+        return daysBeforeElection;
+    }
+
+    public double getDemPercent() {
+        return demPercent;
     }
 
     public int getSampleSize() {
@@ -38,7 +47,7 @@ public class Poll {
         return houseLean;
     }
 
-    public String getGrade(){
+    public char getGrade(){
         return grade;
     }
 }

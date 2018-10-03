@@ -1,15 +1,17 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class District {
 
-    private final String state;
-    private final int district;
+    private final String name;
     private final Poll[] polls;
     private final boolean repIncumbent;
     private final boolean demIncumbent;
@@ -18,21 +20,20 @@ public class District {
     private final double hillary2016;
     private final Double dem2016;
     private final double elasticity;
-    private final Double bantorAdjustment;
+    private final Double bantorMargin;
 
-    private double fundamentalMargin;
-    private double fundamentalStdv;
-    private double nationalCorrectionMargin;
-    private double nationalCorrectionStdv;
-    private double finalMargin;
-    private double finalStdv;
+    private double fundamentalDemPercent;
+    private double fundamentalStDv;
+    private double genericCorrectedDemPercent;
+    private double genericCorrectedStDv;
+    private double finalDemPercent;
+    private double finalStDv;
 
-    public District(String state, int district, Poll[] polls, boolean repIncumbent,
+    private District(String name, Poll[] polls, boolean repIncumbent,
                     boolean demIncumbent, double obama2012, Double dem2014,
                     double hillary2016, Double dem2016, double elasticity,
-                    Double bantorAdjustment) {
-        this.state = state;
-        this.district = district;
+                    Double bantorMargin) {
+        this.name = name;
         this.polls = polls;
         this.repIncumbent = repIncumbent;
         this.demIncumbent = demIncumbent;
@@ -41,15 +42,11 @@ public class District {
         this.hillary2016 = hillary2016;
         this.dem2016 = dem2016;
         this.elasticity = elasticity;
-        this.bantorAdjustment = bantorAdjustment;
+        this.bantorMargin = bantorMargin;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public int getDistrict() {
-        return district;
+    public String getName() {
+        return name;
     }
 
     public Poll[] getPolls() {
@@ -84,85 +81,95 @@ public class District {
         return elasticity;
     }
 
-    public Double getBantorAdjustment() {
-        return bantorAdjustment;
+    public Double getBantorMargin() {
+        return bantorMargin;
     }
 
-    public double getFundamentalMargin() {
-        return fundamentalMargin;
+    public double getFundamentalDemPercent() {
+        return fundamentalDemPercent;
     }
 
-    public void setFundamentalMargin(double fundamentalMargin) {
-        this.fundamentalMargin = fundamentalMargin;
+    public void setFundamentalDemPercent(double fundamentalDemPercent) {
+        this.fundamentalDemPercent = fundamentalDemPercent;
     }
 
-    public double getNationalCorrectionMargin() {
-        return nationalCorrectionMargin;
+    public double getGenericCorrectedDemPercent() {
+        return genericCorrectedDemPercent;
     }
 
-    public void setNationalCorrectionMargin(double nationalCorrectionMargin) {
-        this.nationalCorrectionMargin = nationalCorrectionMargin;
+    public void setGenericCorrectedDemPercent(double genericCorrectedDemPercent) {
+        this.genericCorrectedDemPercent = genericCorrectedDemPercent;
     }
 
-    public double getFinalMargin() {
-        return finalMargin;
+    public double getFinalDemPercent() {
+        return finalDemPercent;
     }
 
-    public void setFinalMargin(double finalMargin) {
-        this.finalMargin = finalMargin;
+    public void setFinalDemPercent(double finalDemPercent) {
+        this.finalDemPercent = finalDemPercent;
     }
     
-    public double getFundamentalStdv() {
-        return fundamentalStdv;
+    public double getFundamentalStDv() {
+        return fundamentalStDv;
     }
 
-    public void setFundamentalStdv(double fundamentalStdv) {
-        this.fundamentalStdv = fundamentalStdv;
+    public void setFundamentalStDv(double fundamentalStDv) {
+        this.fundamentalStDv = fundamentalStDv;
     }
     
-    public double getNationalCorrectionStdv() {
-        return nationalCorrectionStdv;
+    public double getGenericCorrectedStDv() {
+        return genericCorrectedStDv;
     }
 
-    public void setNationalCorrectionStdv(double nationalCorrectionStdv) {
-        this.nationalCorrectionStdv = nationalCorrectionStdv;
+    public void setGenericCorrectedStDv(double genericCorrectedStDv) {
+        this.genericCorrectedStDv = genericCorrectedStDv;
     }
     
-    public double getFinalStdv() {
-        return finalStdv;
+    public double getFinalStDv() {
+        return finalStDv;
     }
 
-    public void setFinalStdv(double finalStdv) {
-        this.finalStdv = finalStdv;
+    public void setFinalStDv(double finalStDv) {
+        this.finalStDv = finalStDv;
     }
 
     public boolean hasPolls(){
         return polls != null && !(polls.length == 0);
     }
 
-    public static District[] parseFromCSV(String districtFile, String pollFile) throws IOException, ParseException {
+    public static District[] parseFromCSV(String districtFile, String pollFile, String bantorFile) throws IOException, ParseException {
         String line;
-        DateFormat dateFormat = new SimpleDateFormat();
         BufferedReader pollFileReader = new BufferedReader(new FileReader(pollFile));
         //Clear header line
         pollFileReader.readLine();
-        Map<String, List<Poll>> districtToPollMap = new HashMap<>();
+        Map<String, List<Poll>> nameToPollMap = new HashMap<>();
         while ((line = pollFileReader.readLine()) != null){
             String[] commaSplit = line.split(",");
-            String district = commaSplit[0] + "," + commaSplit[1];
-            Date date = dateFormat.parse(commaSplit[2]);
+            String name = getName(commaSplit[0], commaSplit[1]);
+            LocalDate date = LocalDate.parse(commaSplit[2], DateTimeFormatter.ofPattern("mm/dd/yy"));
             double demMargin = Double.parseDouble(commaSplit[3]);
             int sampleSize = Integer.parseInt(commaSplit[4]);
-            boolean registedVoter = Boolean.parseBoolean(commaSplit[5]);
+            boolean registeredVoter = Boolean.parseBoolean(commaSplit[5]);
             double houseLean = Double.parseDouble(commaSplit[6]);
-            Poll poll = new Poll(date, demMargin, sampleSize, registedVoter, houseLean, commaSplit[7]);
-            if (districtToPollMap.containsKey(district)){
-                districtToPollMap.get(district).add(poll);
+            char vote = commaSplit[7].toLowerCase().charAt(0);
+            Poll poll = new Poll(date, demMargin, sampleSize, registeredVoter, houseLean, vote);
+            if (nameToPollMap.containsKey(name)){
+                nameToPollMap.get(name).add(poll);
             } else {
                 List<Poll> pollList = new ArrayList<>();
                 pollList.add(poll);
-                districtToPollMap.put(district, pollList);
+                nameToPollMap.put(name, pollList);
             }
+        }
+
+        BufferedReader bantorFileReader = new BufferedReader(new FileReader(bantorFile));
+        //Clear header line
+        bantorFileReader.readLine();
+        Map<String, Double> nameToBantorMap = new HashMap<>();
+        while ((line = bantorFileReader.readLine()) != null) {
+            String[] commaSplit = line.split(",");
+            String name = getName(commaSplit[0], commaSplit[1]);
+            nameToBantorMap.put(name, Double.parseDouble(commaSplit[2]));
         }
 
         BufferedReader districtFileReader = new BufferedReader(new FileReader(districtFile));
@@ -171,8 +178,7 @@ public class District {
         List<District> toRet = new ArrayList<>();
         while ((line = districtFileReader.readLine()) != null){
             String[] commaSplit = line.split(",");
-            String state = commaSplit[0];
-            int districtNum = Integer.parseInt(commaSplit[1]);
+            String name = getName(commaSplit[0], commaSplit[1]);
             boolean repIncumbent = Integer.parseInt(commaSplit[2]) == 1;
             boolean demIncumbent = Integer.parseInt(commaSplit[3]) == 1;
             double obama2012 = Double.parseDouble(commaSplit[4]);
@@ -180,27 +186,30 @@ public class District {
             double hillary2016 = Double.parseDouble(commaSplit[6]);
             Double dem2016 = Double.parseDouble(commaSplit[7]);
             double elastity = Double.parseDouble(commaSplit[8]);
-            Double bantorAdjust;
-            if (commaSplit.length < 10 || commaSplit[9].isEmpty()) {
-                bantorAdjust = null;
-            } else {
-                bantorAdjust = Double.parseDouble(commaSplit[9]);
+
+            Poll[] polls = null;
+            if (nameToPollMap.containsKey(name)) {
+                polls = (Poll[]) nameToPollMap.get(name).toArray();
             }
-            Poll[] polls;
-            if (districtToPollMap.containsKey(state + "," + districtNum)) {
-                polls = (Poll[]) districtToPollMap.get(state + "," + districtNum).toArray();
-            } else {
-                polls = null;
+
+            Double bantorMargin = null;
+            if (nameToBantorMap.containsKey(name)) {
+                bantorMargin = nameToBantorMap.get(name);
             }
+
             if (dem2014 == 0 || dem2014 == 1){
                 dem2014 = null;
             }
             if (dem2016 == 0 || dem2016 == 1){
                 dem2016 = null;
             }
-            toRet.add(new District(state, districtNum, polls, repIncumbent, demIncumbent, obama2012, dem2014,
-                    hillary2016, dem2016, elastity, bantorAdjust));
+            toRet.add(new District(name, polls, repIncumbent, demIncumbent, obama2012, dem2014,
+                    hillary2016, dem2016, elastity, bantorMargin));
         }
         return (District[]) toRet.toArray();
+    }
+
+    public static String getName(String state, String districtNum){
+        return String.format("%s-%02d", state.toUpperCase(), Integer.parseInt(districtNum));
     }
 }
