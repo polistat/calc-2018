@@ -31,7 +31,7 @@ public class Simulations {
 			out.println(racePerc[i] + "," + raceStdv[i] + "," + probs[i]);
 		}
 		for (int i = 0; i < histo.length; i++) {
-			out.println(i + "," + (histo[i] / makeHisto));
+			out.println((histo[i] / makeHisto));
 		}
 		
 	}
