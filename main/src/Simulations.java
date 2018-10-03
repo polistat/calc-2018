@@ -1,8 +1,10 @@
+import java.time.LocalDate;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
+
 
 public class Simulations {
 
@@ -27,8 +29,12 @@ public class Simulations {
 		double[] probs = percToProb(racePerc, raceStdv, sampleNormal);
 		double[] histo = probSimulate(probs, makeHisto);
 		
+		LocalDate today = LocalDate.now();
+		
 		for (int i = 0; i < districts.length; i++) {
-			out.println(racePerc[i] + "," + raceStdv[i] + "," + probs[i]);
+			out.println(today.getYear() + "," + today.getMonth() + "," + 
+					today.getDayOfMonth() + "," +racePerc[i] + "," + 
+					raceStdv[i] + "," + probs[i]);
 		}
 		for (int i = 0; i < histo.length; i++) {
 			out.println((histo[i] / makeHisto));
