@@ -146,13 +146,15 @@ public class District {
         while ((line = pollFileReader.readLine()) != null){
             String[] commaSplit = line.split(",");
             String name = commaSplit[0].toUpperCase();
-            LocalDate date = LocalDate.parse(commaSplit[1], DateTimeFormatter.ofPattern("mm/dd/yy"));
-            double demMargin = Double.parseDouble(commaSplit[2]);
-            int sampleSize = Integer.parseInt(commaSplit[3]);
-            boolean registeredVoter = Boolean.parseBoolean(commaSplit[4]);
-            double houseLean = Double.parseDouble(commaSplit[5]);
-            Grade grade = Grade.parseGrade(commaSplit[6]);
-            Poll poll = new Poll(date, demMargin, sampleSize, registeredVoter, houseLean, grade);
+            LocalDate date = LocalDate.parse(commaSplit[1], DateTimeFormatter.ofPattern("M/d/yyyy"));
+            double rawDemPercent = Double.parseDouble(commaSplit[2]);
+            double rawRepPercent = Double.parseDouble(commaSplit[3]);
+            int sampleSize = Integer.parseInt(commaSplit[4]);
+            boolean registeredVoter = Boolean.parseBoolean(commaSplit[5]);
+            double houseLean = Double.parseDouble(commaSplit[6]);
+            Grade grade = Grade.parseGrade(commaSplit[7]);
+            String pollsterName = commaSplit[8];
+            Poll poll = new Poll(date, rawDemPercent, rawRepPercent, sampleSize, registeredVoter, houseLean, grade, pollsterName);
             if (nameToPollMap.containsKey(name)){
                 nameToPollMap.get(name).add(poll);
             } else {
@@ -195,7 +197,7 @@ public class District {
 
             Poll[] polls = null;
             if (nameToPollMap.containsKey(name)) {
-                polls = (Poll[]) nameToPollMap.get(name).toArray();
+                polls = nameToPollMap.get(name).toArray(new Poll[1]);
             }
 
             Double bantorMargin = null;
