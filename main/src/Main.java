@@ -27,11 +27,11 @@ public class Main {
         double averageDemWinPercent = 0;
         Random generator = new Random();
         for (int i = 0; i < 1000; i++) {
-            double nationalShift = natlShiftCalc.calcNationalShift(districts, (0.493/(0.493+0.413) + generator.nextGaussian()*0.024));
+            double nationalShift = natlShiftCalc.calcNationalShift(districts, (0.493/(0.493+0.413) + generator.nextGaussian()*0.0253));
             NationalCorrectionCalculator natlCorrectCalc = new NationalShift(nationalShift);
             natlCorrectCalc.calcAll(districts);
             PollAverager pollAverager = new ExponentialPollAverager(1. / 30.);
-            PollCalculator pollCalculator = new ArctanPollCalculator(pollAverager, gradeQualityPoints, 1. / 120.,
+            PollCalculator pollCalculator = new ArctanPollCalculator(pollAverager, gradeQualityPoints, 1. / 167.,
                     0.9, 0, 16.6, 0.0, 0.05);
             pollCalculator.calcAll(districts);
             averageDemWinPercent += Simulations.write(districts, 1000);
