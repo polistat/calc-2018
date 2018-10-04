@@ -146,7 +146,7 @@ public class District {
         while ((line = pollFileReader.readLine()) != null){
             String[] commaSplit = line.split(",");
             String name = commaSplit[0].toUpperCase();
-            LocalDate date = LocalDate.parse(commaSplit[1], DateTimeFormatter.ofPattern("mm/dd/yy"));
+            LocalDate date = LocalDate.parse(commaSplit[1], DateTimeFormatter.ofPattern("M/d/yyyy"));
             double rawDemPercent = Double.parseDouble(commaSplit[2]);
             double rawRepPercent = Double.parseDouble(commaSplit[3]);
             int sampleSize = Integer.parseInt(commaSplit[4]);
@@ -197,7 +197,7 @@ public class District {
 
             Poll[] polls = null;
             if (nameToPollMap.containsKey(name)) {
-                polls = (Poll[]) nameToPollMap.get(name).toArray();
+                polls = nameToPollMap.get(name).toArray(new Poll[1]);
             }
 
             Double bantorMargin = null;
