@@ -25,7 +25,7 @@ public class ExponentialPollAverager implements PollAverager {
         }
         double variance = 0;
         for (Poll poll : polls) {
-            variance += Math.pow(Math.exp(-exponentialCoefficient*poll.getDaysBeforeElection())/weightSum*poll.getDemPercent(), 2);
+            variance += Math.pow(Math.exp(-exponentialCoefficient*poll.getDaysBeforeElection())*poll.getStandardDeviation()/weightSum, 2);
         }
         return Math.sqrt(variance);
     }

@@ -16,6 +16,7 @@ public class Poll {
     private final long daysBeforeElection;
 
     private final double demPercent;
+    private final double standardDeviation;
 
     public Poll(LocalDate dateTaken, double rawDemPercent, double rawRepPercent, int sampleSize, boolean registeredVoter,
                 double houseLean, Grade grade, String pollsterName) {
@@ -29,6 +30,7 @@ public class Poll {
         this.grade = grade;
         this.daysBeforeElection = ChronoUnit.DAYS.between(dateTaken, ELECTION_DATE);
         this.pollsterName = pollsterName;
+        this.standardDeviation = Math.sqrt(demPercent*(1-demPercent)/sampleSize);
     }
 
     public LocalDate getDateTaken() {
@@ -69,5 +71,9 @@ public class Poll {
 
     public String getPollsterName() {
         return pollsterName;
+    }
+
+    public double getStandardDeviation(){
+        return standardDeviation;
     }
 }
