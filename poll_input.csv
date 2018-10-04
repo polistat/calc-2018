@@ -1,1 +1,1 @@
-district_name,date,dem_margin,sample_size,registered_voter,pollster_lean,pollster_grade
+district_name,date,dem_percent,rep_percent,sample_size,registered_voter,pollster_lean,pollster_grade,pollster_name
