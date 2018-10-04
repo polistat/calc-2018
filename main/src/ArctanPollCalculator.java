@@ -1,24 +1,24 @@
 import java.util.Map;
 
-public class LogisticPollCalculator extends PollCalculator{
+public class ArctanPollCalculator extends PollCalculator{
 
     private final Map<Grade, Double> gradeQualityPoints;
     private final double daysCoefficient;
     private final double maxPollWeight;
-    private final double logisticShift;
-    private final double logisticSteepness;
+    private final double arctanShift;
+    private final double arctanSteepness;
     private final double bantorWeight;
     private final double bantorStDv;
 
-    public LogisticPollCalculator(PollAverager pollAverager, Map<Grade, Double> gradeQualityPoints,
-                                  double daysCoefficient, double maxPollWeight, double logisticShift,
-                                  double logisticSteepness, double bantorWeight, double bantorStDv) {
+    public ArctanPollCalculator(PollAverager pollAverager, Map<Grade, Double> gradeQualityPoints,
+                                double daysCoefficient, double maxPollWeight, double arctanShift,
+                                double arctanSteepness, double bantorWeight, double bantorStDv) {
         super(pollAverager);
         this.gradeQualityPoints = gradeQualityPoints;
         this.daysCoefficient = daysCoefficient;
         this.maxPollWeight = maxPollWeight;
-        this.logisticShift = logisticShift;
-        this.logisticSteepness = logisticSteepness;
+        this.arctanShift = arctanShift;
+        this.arctanSteepness = arctanSteepness;
         this.bantorWeight = bantorWeight;
         this.bantorStDv = bantorStDv;
     }
@@ -35,7 +35,7 @@ public class LogisticPollCalculator extends PollCalculator{
             for (Poll poll : district.getPolls()){
                 x += (Math.exp(-1*daysCoefficient*poll.getDaysBeforeElection()))*gradeQualityPoints.get(poll.getGrade());
             }
-            pollWeight = maxPollWeight/(1+Math.exp(-logisticSteepness *(x- logisticShift)));
+            pollWeight = maxPollWeight*(2./Math.PI)*(Math.atan(arctanSteepness * (x - arctanShift)));
         } else {
             pollAverage = district.getBantorDemPercent();
             pollStdv = bantorStDv;

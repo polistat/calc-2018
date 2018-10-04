@@ -10,10 +10,10 @@ public class Poll {
     private final int sampleSize;
     private final boolean registeredVoter;
     private final double houseLean;
-    private final char grade;
+    private final Grade grade;
     private final long daysBeforeElection;
 
-    public Poll(LocalDate dateTaken, double demPercent, int sampleSize, boolean registeredVoter, double houseLean, char grade) {
+    public Poll(LocalDate dateTaken, double demPercent, int sampleSize, boolean registeredVoter, double houseLean, Grade grade) {
         this.dateTaken = dateTaken;
         this.demPercent = demPercent;
         this.sampleSize = sampleSize;
@@ -47,7 +47,7 @@ public class Poll {
         return houseLean;
     }
 
-    public char getGrade(){
+    public Grade getGrade(){
         return grade;
     }
 }

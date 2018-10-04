@@ -8,4 +8,11 @@ public abstract class NationalCorrectionCalculator {
 
     public abstract double calcNationalDemPercent(District district);
     public abstract double calcNationalStDv(District district);
+
+    public void calcAll(District[] districts){
+        for (District district : districts){
+            calcNationalDemPercent(district);
+            calcNationalStDv(district);
+        }
+    }
 }

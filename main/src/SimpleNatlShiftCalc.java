@@ -21,10 +21,10 @@ public class SimpleNatlShiftCalc implements NationalShiftCalculator {
         Map<String, Integer> districtToVoteMap = new HashMap<>();
         while ((line = lastCongressionalFileReader.readLine()) != null){
             String[] splitLine = line.split(",");
-            int demVote = Integer.parseInt(splitLine[2]);
-            int repVote = Integer.parseInt(splitLine[3]);
+            int demVote = Integer.parseInt(splitLine[1]);
+            int repVote = Integer.parseInt(splitLine[2]);
             if (demVote != 0 && repVote != 0){
-                districtToVoteMap.put(District.getName(splitLine[0], splitLine[1]), demVote+repVote);
+                districtToVoteMap.put(splitLine[0].toUpperCase(), demVote+repVote);
             }
         }
         double numerator = 0;
