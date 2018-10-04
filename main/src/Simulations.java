@@ -32,12 +32,20 @@ public class Simulations {
 		
 		for (int i = 0; i < districts.length; i++) {
 			out1.println(today.getYear() + "," + today.getMonth() + "," + 
-					today.getDayOfMonth() + "," +racePerc[i] + "," + 
+					today.getDayOfMonth() + "," + districts[i].getState() + 
+				     	districts[i].getDistrict() + racePerc[i] + "," + 
 					raceStdv[i] + "," + probs[i]);
 		}
 		for (double aHisto : histo) {
 			out2.println((aHisto / iterations));
 		}
+		
+		double totalDemProb = 0;
+		for (int i = 0; i < histo.length; i++) {
+			if (i >= 218) totalDemProb += histo[i];
+		}
+		out2.println(totalDemProb);
+			
 		
 		out1.close();
 		out2.close();
