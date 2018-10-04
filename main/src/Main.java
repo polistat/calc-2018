@@ -30,6 +30,6 @@ public class Main {
         PollCalculator pollCalculator = new ArctanPollCalculator(pollAverager, gradeQualityPoints, 1. / 167.,
                 0.9, 0, 16.6, 0.0, 0.05);
         System.out.println(Simulations.write(districts, nationalPollAverage, 0.025, pollCalculator,
-                natlCorrectCalc, 1000));
+                natlCorrectCalc, natlShiftCalc, 1000));
     }
 }

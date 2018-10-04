@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -15,7 +16,7 @@ public class Simulations {
 	
 	public static double write(District[] districts, double genericAverage, double genericStDv,
 							   PollCalculator pollCalculator, NationalCorrectionCalculator nationalCorrectionCalculator,
-							   int iterations) throws IOException {
+							   NationalShiftCalculator nationalShiftCalculator, int iterations) throws IOException {
 		PrintWriter out1 = new PrintWriter(new BufferedWriter(new FileWriter("district_results.csv")));
 		PrintWriter out2 = new PrintWriter(new BufferedWriter(new FileWriter("histogram.csv")));
 		// output: margin with stdv, probability of winning, histogram
@@ -28,7 +29,7 @@ public class Simulations {
 		}
 
 		double[] probs = percToProb(districts, genericAverage, genericStDv, pollCalculator,
-				nationalCorrectionCalculator, iterations);
+				nationalCorrectionCalculator, nationalShiftCalculator, iterations);
 		double[] histo = probSimulate(probs, iterations);
 		
 		LocalDate today = LocalDate.now();
@@ -56,14 +57,15 @@ public class Simulations {
 	
 	public static double[] percToProb(District[] districts, double genericAverage, double genericStDv,
 									  PollCalculator pollCalculator, NationalCorrectionCalculator nationalCorrectionCalculator,
-									  int iterations) {
+									  NationalShiftCalculator nationalShiftCalculator, int iterations) throws IOException {
 		double[] raceProb = new double[districts.length];
 		Random generator = new Random();
 
 		for (int i = 0; i < iterations; i++) {
 			double genericBallot = genericAverage + generator.nextGaussian()*genericStDv;
 			System.out.println("Generic ballot: "+genericBallot);
-			nationalCorrectionCalculator.calcAll(districts, genericBallot);
+			double nationalShift = nationalShiftCalculator.calcNationalShift(districts, genericBallot);
+			nationalCorrectionCalculator.calcAll(districts, nationalShift);
 			pollCalculator.calcAll(districts);
 			for (int j = 0; j < districts.length; j++) {
 				if (generator.nextGaussian() * districts[j].getFinalStDv() + districts[j].getFinalDemPercent() > 0.5) {
@@ -75,6 +77,8 @@ public class Simulations {
 		for (int i = 0; i < raceProb.length; i++){
 			raceProb[i] = raceProb[i]/iterations;
 		}
+
+		System.out.println(Arrays.toString(raceProb));
 
 		return raceProb;
 	}
