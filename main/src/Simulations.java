@@ -14,7 +14,8 @@ public class Simulations {
 	}
 	
 	public static void write(District[] districts, int iterations) throws IOException {
-		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("outputP.txt")));
+		PrintWriter out1 = new PrintWriter(new BufferedWriter(new FileWriter("districtMarg.csv")));
+		PrintWriter out2 = new PrintWriter(new BufferedWriter(new FileWriter("histogram.csv")));
 		// output: margin with stdv, probability of winning, histogram
 		
 		double[] racePerc = new double[districts.length];
@@ -30,13 +31,16 @@ public class Simulations {
 		LocalDate today = LocalDate.now();
 		
 		for (int i = 0; i < districts.length; i++) {
-			out.println(today.getYear() + "," + today.getMonth() + "," + 
+			out1.println(today.getYear() + "," + today.getMonth() + "," + 
 					today.getDayOfMonth() + "," +racePerc[i] + "," + 
 					raceStdv[i] + "," + probs[i]);
 		}
 		for (double aHisto : histo) {
-			out.println((aHisto / iterations));
+			out2.println((aHisto / iterations));
 		}
+		
+		out1.close();
+		out2.close();
 		
 	}
 	
