@@ -13,7 +13,7 @@ public class Simulations {
 		
 	}
 	
-	public static void write(District[] districts, int iterations) throws IOException {
+	public static double write(District[] districts, int iterations) throws IOException {
 		PrintWriter out1 = new PrintWriter(new BufferedWriter(new FileWriter("districtMarg.csv")));
 		PrintWriter out2 = new PrintWriter(new BufferedWriter(new FileWriter("histogram.csv")));
 		// output: margin with stdv, probability of winning, histogram
@@ -32,9 +32,8 @@ public class Simulations {
 		
 		for (int i = 0; i < districts.length; i++) {
 			out1.println(today.getYear() + "," + today.getMonth() + "," + 
-					today.getDayOfMonth() + "," + districts[i].getState() + 
-				     	districts[i].getDistrict() + racePerc[i] + "," + 
-					raceStdv[i] + "," + probs[i]);
+					today.getDayOfMonth() + "," + districts[i].getName() + ","
+					+ racePerc[i] + "," + raceStdv[i] + "," + probs[i]);
 		}
 		for (double aHisto : histo) {
 			out2.println((aHisto / iterations));
@@ -44,12 +43,12 @@ public class Simulations {
 		for (int i = 0; i < histo.length; i++) {
 			if (i >= 218) totalDemProb += histo[i];
 		}
-		out2.println(totalDemProb);
+		out2.println(totalDemProb/iterations);
 			
 		
 		out1.close();
 		out2.close();
-		
+		return totalDemProb/iterations;
 	}
 	
 	

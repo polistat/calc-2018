@@ -30,7 +30,7 @@ public class ArctanPollCalculator extends PollCalculator{
         double pollWeight;
         if (district.hasPolls()) {
             pollAverage = pollAverager.getAverage(district.getPolls());
-            pollStdv = pollAverager.getAverage(district.getPolls());
+            pollStdv = pollAverager.getStDv(district.getPolls());
             double x = 0;
             for (Poll poll : district.getPolls()){
                 x += (Math.exp(-1*daysCoefficient*poll.getDaysBeforeElection()))*gradeQualityPoints.get(poll.getGrade());
