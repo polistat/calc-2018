@@ -147,12 +147,14 @@ public class District {
             String[] commaSplit = line.split(",");
             String name = commaSplit[0].toUpperCase();
             LocalDate date = LocalDate.parse(commaSplit[1], DateTimeFormatter.ofPattern("mm/dd/yy"));
-            double demMargin = Double.parseDouble(commaSplit[2]);
-            int sampleSize = Integer.parseInt(commaSplit[3]);
-            boolean registeredVoter = Boolean.parseBoolean(commaSplit[4]);
-            double houseLean = Double.parseDouble(commaSplit[5]);
-            Grade grade = Grade.parseGrade(commaSplit[6]);
-            Poll poll = new Poll(date, demMargin, sampleSize, registeredVoter, houseLean, grade);
+            double rawDemPercent = Double.parseDouble(commaSplit[2]);
+            double rawRepPercent = Double.parseDouble(commaSplit[3]);
+            int sampleSize = Integer.parseInt(commaSplit[4]);
+            boolean registeredVoter = Boolean.parseBoolean(commaSplit[5]);
+            double houseLean = Double.parseDouble(commaSplit[6]);
+            Grade grade = Grade.parseGrade(commaSplit[7]);
+            String pollsterName = commaSplit[8];
+            Poll poll = new Poll(date, rawDemPercent, rawRepPercent, sampleSize, registeredVoter, houseLean, grade, pollsterName);
             if (nameToPollMap.containsKey(name)){
                 nameToPollMap.get(name).add(poll);
             } else {
