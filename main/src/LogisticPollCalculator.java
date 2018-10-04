@@ -2,7 +2,7 @@ import java.util.Map;
 
 public class LogisticPollCalculator extends PollCalculator{
 
-    private final Map<Character, Double> gradeQualityPoints;
+    private final Map<Grade, Double> gradeQualityPoints;
     private final double daysCoefficient;
     private final double maxPollWeight;
     private final double logisticShift;
@@ -10,7 +10,7 @@ public class LogisticPollCalculator extends PollCalculator{
     private final double bantorWeight;
     private final double bantorStDv;
 
-    public LogisticPollCalculator(PollAverager pollAverager, Map<Character, Double> gradeQualityPoints,
+    public LogisticPollCalculator(PollAverager pollAverager, Map<Grade, Double> gradeQualityPoints,
                                   double daysCoefficient, double maxPollWeight, double logisticShift,
                                   double logisticSteepness, double bantorWeight, double bantorStDv) {
         super(pollAverager);
@@ -37,7 +37,7 @@ public class LogisticPollCalculator extends PollCalculator{
             }
             pollWeight = maxPollWeight/(1+Math.exp(-logisticSteepness *(x- logisticShift)));
         } else {
-            pollAverage = district.getBantorMargin();
+            pollAverage = district.getBantorDemPercent();
             pollStdv = bantorStDv;
             pollWeight = bantorWeight;
         }

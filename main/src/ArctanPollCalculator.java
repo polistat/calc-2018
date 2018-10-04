@@ -2,7 +2,7 @@ import java.util.Map;
 
 public class ArctanPollCalculator extends PollCalculator{
 
-    private final Map<Character, Double> gradeQualityPoints;
+    private final Map<Grade, Double> gradeQualityPoints;
     private final double daysCoefficient;
     private final double maxPollWeight;
     private final double arctanShift;
@@ -10,7 +10,7 @@ public class ArctanPollCalculator extends PollCalculator{
     private final double bantorWeight;
     private final double bantorStDv;
 
-    public ArctanPollCalculator(PollAverager pollAverager, Map<Character, Double> gradeQualityPoints,
+    public ArctanPollCalculator(PollAverager pollAverager, Map<Grade, Double> gradeQualityPoints,
                                 double daysCoefficient, double maxPollWeight, double arctanShift,
                                 double arctanSteepness, double bantorWeight, double bantorStDv) {
         super(pollAverager);
@@ -37,7 +37,7 @@ public class ArctanPollCalculator extends PollCalculator{
             }
             pollWeight = maxPollWeight*(2./Math.PI)*(Math.atan(arctanSteepness * (x - arctanShift)));
         } else {
-            pollAverage = district.getBantorMargin();
+            pollAverage = district.getBantorDemPercent();
             pollStdv = bantorStDv;
             pollWeight = bantorWeight;
         }

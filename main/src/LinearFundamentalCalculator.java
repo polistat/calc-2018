@@ -1,4 +1,4 @@
-public class LinearFundamentalCalculator implements FundamentalCalculator {
+public class LinearFundamentalCalculator extends FundamentalCalculator {
 	
 	private final double obama2012weight;
 	private final double dem2014weight;

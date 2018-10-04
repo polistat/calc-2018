@@ -1,6 +1,12 @@
-public interface FundamentalCalculator {
+public abstract class FundamentalCalculator {
 
-    double calcFundamentalDemPercent(District district);
-    double calcFundamentalStDv(District district);
+    public abstract double calcFundamentalDemPercent(District district);
+    public abstract double calcFundamentalStDv(District district);
 
+    public void calcAll(District[] districts){
+        for (District district : districts){
+            calcFundamentalDemPercent(district);
+            calcFundamentalStDv(district);
+        }
+    }
 }

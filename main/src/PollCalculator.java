@@ -7,4 +7,10 @@ public abstract class PollCalculator {
     }
 
     public abstract double calculatePolls(District district);
+
+    public void calcAll(District[] districts){
+        for (District district : districts){
+            calculatePolls(district);
+        }
+    }
 }

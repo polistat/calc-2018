@@ -21,7 +21,7 @@ public class Simulations {
 		double[] raceStdv = new double[districts.length];
 		for (int i = 0; i < districts.length; i++) {
 			racePerc[i] = districts[i].getFinalDemPercent();
-			raceStdv[i] = districts[i].getFinalDemPercent();
+			raceStdv[i] = districts[i].getFinalStDv();
 		}
 
 		double[] probs = percToProb(racePerc, raceStdv, iterations);
