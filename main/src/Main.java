@@ -20,22 +20,16 @@ public class Main {
         District[] districts = District.parseFromCSV("district_input.csv", "poll_input.csv",
                 "bantor_input.csv");
         fundamentalCalculator.calcAll(districts);
-//        for (District district : districts){
-//            System.out.println(district);
-//        }
-
-        double averageDemWinPercent = 0;
-        Random generator = new Random();
-        for (int i = 0; i < 1000; i++) {
-            double nationalShift = natlShiftCalc.calcNationalShift(districts, (0.493/(0.493+0.413) + generator.nextGaussian()*0.0253));
-            NationalCorrectionCalculator natlCorrectCalc = new NationalShift(nationalShift);
-            natlCorrectCalc.calcAll(districts);
-            PollAverager pollAverager = new ExponentialPollAverager(1. / 30.);
-            PollCalculator pollCalculator = new ArctanPollCalculator(pollAverager, gradeQualityPoints, 1. / 167.,
-                    0.9, 0, 16.6, 0.0, 0.05);
-            pollCalculator.calcAll(districts);
-            averageDemWinPercent += Simulations.write(districts, 1000);
-        }
-        System.out.println(averageDemWinPercent/1000);
+        PollAverager nationalPollAverager = new ExponentialPollAverager(1./30.);
+        Poll[] nationalPolls = Poll.readNationalPolls("national_polls.csv");
+        double nationalPollAverage = nationalPollAverager.getAverage(nationalPolls);
+        double nationalPollStDv = nationalPollAverager.getStDv(nationalPolls);
+        System.out.println("National average: "+nationalPollAverage);
+        NationalCorrectionCalculator natlCorrectCalc = new SimpleNationalCorrection();
+        PollAverager pollAverager = new ExponentialPollAverager(1. / 30.);
+        PollCalculator pollCalculator = new ArctanPollCalculator(pollAverager, gradeQualityPoints, 1. / 167.,
+                0.9, 0, 16.6, 0.0, 0.05);
+        System.out.println(Simulations.write(districts, nationalPollAverage, 0.025, pollCalculator,
+                natlCorrectCalc, 1000));
     }
 }

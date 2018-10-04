@@ -26,11 +26,11 @@ public class ArctanPollCalculator extends PollCalculator{
     @Override
     public double calculatePolls(District district) {
         double pollAverage;
-        double pollStdv;
+        double pollStDv;
         double pollWeight;
         if (district.hasPolls()) {
             pollAverage = pollAverager.getAverage(district.getPolls());
-            pollStdv = pollAverager.getStDv(district.getPolls());
+            pollStDv = pollAverager.getStDv(district.getPolls());
             double x = 0;
             for (Poll poll : district.getPolls()){
                 x += (Math.exp(-1*daysCoefficient*poll.getDaysBeforeElection()))*gradeQualityPoints.get(poll.getGrade());
@@ -38,11 +38,11 @@ public class ArctanPollCalculator extends PollCalculator{
             pollWeight = maxPollWeight*(2./Math.PI)*(Math.atan(arctanSteepness * (x - arctanShift)));
         } else {
             pollAverage = district.getBantorDemPercent();
-            pollStdv = bantorStDv;
+            pollStDv = bantorStDv;
             pollWeight = bantorWeight;
         }
         district.setFinalDemPercent(pollWeight*pollAverage + (1-pollWeight)*district.getGenericCorrectedDemPercent());
-        district.setFinalStDv(Math.sqrt(Math.pow(pollStdv, 2)*pollWeight + Math.pow(district.getGenericCorrectedStDv(), 2)*(1-pollWeight)));
+        district.setFinalStDv(Math.sqrt(Math.pow(pollStDv, 2)*pollWeight + Math.pow(district.getGenericCorrectedStDv(), 2)*(1-pollWeight)));
         return district.getFinalDemPercent();
     }
 }

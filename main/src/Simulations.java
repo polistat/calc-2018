@@ -13,8 +13,10 @@ public class Simulations {
 		
 	}
 	
-	public static double write(District[] districts, int iterations) throws IOException {
-		PrintWriter out1 = new PrintWriter(new BufferedWriter(new FileWriter("districtMarg.csv")));
+	public static double write(District[] districts, double genericAverage, double genericStDv,
+							   PollCalculator pollCalculator, NationalCorrectionCalculator nationalCorrectionCalculator,
+							   int iterations) throws IOException {
+		PrintWriter out1 = new PrintWriter(new BufferedWriter(new FileWriter("district_results.csv")));
 		PrintWriter out2 = new PrintWriter(new BufferedWriter(new FileWriter("histogram.csv")));
 		// output: margin with stdv, probability of winning, histogram
 		
@@ -25,7 +27,8 @@ public class Simulations {
 			raceStdv[i] = districts[i].getFinalStDv();
 		}
 
-		double[] probs = percToProb(racePerc, raceStdv, iterations);
+		double[] probs = percToProb(districts, genericAverage, genericStDv, pollCalculator,
+				nationalCorrectionCalculator, iterations);
 		double[] histo = probSimulate(probs, iterations);
 		
 		LocalDate today = LocalDate.now();
@@ -51,44 +54,43 @@ public class Simulations {
 		return totalDemProb/iterations;
 	}
 	
-	
-	// unnecessary
-	public static double[] simulate(District[] districts) {
-		double[] racePerc = new double[districts.length];
-		double[] raceStdv = new double[districts.length];
-		for (int i = 0; i < districts.length; i++) {
-			racePerc[i] = districts[i].getFinalDemPercent();
-			raceStdv[i] = districts[i].getFinalStDv();
-		}
-		double[] probs = percToProb(racePerc, raceStdv, 1000);
-		return probSimulate(probs, 10000);
-	}
-	
-	public static double[] percToProb(double[] racePerc, double[] raceStdv, int iter) {
-		double[] raceProb = new double[racePerc.length];
+	public static double[] percToProb(District[] districts, double genericAverage, double genericStDv,
+									  PollCalculator pollCalculator, NationalCorrectionCalculator nationalCorrectionCalculator,
+									  int iterations) {
+		double[] raceProb = new double[districts.length];
 		Random generator = new Random();
-		for (int i = 0; i < racePerc.length; i++) {
-			double demWins = 0.0;
-			for (int j = 0; j < iter; j++) {
-				if (generator.nextGaussian() * raceStdv[i] + racePerc[i] > 0.5) {
-					demWins++;
+
+		for (int i = 0; i < iterations; i++) {
+			double genericBallot = genericAverage + generator.nextGaussian()*genericStDv;
+			System.out.println("Generic ballot: "+genericBallot);
+			nationalCorrectionCalculator.calcAll(districts, genericBallot);
+			pollCalculator.calcAll(districts);
+			for (int j = 0; j < districts.length; j++) {
+				if (generator.nextGaussian() * districts[j].getFinalStDv() + districts[j].getFinalDemPercent() > 0.5) {
+					raceProb[j]++;
 				}
 			}
-			raceProb[i] = demWins / iter;
 		}
+
+		for (int i = 0; i < raceProb.length; i++){
+			raceProb[i] = raceProb[i]/iterations;
+		}
+
 		return raceProb;
 	}
 	
 	public static double[] probSimulate(double[] raceProb, int iter) {
-		double[] distri = new double[raceProb.length + 1];
+		double[] distribution = new double[raceProb.length + 1];
 		for (int i = 0; i < iter; i++) {
 			int demWins = 0;
-			for (int j = 0; j < raceProb.length; j++) {
-				if (binGen(raceProb[j])) demWins++;
+			for (double aRaceProb : raceProb) {
+				if (binGen(aRaceProb)) {
+					demWins++;
+				}
 			}
-			distri[demWins]++;
+			distribution[demWins]++;
 		}
-		return distri;
+		return distribution;
 	}
 	
 	public static boolean binGen(double prob) {
