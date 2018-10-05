@@ -163,6 +163,7 @@ public class District {
                 nameToPollMap.put(name, pollList);
             }
         }
+        pollFileReader.close();
 
         BufferedReader bantorFileReader = new BufferedReader(new FileReader(bantorFile));
         //Clear header line
@@ -173,6 +174,7 @@ public class District {
             String name = commaSplit[0].toUpperCase();
             nameToBantorMap.put(name, Double.parseDouble(commaSplit[1]));
         }
+        bantorFileReader.close();
 
         BufferedReader districtFileReader = new BufferedReader(new FileReader(districtFile));
         //Clear header line
@@ -208,6 +210,8 @@ public class District {
             toRet.add(new District(name, polls, repIncumbent, demIncumbent, obama2012, dem2014,
                     hillary2016, dem2016, elastity, bantorMargin));
         }
+        districtFileReader.close();
+
         return toRet.toArray(new District[435]);
     }
 

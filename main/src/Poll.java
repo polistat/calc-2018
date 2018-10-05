@@ -101,6 +101,8 @@ public class Poll {
             String pollsterName = commaSplit[7];
             polls.add(new Poll(date, rawDemPercent, rawRepPercent, sampleSize, registeredVoter, houseLean, grade, pollsterName));
         }
+        reader.close();
+
         return polls.toArray(new Poll[1]);
     }
 }
