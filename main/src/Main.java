@@ -1,8 +1,6 @@
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Main {
 
@@ -13,10 +11,16 @@ public class Main {
         gradeQualityPoints.put(Grade.C, 0.130417204637636);
         gradeQualityPoints.put(Grade.D, 0.076745970836531);
 
+        Set<String> problematicStates = new HashSet<>();
+        problematicStates.add("PA");
+
         FundamentalCalculator fundamentalCalculator = new LinearFundamentalCalculator(0.133,
                 0.278,0.244,0.345, 1.1645,
                 0.1558,-0.1405, 0.1, 0.15);
-        NationalShiftCalculator natlShiftCalc = new SimpleNatlShiftCalc("2014.csv");
+
+        NationalShiftCalculator natlShiftCalc = new DZhuNatlShiftCalc("2014.csv",
+                "2016.csv", problematicStates);
+
         District[] districts = District.parseFromCSV("district_input.csv", "poll_input.csv",
                 "bantor_input.csv");
         fundamentalCalculator.calcAll(districts);
@@ -25,11 +29,13 @@ public class Main {
         double nationalPollAverage = nationalPollAverager.getAverage(nationalPolls);
         double nationalPollStDv = nationalPollAverager.getStDv(nationalPolls);
         System.out.println("National average: "+nationalPollAverage);
+        System.out.println("Mean shift: "+natlShiftCalc.calcNationalShift(districts, nationalPollAverage));
         NationalCorrectionCalculator natlCorrectCalc = new SimpleNationalCorrection();
         PollAverager pollAverager = new ExponentialPollAverager(1. / 30.);
         PollCalculator pollCalculator = new ArctanPollCalculator(pollAverager, gradeQualityPoints, 1. / 167.,
                 0.9, 0, 16.6, 0.0, 0.05);
-        System.out.println(Simulations.write(districts, nationalPollAverage, 0.024, pollCalculator,
-                natlCorrectCalc, natlShiftCalc, 10000));
+
+        System.out.println("Dem win chance: " + (100.*Simulations.write(districts, nationalPollAverage, 0.02, pollCalculator,
+                natlCorrectCalc, natlShiftCalc, 10000)) +"%");
     }
 }

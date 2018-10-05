@@ -27,10 +27,9 @@ public class Simulations {
         double[] demWinChance = new double[districts.length];
         double[] avgDistrictWinChances = new double[districts.length];
         for (int i = 0; i < iterations; i++) {
-//			double genericBallot = genericAverage + generator.nextGaussian()*genericStDv;
-//			double nationalShift = nationalShiftCalculator.calcNationalShift(districts, genericBallot);
-//			System.out.println("Shift: "+nationalShift);
-            nationalCorrectionCalculator.calcAll(districts, 0.05 + generator.nextGaussian()*0.025);
+			double genericBallot = genericAverage + generator.nextGaussian()*genericStDv;
+			double nationalShift = nationalShiftCalculator.calcNationalShift(districts, genericBallot);
+            nationalCorrectionCalculator.calcAll(districts, nationalShift);
             pollCalculator.calcAll(districts);
             double expectedSeats = 0;
             for (int j = 0; j < districts.length; j++) {
