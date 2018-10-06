@@ -1,5 +1,5 @@
 /**
- * Blatantly stolen from http://dst.lbl.gov/ACSSoftware/colt/
+ * I don't know how this works so don't ask. Blatantly stolen from http://dst.lbl.gov/ACSSoftware/colt/.
  */
 public class Normal {
 

@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class District {
     private final double hillary2016;
     private final Double dem2016;
     private final double elasticity;
-    private final Double bantorDemPercent;
+    private final Double blairvoyanceDemPercent;
     private final boolean contested;
 
     private double fundamentalDemPercent;
@@ -33,7 +32,7 @@ public class District {
     private District(String name, Poll[] polls, boolean repIncumbent,
                      boolean demIncumbent, double obama2012, Double dem2014,
                      double hillary2016, Double dem2016, double elasticity,
-                     Double bantorDemPercent, boolean repRunning, boolean demRunning) {
+                     Double blairvoyanceDemPercent, boolean repRunning, boolean demRunning) {
         this.name = name;
         this.polls = polls;
         this.repIncumbent = repIncumbent;
@@ -43,7 +42,7 @@ public class District {
         this.hillary2016 = hillary2016;
         this.dem2016 = dem2016;
         this.elasticity = elasticity;
-        this.bantorDemPercent = bantorDemPercent;
+        this.blairvoyanceDemPercent = blairvoyanceDemPercent;
         this.contested = repRunning && demRunning;
 
         if (!contested) {
@@ -59,8 +58,7 @@ public class District {
         }
     }
 
-    public static District[] parseFromCSV(String districtFile, String pollFile, String bantorFile) throws IOException
-            , ParseException {
+    public static District[] parseFromCSV(String districtFile, String pollFile, String blairvoyanceFile) throws IOException {
         String line;
         BufferedReader pollFileReader = new BufferedReader(new FileReader(pollFile));
         //Clear header line
@@ -89,16 +87,16 @@ public class District {
         }
         pollFileReader.close();
 
-        BufferedReader bantorFileReader = new BufferedReader(new FileReader(bantorFile));
+        BufferedReader blairvoyanceFileReader = new BufferedReader(new FileReader(blairvoyanceFile));
         //Clear header line
-        bantorFileReader.readLine();
-        Map<String, Double> nameToBantorMap = new HashMap<>();
-        while ((line = bantorFileReader.readLine()) != null) {
+        blairvoyanceFileReader.readLine();
+        Map<String, Double> nameToBlairvoyanceMap = new HashMap<>();
+        while ((line = blairvoyanceFileReader.readLine()) != null) {
             String[] commaSplit = line.split(",");
             String name = commaSplit[0].toUpperCase();
-            nameToBantorMap.put(name, Double.parseDouble(commaSplit[1]));
+            nameToBlairvoyanceMap.put(name, Double.parseDouble(commaSplit[1]));
         }
-        bantorFileReader.close();
+        blairvoyanceFileReader.close();
 
         BufferedReader districtFileReader = new BufferedReader(new FileReader(districtFile));
         //Clear header line
@@ -135,13 +133,13 @@ public class District {
                 polls = nameToPollMap.get(name).toArray(new Poll[1]);
             }
 
-            Double bantorMargin = null;
-            if (nameToBantorMap.containsKey(name)) {
-                bantorMargin = nameToBantorMap.get(name);
+            Double blairvoyanceDemPercent = null;
+            if (nameToBlairvoyanceMap.containsKey(name)) {
+                blairvoyanceDemPercent = nameToBlairvoyanceMap.get(name);
             }
 
             toRet.add(new District(name, polls, repIncumbent, demIncumbent, obama2012, dem2014,
-                    hillary2016, dem2016, elasticity, bantorMargin, repRunning, demRunning));
+                    hillary2016, dem2016, elasticity, blairvoyanceDemPercent, repRunning, demRunning));
         }
         districtFileReader.close();
 
@@ -184,8 +182,8 @@ public class District {
         return elasticity;
     }
 
-    public Double getBantorDemPercent() {
-        return bantorDemPercent;
+    public Double getBlairvoyanceDemPercent() {
+        return blairvoyanceDemPercent;
     }
 
     public double getFundamentalDemPercent() {

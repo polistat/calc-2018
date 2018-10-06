@@ -52,17 +52,13 @@ public class LinearFundamentalCalculator extends FundamentalCalculator {
         if (district.isRepIncumbent()) {
             predictedDemMargin += this.repIncumbentWeight;
         }
-
-        district.setFundamentalDemPercent(0.5 + 0.5 * predictedDemMargin);
         return 0.5 + 0.5 * predictedDemMargin;
     }
 
     public double calcFundamentalStDv(District district) {
         if (district.isDemIncumbent() || district.isRepIncumbent()) {
-            district.setFundamentalStDv(this.incumbentStDv * 0.5);
             return this.incumbentStDv * 0.5;
         } else {
-            district.setFundamentalStDv(this.openStDv * 0.5);
             return this.openStDv * 0.5;
         }
     }

@@ -26,7 +26,7 @@ public class SimpleNatlShiftCalc implements NationalShiftCalculator {
     }
 
     @Override
-    public double calcNationalShift(District[] districts, double genericDemPercent) throws IOException {
+    public double calcNationalShift(District[] districts, double genericDemPercent) {
         double numerator = 0;
         double denominator = 0;
         for (District district : districts) {

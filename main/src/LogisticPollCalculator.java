@@ -24,7 +24,7 @@ public class LogisticPollCalculator extends PollCalculator {
     }
 
     @Override
-    public double calculatePolls(District district) {
+    public void calculatePolls(District district) {
         double pollAverage;
         double pollStdv;
         double pollWeight;
@@ -37,12 +37,11 @@ public class LogisticPollCalculator extends PollCalculator {
             }
             pollWeight = maxPollWeight / (1 + Math.exp(-logisticSteepness * (x - logisticShift)));
         } else {
-            pollAverage = district.getBantorDemPercent();
+            pollAverage = district.getBlairvoyanceDemPercent();
             pollStdv = bantorStDv;
             pollWeight = bantorWeight;
         }
         district.setFinalDemPercent(pollWeight * pollAverage + (1 - pollWeight) * district.getGenericCorrectedDemPercent());
         district.setFinalStDv(Math.sqrt(Math.pow(pollStdv, 2) * pollWeight + Math.pow(district.getGenericCorrectedStDv(), 2) * (1 - pollWeight)));
-        return district.getFinalDemPercent();
     }
 }

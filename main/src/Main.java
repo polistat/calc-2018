@@ -30,7 +30,7 @@ public class Main {
                 "2016.csv", redistricted2018, redistricted2016);
 
         District[] districts = District.parseFromCSV("district_input.csv", "poll_input.csv",
-                "bantor_input.csv");
+                "blairvoyance_input.csv");
         fundamentalCalculator.calcAll(districts);
         PollAverager nationalPollAverager = new ExponentialPollAverager(1. / 30.);
         Poll[] nationalPolls = Poll.readNationalPolls("national_polls.csv");
