@@ -1,4 +1,4 @@
-district_name,rep_incumbent,dem_incumbent,obama_2012_margin,dem_2014_margin,hilary_2016_margin,dem_2016_margin,elasticity,rep_running,dem_running
+district_name,rep_incumbent,dem_incumbent,obama_2012_margin,dem_2014_margin,hillary_2016_margin,dem_2016_margin,elasticity,rep_running,dem_running
 AL-01,1,0,-0.14264,-0.1532,-0.16169,N/A,0.9,TRUE,TRUE
 AL-02,1,0,-0.15304,-0.1442,-0.17399,-0.05216,0.97,TRUE,TRUE
 AL-03,1,0,-0.14834,-0.1328,-0.18019,-0.17596,0.79,TRUE,TRUE
