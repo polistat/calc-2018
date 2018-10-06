@@ -14,7 +14,7 @@ public class Poll {
     private final LocalDate dateTaken;
     private final double rawDemPercent;
     private final double rawRepPercent;
-    private final int sampleSize;
+    private final double sampleSize;
     private final boolean registeredVoter;
     private final double houseLean;
     private final Grade grade;
@@ -24,7 +24,7 @@ public class Poll {
     private final double demPercent;
     private final double standardDeviation;
 
-    public Poll(LocalDate dateTaken, double rawDemPercent, double rawRepPercent, int sampleSize, boolean registeredVoter,
+    public Poll(LocalDate dateTaken, double rawDemPercent, double rawRepPercent, double sampleSize, boolean registeredVoter,
                 double houseLean, Grade grade, String pollsterName) {
         this.dateTaken = dateTaken;
         this.rawDemPercent = rawDemPercent;
@@ -51,7 +51,7 @@ public class Poll {
         return demPercent;
     }
 
-    public int getSampleSize() {
+    public double getSampleSize() {
         return sampleSize;
     }
 
@@ -94,7 +94,7 @@ public class Poll {
             LocalDate date = LocalDate.parse(commaSplit[0], DateTimeFormatter.ofPattern("M/d/yyyy"));
             double rawDemPercent = Double.parseDouble(commaSplit[1]);
             double rawRepPercent = Double.parseDouble(commaSplit[2]);
-            int sampleSize = Integer.parseInt(commaSplit[3]);
+            double sampleSize = Double.parseDouble(commaSplit[3]);
             boolean registeredVoter = Boolean.parseBoolean(commaSplit[4]);
             double houseLean = Double.parseDouble(commaSplit[5]);
             Grade grade = Grade.parseGrade(commaSplit[6]);

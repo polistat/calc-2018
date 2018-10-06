@@ -149,7 +149,7 @@ public class District {
             LocalDate date = LocalDate.parse(commaSplit[1], DateTimeFormatter.ofPattern("M/d/yyyy"));
             double rawDemPercent = Double.parseDouble(commaSplit[2]);
             double rawRepPercent = Double.parseDouble(commaSplit[3]);
-            int sampleSize = Integer.parseInt(commaSplit[4]);
+            double sampleSize = Double.parseDouble(commaSplit[4]);
             boolean registeredVoter = Boolean.parseBoolean(commaSplit[5]);
             double houseLean = Double.parseDouble(commaSplit[6]);
             Grade grade = Grade.parseGrade(commaSplit[7]);

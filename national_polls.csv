@@ -19,3 +19,5 @@ date,dem_percent,rep_percent,sample_size,registered_voter,pollster_lean,pollster
 9/23/2018,0.43,0.35,1966,Registered,-0.006,B,Morning Consult
 9/23/2018,0.51,0.42,1308,Registered,-0.009,B,Gallup
 9/22/2018,0.44,0.36,1000,Registered,0.015,C,Harris Interactive
+10/3/2018,0.45,0.43,846,Registered,0.008,A,IBD/TIPP
+10/4/2018,0.50,0.42,1000,Registered,-0.001,B,Emerson College
