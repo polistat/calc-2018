@@ -6,22 +6,22 @@ public class Normal {
     /**
      * @param mean the mean of the normal distribution.
      * @param stDv the standard deviation of the normal distribution.
-     * @param x the integration limit.
+     * @param x    the integration limit.
      */
     public static double normalCDF(double mean, double stDv, double x) {
         return normal(mean, Math.pow(stDv, 2), x);
     }
 
     /**
-     * @param mean the mean of the normal distribution.
+     * @param mean     the mean of the normal distribution.
      * @param variance the variance of the normal distribution.
-     * @param x the integration limit.
+     * @param x        the integration limit.
      */
     private static double normal(double mean, double variance, double x) throws ArithmeticException {
-        if (x>0)
-            return 0.5 + 0.5*errorFunction((x-mean)/Math.sqrt(2.0*variance));
+        if (x > 0)
+            return 0.5 + 0.5 * errorFunction((x - mean) / Math.sqrt(2.0 * variance));
         else
-            return 0.5 - 0.5*errorFunction((-(x-mean))/Math.sqrt(2.0*variance));
+            return 0.5 - 0.5 * errorFunction((-(x - mean)) / Math.sqrt(2.0 * variance));
     }
 
     private static double errorFunction(double x) throws ArithmeticException {
@@ -42,14 +42,14 @@ public class Normal {
                 4.92673942608635921086E4
         };
 
-        if( Math.abs(x) > 1.0 ) return( 1.0 - errorFunctionComplemented(x) );
+        if (Math.abs(x) > 1.0) return (1.0 - errorFunctionComplemented(x));
         z = x * x;
-        y = x * polevl( z, T, 4 ) / p1evl( z, U, 5 );
+        y = x * polevl(z, T, 4) / p1evl(z, U, 5);
         return y;
     }
 
     private static double errorFunctionComplemented(double a) throws ArithmeticException {
-        double x,y,z,p,q;
+        double x, y, z, p, q;
 
         double P[] = {
                 2.46196981473530512524E-10,
@@ -92,30 +92,30 @@ public class Normal {
                 3.36907645100081516050E0
         };
 
-        if( a < 0.0 )   x = -a;
-        else            x = a;
+        if (a < 0.0) x = -a;
+        else x = a;
 
-        if( x < 1.0 )   return 1.0 - errorFunction(a);
+        if (x < 1.0) return 1.0 - errorFunction(a);
 
         z = -a * a;
 
         z = Math.exp(z);
 
-        if( x < 8.0 ) {
-            p = polevl( x, P, 8 );
-            q = p1evl( x, Q, 8 );
+        if (x < 8.0) {
+            p = polevl(x, P, 8);
+            q = p1evl(x, Q, 8);
         } else {
-            p = polevl( x, R, 5 );
-            q = p1evl( x, S, 6 );
+            p = polevl(x, R, 5);
+            q = p1evl(x, S, 6);
         }
 
-        y = (z * p)/q;
+        y = (z * p) / q;
 
-        if( a < 0 ) y = 2.0 - y;
+        if (a < 0) y = 2.0 - y;
 
-        if( y == 0.0 ) {
-            if( a < 0 ) return 2.0;
-            else        return( 0.0 );
+        if (y == 0.0) {
+            if (a < 0) return 2.0;
+            else return (0.0);
         }
 
         return y;
@@ -123,11 +123,11 @@ public class Normal {
 
 
     /**
-     * @param x argument to the polynomial.
+     * @param x    argument to the polynomial.
      * @param coef the coefficients of the polynomial.
-     * @param N the degree of the polynomial.
+     * @param N    the degree of the polynomial.
      */
-    private static double p1evl( double x, double coef[], int N ) throws ArithmeticException {
+    private static double p1evl(double x, double coef[], int N) throws ArithmeticException {
         double ans;
 
         ans = x + coef[0];
@@ -140,15 +140,15 @@ public class Normal {
     }
 
     /**
-     * @param x argument to the polynomial.
+     * @param x    argument to the polynomial.
      * @param coef the coefficients of the polynomial.
-     * @param N the degree of the polynomial.
+     * @param N    the degree of the polynomial.
      */
-    private static double polevl( double x, double coef[], int N ) throws ArithmeticException {
+    private static double polevl(double x, double coef[], int N) throws ArithmeticException {
         double ans;
         ans = coef[0];
 
-        for(int i=1; i<=N; i++) ans = ans*x+coef[i];
+        for (int i = 1; i <= N; i++) ans = ans * x + coef[i];
 
         return ans;
     }

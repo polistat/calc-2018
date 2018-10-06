@@ -1,6 +1,6 @@
 import java.util.Map;
 
-public class LogisticPollCalculator extends PollCalculator{
+public class LogisticPollCalculator extends PollCalculator {
 
     private final Map<Grade, Double> gradeQualityPoints;
     private final double daysCoefficient;
@@ -32,17 +32,17 @@ public class LogisticPollCalculator extends PollCalculator{
             pollAverage = pollAverager.getAverage(district.getPolls());
             pollStdv = pollAverager.getAverage(district.getPolls());
             double x = 0;
-            for (Poll poll : district.getPolls()){
-                x += (Math.exp(-1*daysCoefficient*poll.getDaysBeforeElection()))*gradeQualityPoints.get(poll.getGrade());
+            for (Poll poll : district.getPolls()) {
+                x += (Math.exp(-1 * daysCoefficient * poll.getDaysBeforeElection())) * gradeQualityPoints.get(poll.getGrade());
             }
-            pollWeight = maxPollWeight/(1+Math.exp(-logisticSteepness *(x- logisticShift)));
+            pollWeight = maxPollWeight / (1 + Math.exp(-logisticSteepness * (x - logisticShift)));
         } else {
             pollAverage = district.getBantorDemPercent();
             pollStdv = bantorStDv;
             pollWeight = bantorWeight;
         }
-        district.setFinalDemPercent(pollWeight*pollAverage + (1-pollWeight)*district.getGenericCorrectedDemPercent());
-        district.setFinalStDv(Math.sqrt(Math.pow(pollStdv, 2)*pollWeight + Math.pow(district.getGenericCorrectedStDv(), 2)*(1-pollWeight)));
+        district.setFinalDemPercent(pollWeight * pollAverage + (1 - pollWeight) * district.getGenericCorrectedDemPercent());
+        district.setFinalStDv(Math.sqrt(Math.pow(pollStdv, 2) * pollWeight + Math.pow(district.getGenericCorrectedStDv(), 2) * (1 - pollWeight)));
         return district.getFinalDemPercent();
     }
 }

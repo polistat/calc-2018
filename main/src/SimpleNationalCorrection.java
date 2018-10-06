@@ -1,4 +1,4 @@
-public class SimpleNationalCorrection extends NationalCorrectionCalculator{
+public class SimpleNationalCorrection extends NationalCorrectionCalculator {
 
     @Override
     public double calcNationalDemPercent(District district, double nationalShift) {

@@ -24,26 +24,51 @@ public class Poll {
     private final double demPercent;
     private final double standardDeviation;
 
-    public Poll(LocalDate dateTaken, double rawDemPercent, double rawRepPercent, double sampleSize, boolean registeredVoter,
+    public Poll(LocalDate dateTaken, double rawDemPercent, double rawRepPercent, double sampleSize,
+                boolean registeredVoter,
                 double houseLean, Grade grade, String pollsterName) {
         this.dateTaken = dateTaken;
         this.rawDemPercent = rawDemPercent;
         this.rawRepPercent = rawRepPercent;
-        this.demPercent = rawDemPercent/(rawRepPercent+rawDemPercent);
+        this.demPercent = rawDemPercent / (rawRepPercent + rawDemPercent);
         this.sampleSize = sampleSize;
         this.registeredVoter = registeredVoter;
         this.houseLean = houseLean;
         this.grade = grade;
         this.daysBeforeElection = ChronoUnit.DAYS.between(dateTaken, ELECTION_DATE);
         this.pollsterName = pollsterName;
-        this.standardDeviation = Math.sqrt(demPercent*(1-demPercent)/sampleSize);
+        this.standardDeviation = Math.sqrt(demPercent * (1 - demPercent) / sampleSize);
+    }
+
+    public static Poll[] readNationalPolls(String filename) throws IOException {
+        String line;
+        List<Poll> polls = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        //Clear header line
+        reader.readLine();
+        while ((line = reader.readLine()) != null) {
+            String[] commaSplit = line.split(",");
+            LocalDate date = LocalDate.parse(commaSplit[0], DateTimeFormatter.ofPattern("M/d/yyyy"));
+            double rawDemPercent = Double.parseDouble(commaSplit[1]);
+            double rawRepPercent = Double.parseDouble(commaSplit[2]);
+            double sampleSize = Double.parseDouble(commaSplit[3]);
+            boolean registeredVoter = Boolean.parseBoolean(commaSplit[4]);
+            double houseLean = Double.parseDouble(commaSplit[5]);
+            Grade grade = Grade.parseGrade(commaSplit[6]);
+            String pollsterName = commaSplit[7];
+            polls.add(new Poll(date, rawDemPercent, rawRepPercent, sampleSize, registeredVoter, houseLean, grade,
+                    pollsterName));
+        }
+        reader.close();
+
+        return polls.toArray(new Poll[1]);
     }
 
     public LocalDate getDateTaken() {
         return dateTaken;
     }
 
-    public long getDaysBeforeElection(){
+    public long getDaysBeforeElection() {
         return daysBeforeElection;
     }
 
@@ -63,7 +88,7 @@ public class Poll {
         return houseLean;
     }
 
-    public Grade getGrade(){
+    public Grade getGrade() {
         return grade;
     }
 
@@ -79,30 +104,7 @@ public class Poll {
         return pollsterName;
     }
 
-    public double getStandardDeviation(){
+    public double getStandardDeviation() {
         return standardDeviation;
-    }
-
-    public static Poll[] readNationalPolls(String filename) throws IOException {
-        String line;
-        List<Poll> polls = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
-        //Clear header line
-        reader.readLine();
-        while ((line = reader.readLine()) != null){
-            String[] commaSplit = line.split(",");
-            LocalDate date = LocalDate.parse(commaSplit[0], DateTimeFormatter.ofPattern("M/d/yyyy"));
-            double rawDemPercent = Double.parseDouble(commaSplit[1]);
-            double rawRepPercent = Double.parseDouble(commaSplit[2]);
-            double sampleSize = Double.parseDouble(commaSplit[3]);
-            boolean registeredVoter = Boolean.parseBoolean(commaSplit[4]);
-            double houseLean = Double.parseDouble(commaSplit[5]);
-            Grade grade = Grade.parseGrade(commaSplit[6]);
-            String pollsterName = commaSplit[7];
-            polls.add(new Poll(date, rawDemPercent, rawRepPercent, sampleSize, registeredVoter, houseLean, grade, pollsterName));
-        }
-        reader.close();
-
-        return polls.toArray(new Poll[1]);
     }
 }

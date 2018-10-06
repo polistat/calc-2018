@@ -1,6 +1,6 @@
 import java.util.Map;
 
-public class ArctanPollCalculator extends PollCalculator{
+public class ArctanPollCalculator extends PollCalculator {
 
     private final Map<Grade, Double> gradeQualityPoints;
     private final double daysCoefficient;
@@ -32,17 +32,17 @@ public class ArctanPollCalculator extends PollCalculator{
             pollAverage = pollAverager.getAverage(district.getPolls());
             pollStDv = pollAverager.getStDv(district.getPolls());
             double x = 0;
-            for (Poll poll : district.getPolls()){
-                x += (Math.exp(-1*daysCoefficient*poll.getDaysBeforeElection()))*gradeQualityPoints.get(poll.getGrade());
+            for (Poll poll : district.getPolls()) {
+                x += (Math.exp(-1 * daysCoefficient * poll.getDaysBeforeElection())) * gradeQualityPoints.get(poll.getGrade());
             }
-            pollWeight = maxPollWeight*(2./Math.PI)*(Math.atan(arctanSteepness * (x - arctanShift)));
+            pollWeight = maxPollWeight * (2. / Math.PI) * (Math.atan(arctanSteepness * (x - arctanShift)));
         } else {
             pollAverage = district.getBantorDemPercent();
             pollStDv = bantorStDv;
             pollWeight = bantorWeight;
         }
-        district.setFinalDemPercent(pollWeight*pollAverage + (1-pollWeight)*district.getGenericCorrectedDemPercent());
-        district.setFinalStDv(Math.sqrt(Math.pow(pollStDv, 2)*pollWeight + Math.pow(district.getGenericCorrectedStDv(), 2)*(1-pollWeight)));
+        district.setFinalDemPercent(pollWeight * pollAverage + (1 - pollWeight) * district.getGenericCorrectedDemPercent());
+        district.setFinalStDv(Math.sqrt(Math.pow(pollStDv, 2) * pollWeight + Math.pow(district.getGenericCorrectedStDv(), 2) * (1 - pollWeight)));
         return district.getFinalDemPercent();
     }
 }

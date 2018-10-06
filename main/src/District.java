@@ -31,9 +31,9 @@ public class District {
     private double finalStDv;
 
     private District(String name, Poll[] polls, boolean repIncumbent,
-                    boolean demIncumbent, double obama2012, Double dem2014,
-                    double hillary2016, Double dem2016, double elasticity,
-                    Double bantorDemPercent, boolean repRunning, boolean demRunning) {
+                     boolean demIncumbent, double obama2012, Double dem2014,
+                     double hillary2016, Double dem2016, double elasticity,
+                     Double bantorDemPercent, boolean repRunning, boolean demRunning) {
         this.name = name;
         this.polls = polls;
         this.repIncumbent = repIncumbent;
@@ -57,6 +57,95 @@ public class District {
                 this.finalDemPercent = 0;
             }
         }
+    }
+
+    public static District[] parseFromCSV(String districtFile, String pollFile, String bantorFile) throws IOException
+            , ParseException {
+        String line;
+        BufferedReader pollFileReader = new BufferedReader(new FileReader(pollFile));
+        //Clear header line
+        pollFileReader.readLine();
+        Map<String, List<Poll>> nameToPollMap = new HashMap<>();
+        while ((line = pollFileReader.readLine()) != null) {
+            String[] commaSplit = line.split(",");
+            String name = commaSplit[0].toUpperCase();
+            LocalDate date = LocalDate.parse(commaSplit[1], DateTimeFormatter.ofPattern("M/d/yyyy"));
+            double rawDemPercent = Double.parseDouble(commaSplit[2]);
+            double rawRepPercent = Double.parseDouble(commaSplit[3]);
+            double sampleSize = Double.parseDouble(commaSplit[4]);
+            boolean registeredVoter = Boolean.parseBoolean(commaSplit[5]);
+            double houseLean = Double.parseDouble(commaSplit[6]);
+            Grade grade = Grade.parseGrade(commaSplit[7]);
+            String pollsterName = commaSplit[8];
+            Poll poll = new Poll(date, rawDemPercent, rawRepPercent, sampleSize, registeredVoter, houseLean, grade,
+                    pollsterName);
+            if (nameToPollMap.containsKey(name)) {
+                nameToPollMap.get(name).add(poll);
+            } else {
+                List<Poll> pollList = new ArrayList<>();
+                pollList.add(poll);
+                nameToPollMap.put(name, pollList);
+            }
+        }
+        pollFileReader.close();
+
+        BufferedReader bantorFileReader = new BufferedReader(new FileReader(bantorFile));
+        //Clear header line
+        bantorFileReader.readLine();
+        Map<String, Double> nameToBantorMap = new HashMap<>();
+        while ((line = bantorFileReader.readLine()) != null) {
+            String[] commaSplit = line.split(",");
+            String name = commaSplit[0].toUpperCase();
+            nameToBantorMap.put(name, Double.parseDouble(commaSplit[1]));
+        }
+        bantorFileReader.close();
+
+        BufferedReader districtFileReader = new BufferedReader(new FileReader(districtFile));
+        //Clear header line
+        districtFileReader.readLine();
+        List<District> toRet = new ArrayList<>();
+        while ((line = districtFileReader.readLine()) != null) {
+            String[] commaSplit = line.split(",");
+            String name = commaSplit[0].toUpperCase();
+            boolean repIncumbent = Integer.parseInt(commaSplit[1]) == 1;
+            boolean demIncumbent = Integer.parseInt(commaSplit[2]) == 1;
+            double obama2012 = Double.parseDouble(commaSplit[3]);
+
+            Double dem2014 = null;
+            try {
+                dem2014 = Double.parseDouble(commaSplit[4]);
+            } catch (NumberFormatException ignored) {
+            }
+
+            double hillary2016 = Double.parseDouble(commaSplit[5]);
+
+            Double dem2016 = null;
+            try {
+                dem2016 = Double.parseDouble(commaSplit[6]);
+            } catch (NumberFormatException ignored) {
+            }
+
+            double elasticity = Double.parseDouble(commaSplit[7]);
+
+            boolean repRunning = Boolean.parseBoolean(commaSplit[8]);
+            boolean demRunning = Boolean.parseBoolean(commaSplit[9]);
+
+            Poll[] polls = null;
+            if (nameToPollMap.containsKey(name)) {
+                polls = nameToPollMap.get(name).toArray(new Poll[1]);
+            }
+
+            Double bantorMargin = null;
+            if (nameToBantorMap.containsKey(name)) {
+                bantorMargin = nameToBantorMap.get(name);
+            }
+
+            toRet.add(new District(name, polls, repIncumbent, demIncumbent, obama2012, dem2014,
+                    hillary2016, dem2016, elasticity, bantorMargin, repRunning, demRunning));
+        }
+        districtFileReader.close();
+
+        return toRet.toArray(new District[435]);
     }
 
     public String getName() {
@@ -122,7 +211,7 @@ public class District {
     public void setFinalDemPercent(double finalDemPercent) {
         this.finalDemPercent = finalDemPercent;
     }
-    
+
     public double getFundamentalStDv() {
         return fundamentalStDv;
     }
@@ -130,7 +219,7 @@ public class District {
     public void setFundamentalStDv(double fundamentalStDv) {
         this.fundamentalStDv = fundamentalStDv;
     }
-    
+
     public double getGenericCorrectedStDv() {
         return genericCorrectedStDv;
     }
@@ -138,7 +227,7 @@ public class District {
     public void setGenericCorrectedStDv(double genericCorrectedStDv) {
         this.genericCorrectedStDv = genericCorrectedStDv;
     }
-    
+
     public double getFinalStDv() {
         return finalStDv;
     }
@@ -147,7 +236,7 @@ public class District {
         this.finalStDv = finalStDv;
     }
 
-    public boolean hasPolls(){
+    public boolean hasPolls() {
         return polls != null && !(polls.length == 0);
     }
 
@@ -155,95 +244,10 @@ public class District {
         return contested;
     }
 
-    public static District[] parseFromCSV(String districtFile, String pollFile, String bantorFile) throws IOException, ParseException {
-        String line;
-        BufferedReader pollFileReader = new BufferedReader(new FileReader(pollFile));
-        //Clear header line
-        pollFileReader.readLine();
-        Map<String, List<Poll>> nameToPollMap = new HashMap<>();
-        while ((line = pollFileReader.readLine()) != null){
-            String[] commaSplit = line.split(",");
-            String name = commaSplit[0].toUpperCase();
-            LocalDate date = LocalDate.parse(commaSplit[1], DateTimeFormatter.ofPattern("M/d/yyyy"));
-            double rawDemPercent = Double.parseDouble(commaSplit[2]);
-            double rawRepPercent = Double.parseDouble(commaSplit[3]);
-            double sampleSize = Double.parseDouble(commaSplit[4]);
-            boolean registeredVoter = Boolean.parseBoolean(commaSplit[5]);
-            double houseLean = Double.parseDouble(commaSplit[6]);
-            Grade grade = Grade.parseGrade(commaSplit[7]);
-            String pollsterName = commaSplit[8];
-            Poll poll = new Poll(date, rawDemPercent, rawRepPercent, sampleSize, registeredVoter, houseLean, grade, pollsterName);
-            if (nameToPollMap.containsKey(name)){
-                nameToPollMap.get(name).add(poll);
-            } else {
-                List<Poll> pollList = new ArrayList<>();
-                pollList.add(poll);
-                nameToPollMap.put(name, pollList);
-            }
-        }
-        pollFileReader.close();
-
-        BufferedReader bantorFileReader = new BufferedReader(new FileReader(bantorFile));
-        //Clear header line
-        bantorFileReader.readLine();
-        Map<String, Double> nameToBantorMap = new HashMap<>();
-        while ((line = bantorFileReader.readLine()) != null) {
-            String[] commaSplit = line.split(",");
-            String name = commaSplit[0].toUpperCase();
-            nameToBantorMap.put(name, Double.parseDouble(commaSplit[1]));
-        }
-        bantorFileReader.close();
-
-        BufferedReader districtFileReader = new BufferedReader(new FileReader(districtFile));
-        //Clear header line
-        districtFileReader.readLine();
-        List<District> toRet = new ArrayList<>();
-        while ((line = districtFileReader.readLine()) != null){
-            String[] commaSplit = line.split(",");
-            String name = commaSplit[0].toUpperCase();
-            boolean repIncumbent = Integer.parseInt(commaSplit[1]) == 1;
-            boolean demIncumbent = Integer.parseInt(commaSplit[2]) == 1;
-            double obama2012 = Double.parseDouble(commaSplit[3]);
-
-            Double dem2014 = null;
-            try {
-                dem2014 = Double.parseDouble(commaSplit[4]);
-            } catch (NumberFormatException ignored){}
-
-            double hillary2016 = Double.parseDouble(commaSplit[5]);
-
-            Double dem2016 = null;
-            try {
-                dem2016 = Double.parseDouble(commaSplit[6]);
-            } catch (NumberFormatException ignored){}
-
-            double elasticity = Double.parseDouble(commaSplit[7]);
-
-            boolean repRunning = Boolean.parseBoolean(commaSplit[8]);
-            boolean demRunning = Boolean.parseBoolean(commaSplit[9]);
-
-            Poll[] polls = null;
-            if (nameToPollMap.containsKey(name)) {
-                polls = nameToPollMap.get(name).toArray(new Poll[1]);
-            }
-
-            Double bantorMargin = null;
-            if (nameToBantorMap.containsKey(name)) {
-                bantorMargin = nameToBantorMap.get(name);
-            }
-
-            toRet.add(new District(name, polls, repIncumbent, demIncumbent, obama2012, dem2014,
-                    hillary2016, dem2016, elasticity, bantorMargin, repRunning, demRunning));
-        }
-        districtFileReader.close();
-
-        return toRet.toArray(new District[435]);
-    }
-
     @Override
     public String toString() {
-        return getName() + ", polls: "+this.hasPolls()+", dem2014: "+this.getDem2014() + ", dem2016: "+this.getDem2016()
-                + ", Obama: "+this.getObama2012() + ", Hillary: "+this.getHillary2016()+ ", fundamental dem %: " +
-                this.getFundamentalDemPercent() + ", final dem %: "+this.getFinalDemPercent();
+        return getName() + ", polls: " + this.hasPolls() + ", dem2014: " + this.getDem2014() + ", dem2016: " + this.getDem2016()
+                + ", Obama: " + this.getObama2012() + ", Hillary: " + this.getHillary2016() + ", fundamental dem %: " +
+                this.getFundamentalDemPercent() + ", final dem %: " + this.getFinalDemPercent();
     }
 }

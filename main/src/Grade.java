@@ -1,8 +1,8 @@
 public enum Grade {
-    A,B,C,D;
+    A, B, C, D;
 
-    public static Grade parseGrade(char grade){
-        switch (Character.toLowerCase(grade)){
+    public static Grade parseGrade(char grade) {
+        switch (Character.toLowerCase(grade)) {
             case 'a':
                 return A;
             case 'b':
@@ -15,7 +15,7 @@ public enum Grade {
         return null;
     }
 
-    public static Grade parseGrade(String grade){
+    public static Grade parseGrade(String grade) {
         return parseGrade(grade.charAt(0));
     }
 }
