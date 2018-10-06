@@ -21,6 +21,7 @@ public class District {
     private final Double dem2016;
     private final double elasticity;
     private final Double bantorDemPercent;
+    private final boolean contested;
 
     private double fundamentalDemPercent;
     private double fundamentalStDv;
@@ -32,7 +33,7 @@ public class District {
     private District(String name, Poll[] polls, boolean repIncumbent,
                     boolean demIncumbent, double obama2012, Double dem2014,
                     double hillary2016, Double dem2016, double elasticity,
-                    Double bantorDemPercent) {
+                    Double bantorDemPercent, boolean repRunning, boolean demRunning) {
         this.name = name;
         this.polls = polls;
         this.repIncumbent = repIncumbent;
@@ -43,6 +44,19 @@ public class District {
         this.dem2016 = dem2016;
         this.elasticity = elasticity;
         this.bantorDemPercent = bantorDemPercent;
+        this.contested = repRunning && demRunning;
+
+        if (!contested) {
+            this.genericCorrectedStDv = 0;
+            this.finalStDv = 0;
+            if (!repRunning) {
+                this.genericCorrectedDemPercent = 1;
+                this.finalDemPercent = 1;
+            } else {
+                this.genericCorrectedDemPercent = 0;
+                this.finalDemPercent = 0;
+            }
+        }
     }
 
     public String getName() {
@@ -137,6 +151,10 @@ public class District {
         return polls != null && !(polls.length == 0);
     }
 
+    public boolean isContested() {
+        return contested;
+    }
+
     public static District[] parseFromCSV(String districtFile, String pollFile, String bantorFile) throws IOException, ParseException {
         String line;
         BufferedReader pollFileReader = new BufferedReader(new FileReader(pollFile));
@@ -186,16 +204,23 @@ public class District {
             boolean repIncumbent = Integer.parseInt(commaSplit[1]) == 1;
             boolean demIncumbent = Integer.parseInt(commaSplit[2]) == 1;
             double obama2012 = Double.parseDouble(commaSplit[3]);
+
             Double dem2014 = null;
             try {
                 dem2014 = Double.parseDouble(commaSplit[4]);
             } catch (NumberFormatException ignored){}
+
             double hillary2016 = Double.parseDouble(commaSplit[5]);
+
             Double dem2016 = null;
             try {
                 dem2016 = Double.parseDouble(commaSplit[6]);
             } catch (NumberFormatException ignored){}
-            double elastity = Double.parseDouble(commaSplit[7]);
+
+            double elasticity = Double.parseDouble(commaSplit[7]);
+
+            boolean repRunning = Boolean.parseBoolean(commaSplit[8]);
+            boolean demRunning = Boolean.parseBoolean(commaSplit[9]);
 
             Poll[] polls = null;
             if (nameToPollMap.containsKey(name)) {
@@ -208,7 +233,7 @@ public class District {
             }
 
             toRet.add(new District(name, polls, repIncumbent, demIncumbent, obama2012, dem2014,
-                    hillary2016, dem2016, elastity, bantorMargin));
+                    hillary2016, dem2016, elasticity, bantorMargin, repRunning, demRunning));
         }
         districtFileReader.close();
 

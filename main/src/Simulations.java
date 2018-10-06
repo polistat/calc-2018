@@ -24,7 +24,6 @@ public class Simulations {
         double[] histogram = new double[districts.length + 1];
         Random generator = new Random();
 
-        double[] demWinChance = new double[districts.length];
         double[] avgDistrictWinChances = new double[districts.length];
         for (int i = 0; i < iterations; i++) {
 			double genericBallot = genericAverage + generator.nextGaussian()*genericStDv;
@@ -33,9 +32,17 @@ public class Simulations {
             pollCalculator.calcAll(districts);
             double expectedSeats = 0;
             for (int j = 0; j < districts.length; j++) {
-                demWinChance[j] = 1 - Normal.normalCDF(districts[j].getFinalDemPercent(), districts[j].getFinalStDv(), 0.5);
-                expectedSeats += demWinChance[j];
-                avgDistrictWinChances[j] += demWinChance[j];
+            	double winChance;
+            	if (districts[j].getFinalStDv() == 0){
+            		winChance = districts[j].getFinalDemPercent() > 0.5 ? 1 : 0;
+				} else {
+					winChance = 1 - Normal.normalCDF(districts[j].getFinalDemPercent(), districts[j].getFinalStDv(), 0.5);
+					if(winChance > 1 || winChance < 0){
+						System.out.println("aaaaaaaaaaaa "+districts[j].getName());
+					}
+				}
+                expectedSeats += winChance;
+                avgDistrictWinChances[j] += winChance;
             }
             histogram[(int) Math.round(expectedSeats)] += 1;
         }
@@ -45,9 +52,14 @@ public class Simulations {
         }
 		
 		LocalDate today = LocalDate.now();
+
+        //Recalculate dem % using average shift
+        double nationalShift = nationalShiftCalculator.calcNationalShift(districts, genericAverage);
+        nationalCorrectionCalculator.calcAll(districts, nationalShift);
+        pollCalculator.calcAll(districts);
 		
 		for (int i = 0; i < districts.length; i++) {
-			out1.println(today.getYear() + "," + today.getMonth() + "," +
+			out1.println(today.getYear() + "," + today.getMonthValue() + "," +
 					today.getDayOfMonth() + "," + districts[i].getName() + ","
 					+ districts[i].getFinalDemPercent() + "," + districts[i].getFinalStDv() + "," + avgDistrictWinChances[i]);
 		}

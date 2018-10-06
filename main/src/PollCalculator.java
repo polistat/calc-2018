@@ -10,7 +10,9 @@ public abstract class PollCalculator {
 
     public void calcAll(District[] districts){
         for (District district : districts){
-            calculatePolls(district);
+            if (district.isContested()) {
+                calculatePolls(district);
+            }
         }
     }
 }

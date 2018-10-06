@@ -5,8 +5,10 @@ public abstract class NationalCorrectionCalculator {
 
     public void calcAll(District[] districts, double nationalShift){
         for (District district : districts){
-            calcNationalDemPercent(district, nationalShift);
-            calcNationalStDv(district, nationalShift);
+            if (district.isContested()) {
+                calcNationalDemPercent(district, nationalShift);
+                calcNationalStDv(district, nationalShift);
+            }
         }
     }
 }
