@@ -36,8 +36,9 @@ public class Main {
         Poll[] nationalPolls = Poll.readNationalPolls("national_polls.csv");
         double nationalPollAverage = nationalPollAverager.getAverage(nationalPolls);
         double nationalPollStDv = nationalPollAverager.getStDv(nationalPolls);
-        System.out.println("National average: " + nationalPollAverage);
-        System.out.println("Mean shift: " + natlShiftCalc.calcNationalShift(districts, nationalPollAverage));
+        System.out.println("National average: " + Math.round(nationalPollAverage * 10000.) / 100. + "%");
+        System.out.println("Mean shift: " + Math.round(natlShiftCalc.calcNationalShift(districts,
+                nationalPollAverage) * 10000.) / 100. + " percentage points");
         NationalCorrectionCalculator natlCorrectCalc = new SimpleNationalCorrection();
         PollAverager pollAverager = new ExponentialPollAverager(1. / 30.);
         PollCalculator pollCalculator = new ArctanPollCalculator(pollAverager, gradeQualityPoints, 1. / 167.,

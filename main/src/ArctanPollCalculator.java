@@ -12,8 +12,8 @@ public class ArctanPollCalculator extends PollCalculator {
     private final Map<Grade, Double> gradeQualityPoints;
 
     /**
-     * The (positive) number to multiply by the number of days a poll was taken before the election, then plug into
-     * e^-x to get the age adjustment for poll weighting. Should be less than 1.
+     * The (positive) number to multiply by the number of days a poll was taken before the election, then plug into e^-x
+     * to get the age adjustment for poll weighting. Should be less than 1.
      */
     private final double daysCoefficient;
 
@@ -49,7 +49,8 @@ public class ArctanPollCalculator extends PollCalculator {
      * @param gradeQualityPoints A map of each 538 pollster grade to the "quality point" score associated with that
      *                           grade.
      * @param daysCoefficient    The (positive) number to multiply by the number of days a poll was taken before the
-     *                           election, then plug into e^-x to get the age adjustment for poll weighting. Should be less than 1.
+     *                           election, then plug into e^-x to get the age adjustment for poll weighting. Should be
+     *                           less than 1.
      * @param maxPollWeight      The maximum weight of the polls compared to the shifted fundamentals, from 0 to 1.
      * @param arctanShift        How much to shift the arctan function by in x.
      * @param arctanSteepness    What the derivative of the arctan function should be at the center, when x =

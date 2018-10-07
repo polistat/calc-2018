@@ -335,44 +335,48 @@ public class District {
     }
 
     /**
-     * @return 538's elasticity score for this district, representing how much it's affected by changes in the
-     * national mood.
+     * @return 538's elasticity score for this district, representing how much it's affected by changes in the national
+     * mood.
      */
     public double getElasticity() {
         return elasticity;
     }
 
     /**
-     * @return The percent of the two-party vote democrats will get in this district according to Blairvoyance, from
-     * 0 to 1, or null if Blairvoyance doesn't have a prediction.
+     * @return The percent of the two-party vote democrats will get in this district according to Blairvoyance, from 0
+     * to 1, or null if Blairvoyance doesn't have a prediction.
      */
     public Double getBlairvoyanceDemPercent() {
         return blairvoyanceDemPercent;
     }
 
     /**
-     * @return The predicted percent of the two-party vote the democrats will win in this district, according to the fundamentals model.
+     * @return The predicted percent of the two-party vote the democrats will win in this district, according to the
+     * fundamentals model.
      */
     public double getFundamentalDemPercent() {
         return fundamentalDemPercent;
     }
 
     /**
-     * @param fundamentalDemPercent The predicted percent of the two-party vote the democrats will win in this district, according to the fundamentals model.
+     * @param fundamentalDemPercent The predicted percent of the two-party vote the democrats will win in this district,
+     *                              according to the fundamentals model.
      */
     public void setFundamentalDemPercent(double fundamentalDemPercent) {
         this.fundamentalDemPercent = fundamentalDemPercent;
     }
 
     /**
-     * @return The predicted percent of the two-party vote the democrats will win in this district, according to the fundamentals model corrected for the national mood.
+     * @return The predicted percent of the two-party vote the democrats will win in this district, according to the
+     * fundamentals model corrected for the national mood.
      */
     public double getGenericCorrectedDemPercent() {
         return genericCorrectedDemPercent;
     }
 
     /**
-     * @param genericCorrectedDemPercent The predicted percent of the two-party vote the democrats will win in this district, according to the fundamentals model corrected for the national mood.
+     * @param genericCorrectedDemPercent The predicted percent of the two-party vote the democrats will win in this
+     *                                   district, according to the fundamentals model corrected for the national mood.
      */
     public void setGenericCorrectedDemPercent(double genericCorrectedDemPercent) {
         this.genericCorrectedDemPercent = genericCorrectedDemPercent;
@@ -386,8 +390,8 @@ public class District {
     }
 
     /**
-     * @param finalDemPercent The final prediction for what percent of the two-party vote the democrats will win in
-     *                        this district.
+     * @param finalDemPercent The final prediction for what percent of the two-party vote the democrats will win in this
+     *                        district.
      */
     public void setFinalDemPercent(double finalDemPercent) {
         this.finalDemPercent = finalDemPercent;
@@ -444,7 +448,9 @@ public class District {
     }
 
     /**
-     * @return Whether a republican and a democrat are running against each other in this district's general election. A district where no dem or republican has been nominated is not contested, and neither is a race between two members of the same party in a top-two primary district.
+     * @return Whether a republican and a democrat are running against each other in this district's general election. A
+     * district where no dem or republican has been nominated is not contested, and neither is a race between two
+     * members of the same party in a top-two primary district.
      */
     public boolean isContested() {
         return contested;
