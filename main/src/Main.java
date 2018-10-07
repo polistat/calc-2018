@@ -29,13 +29,13 @@ public class Main {
         NationalShiftCalculator natlShiftCalc = new DZhuNatlShiftCalc("2014.csv",
                 "2016.csv", redistricted2018, redistricted2016);
 
-        District[] districts = District.parseFromCSV("district_input.csv", "poll_input.csv",
+        District[] districts = DataReader.parseFromCSV("district_input.csv", "poll_input.csv",
                 "blairvoyance_input.csv");
         fundamentalCalculator.calcAll(districts);
         PollAverager nationalPollAverager = new ExponentialPollAverager(1. / 30.);
-        Poll[] nationalPolls = Poll.readNationalPolls("national_polls.csv");
+        Poll[] nationalPolls = DataReader.readNationalPolls("national_polls.csv");
         double nationalPollAverage = nationalPollAverager.getAverage(nationalPolls);
-        double nationalPollStDv = nationalPollAverager.getStDv(nationalPolls);
+        // double nationalPollStDv = nationalPollAverager.getStDv(nationalPolls);
         System.out.println("National average: " + Math.round(nationalPollAverage * 10000.) / 100. + "%");
         System.out.println("Mean shift: " + Math.round(natlShiftCalc.calcNationalShift(districts,
                 nationalPollAverage) * 10000.) / 100. + " percentage points");
@@ -46,6 +46,6 @@ public class Main {
 
         System.out.println("Dem win chance: " + (100. * Simulations.write(districts, nationalPollAverage, 0.02,
                 pollCalculator,
-                natlCorrectCalc, natlShiftCalc, 100000)) + "%");
+                natlCorrectCalc, natlShiftCalc, 10000)) + "%");
     }
 }

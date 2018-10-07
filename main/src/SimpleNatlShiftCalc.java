@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,25 +19,9 @@ public class SimpleNatlShiftCalc implements NationalShiftCalculator {
      * @throws IOException If the turnout file is missing/improperly formatted.
      */
     public SimpleNatlShiftCalc(String congressionalTurnout2014) throws IOException {
-        //Define line up here to avoid garbage collection
-        String line;
-
-        BufferedReader lastCongressionalFileReader = new BufferedReader(new FileReader(congressionalTurnout2014));
-        //Clear header
-        lastCongressionalFileReader.readLine();
-        districtToVoteMap = new HashMap<>();
-        while ((line = lastCongressionalFileReader.readLine()) != null) {
-            String[] splitLine = line.split(",");
-            int demVote = Integer.parseInt(splitLine[1]);
-            int repVote = Integer.parseInt(splitLine[2]);
-            //Only count contested districts
-            if (demVote != 0 && repVote != 0) {
-                districtToVoteMap.put(splitLine[0].toUpperCase(), demVote + repVote);
-            }
-        }
-        lastCongressionalFileReader.close();
+        districtToVoteMap = DataReader.get2014Turnout(congressionalTurnout2014);
     }
-
+    
     /**
      * Calculate the national shift.
      *
