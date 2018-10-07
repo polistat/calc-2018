@@ -36,6 +36,8 @@ public class Main {
         Poll[] nationalPolls = DataReader.readNationalPolls("national_polls.csv");
         double nationalPollAverage = nationalPollAverager.getAverage(nationalPolls);
         // double nationalPollStDv = nationalPollAverager.getStDv(nationalPolls);
+
+        //Log generic ballot average and the corresponding shift.
         System.out.println("National average: " + Math.round(nationalPollAverage * 10000.) / 100. + "%");
         System.out.println("Mean shift: " + Math.round(natlShiftCalc.calcNationalShift(districts,
                 nationalPollAverage) * 10000.) / 100. + " percentage points");
@@ -45,7 +47,7 @@ public class Main {
                 0.9, 0, 16.6, 0.0, 0.05);
 
         System.out.println("Dem win chance: " + (100. * Simulations.write(districts, nationalPollAverage, 0.02,
-                pollCalculator,
-                natlCorrectCalc, natlShiftCalc, 10000)) + "%");
+                natlShiftCalc, natlCorrectCalc, pollCalculator,
+                100000)) + "%");
     }
 }
