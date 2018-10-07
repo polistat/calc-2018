@@ -186,11 +186,11 @@ public class District {
             double rawDemPercent = Double.parseDouble(commaSplit[2]);
             double rawRepPercent = Double.parseDouble(commaSplit[3]);
             double sampleSize = Double.parseDouble(commaSplit[4]);
-            boolean registeredVoter = Boolean.parseBoolean(commaSplit[5]);
+            Poll.VoterModel voterModel = Poll.VoterModel.parseFromString(commaSplit[5]);
             double houseLean = Double.parseDouble(commaSplit[6]);
             Grade grade = Grade.parseGrade(commaSplit[7]);
             String pollsterName = commaSplit[8];
-            Poll poll = new Poll(date, rawDemPercent, rawRepPercent, sampleSize, registeredVoter, houseLean, grade,
+            Poll poll = new Poll(date, rawDemPercent, rawRepPercent, sampleSize, voterModel, houseLean, grade,
                     pollsterName);
 
             if (nameToPollMap.containsKey(name)) {
