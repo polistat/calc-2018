@@ -56,8 +56,8 @@ public class Main {
 
         //Log generic ballot average and the corresponding shift.
         System.out.println("National average: " + Math.round(nationalPollAverage * 10000.) / 100. + "%");
-        System.out.println("Mean shift: " + Math.round(natlShiftCalc.calcNationalShift(districts,
-                nationalPollAverage) * 10000.) / 100. + " percentage points");
+        System.out.println("Mean shift: " + Math.round(natlShiftCalc.getFunction(districts)
+        		.getNationalShift(nationalPollAverage) * 10000.) / 100. + " percentage points");
 
         //Define the national correction calculator.
         NationalCorrectionCalculator natlCorrectCalc = new SimpleNationalCorrection();

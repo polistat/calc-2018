@@ -71,7 +71,7 @@ public class DZhuNatlShiftCalc implements NationalShiftCalculator {
 	 *         favor of the democrats and -0.01 is 1% for the republicans.
 	 */
 	@Override
-	public double calcNationalShift(District[] districts, double genericDemPercent) {
+	public NationalShiftFunction getFunction(District[] districts) {
 		double numerator = 0;
 		double denominator = 0;
 		// Find the total number of democrat votes we expect and total number of dem
@@ -80,8 +80,9 @@ public class DZhuNatlShiftCalc implements NationalShiftCalculator {
 			numerator += districtToVoteMap.get(district.getName()) * district.getFundamentalDemPercent();
 			denominator += districtToVoteMap.get(district.getName());
 		}
+		final double demBaseline = numerator / denominator;
 		// Return the difference between the generic ballot and our predicted national
 		// percent of dem votes.
-		return genericDemPercent - numerator / denominator;
+		return genericDemPercent -> (genericDemPercent - demBaseline);
 	}
 }

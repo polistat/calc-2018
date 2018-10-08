@@ -31,7 +31,7 @@ public class SimpleNatlShiftCalc implements NationalShiftCalculator {
      * for the republicans.
      */
     @Override
-    public double calcNationalShift(District[] districts, double genericDemPercent) {
+    public NationalShiftFunction getFunction(District[] districts) {
         double numerator = 0;
         double denominator = 0;
         //Find the total number of democrat votes we expect and total number of dem votes we expect, in districts
@@ -42,7 +42,8 @@ public class SimpleNatlShiftCalc implements NationalShiftCalculator {
                 denominator += districtToVoteMap.get(district.getName());
             }
         }
+        final double demVoteShare = numerator / denominator;
         //Return the difference between the generic ballot and our predicted national percent of dem votes.
-        return genericDemPercent - numerator / denominator;
+        return genericDemPercent -> (genericDemPercent - demVoteShare);
     }
 }
