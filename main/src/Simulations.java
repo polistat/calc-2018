@@ -75,7 +75,7 @@ public class Simulations {
                 	//The expected number of seats is the sum of the percent chance that democrats win each seat.
                 	expectedSeats++;
                 	//Sum now, divide later.
-                	avgDistrictWinChances[j] += winChance;
+                	avgDistrictWinChances[j]++;
                 }
             }
             //Histogram uses integers, so we round.
