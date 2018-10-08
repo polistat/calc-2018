@@ -71,10 +71,12 @@ public class Simulations {
                         System.out.println("aaaaaaaaaaaa " + districts[j].getName());
                     }
                 }
-                //The expected number of seats is the sum of the percent chance that democrats win each seat.
-                expectedSeats += winChance;
-                //Sum now, divide later.
-                avgDistrictWinChances[j] += winChance;
+                if (Math.random() < winChance) {
+                	//The expected number of seats is the sum of the percent chance that democrats win each seat.
+                	expectedSeats++;
+                	//Sum now, divide later.
+                	avgDistrictWinChances[j] += winChance;
+                }
             }
             //Histogram uses integers, so we round.
             histogram[(int) Math.round(expectedSeats)] += 1;
