@@ -104,6 +104,6 @@ public class LogisticPollCalculator extends PollCalculator {
         district.setFinalDemPercent(pollWeight * pollAverage + (1 - pollWeight) * district.getGenericCorrectedDemPercent());
 
         //Pythagorean theorem of statistics
-        district.setFinalStDv(Math.sqrt(Math.pow(pollStDv, 2) * pollWeight + Math.pow(district.getGenericCorrectedStDv(), 2) * (1 - pollWeight)));
+        district.setFinalStDv(Math.sqrt(Math.pow(pollStDv * pollWeight, 2) + Math.pow(district.getGenericCorrectedStDv() * (1 - pollWeight), 2)));
     }
 }
