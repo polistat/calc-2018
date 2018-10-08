@@ -39,7 +39,7 @@ public class Main {
                 "2016.csv", redistricted2018, redistricted2016);
 
         //Read in the districts
-        District[] districts = District.parseFromCSV("district_input.csv", "poll_input.csv",
+        District[] districts = DataReader.parseFromCSV("district_input.csv", "poll_input.csv",
                 "blairvoyance_input.csv");
 
         //Calculate fundamentals
@@ -49,15 +49,15 @@ public class Main {
         PollAverager nationalPollAverager = new ExponentialPollAverager(1. / 30.);
 
         //Read in the generic ballot polls
-        Poll[] nationalPolls = Poll.readNationalPolls("national_polls.csv");
+        Poll[] nationalPolls = DataReader.readNationalPolls("national_polls.csv");
 
         //Find the average of the generic ballot polls
         double nationalPollAverage = nationalPollAverager.getAverage(nationalPolls);
 
         //Log generic ballot average and the corresponding shift.
         System.out.println("National average: " + Math.round(nationalPollAverage * 10000.) / 100. + "%");
-        System.out.println("Mean shift: " + Math.round(natlShiftCalc.calcNationalShift(districts,
-                nationalPollAverage) * 10000.) / 100. + " percentage points");
+        System.out.println("Mean shift: " + Math.round(natlShiftCalc.getFunction(districts)
+        		.getNationalShift(nationalPollAverage) * 10000.) / 100. + " percentage points");
 
         //Define the national correction calculator.
         NationalCorrectionCalculator natlCorrectCalc = new SimpleNationalCorrection();

@@ -4,12 +4,10 @@
 public interface NationalShiftCalculator {
 
     /**
-     * Calculate the national shift.
+     * Get a national shift function.
      *
      * @param districts         A list of every district, with the fundamental dem win percent filled in.
-     * @param genericDemPercent The democratic share of the two-party vote on the national generic ballot, from 0 to 1.
-     * @return The national shift to apply to each district, where 0.01 is 1% in favor of the democrats and -0.01 is 1%
-     * for the republicans.
+     * @return a class that calculates the national shift
      */
-    double calcNationalShift(District[] districts, double genericDemPercent);
+    NationalShiftFunction getFunction(District[] districts);
 }
