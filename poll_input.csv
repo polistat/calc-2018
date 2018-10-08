@@ -28,7 +28,7 @@ PA-01,10/1/2018,0.46,0.5,353,Likely,0.014,A,Monmouth University
 ID-02,7/9/2018,0.23,0.59,285,Adults,-0.002,C,Dan Jones & Associates
 NY-19,8/26/2018,0.4,0.45,501,Likely,-0.001,A,Siena College
 NM-03,6/16/2018,0.58,0.3,446,Likely,0.025,D,Carroll Strategies
-ME-02,9/14/2018,0.42,0.47,506,Likely,-0.1,A,Siena College
+ME-02,9/14/2018,0.42,0.47,506,Likely,-0.001,A,Siena College
 MN-02,10/2/2018,0.51,0.39,487,Likely,-0.001,A,Siena Collge
 WA-05,4/7/2018,0.38,0.44,403,Registered,-0.002,D,Elway Research
 GA-06,8/26/2018,0.47,0.49,600,Likely,-0.038,D,Thirty-Ninth Street Strategies
@@ -140,3 +140,150 @@ PA-16,5/22/2018,0.43,0.48,623,Registered,-0.021,B,Public Policy Polling
 DE-01,9/17/2018,0.58,0.28,728,Likely,-0.099,D,University of Delaware
 MI-08,4/5/2018,0.39,0.45,400,Registered,0.013,C,Target Insyght
 DE-01,7/29/2018,0.46,0.38,884,Likely,0.021,C,Gravis Marketing
+TX-06,7/28/2018,0.39,0.48,576,Voters,-0.021,B,Public Policy Polling
+CO-06,9/14/2018,0.49,0.38,400,Likely,-0.024,B,"Normington, Petts & Associates"
+IN-03,5/31/2018,0.34,0.55,401,Likely,0.065,B,	Wilson Perkins Allen Opinion Research 
+TX-23,9/11/2018,0.43,0.51,495,Likely,-0.001,A,Siena College
+CA-22,6/24/2018,0.41,0.49,632,Likely,-0.021,B,Public Policy Polling
+IA-01,9/20/2018,0.52,0.37,502,Likely,-0.001,A,Siena College
+OK-01,9/25/2018,0.32,0.54,306,Likely,0.003,B,SoonerPoll.com
+MO-01,8/26/2018,0.43,0.41,402,Likely,-0.053,D,Expedition Strategies
+TX-31,10/2/2018,0.33,0.54,352,Registered,0.001,A,Siena College
+CA-22,7/17/2018,0.41,0.53,500,Likely,-0.03,B,Strategies 360
+FL-15,9/27/2018,0.46,0.49,500,Likely,0.008,D,Bold Blue Campaigns
+TX-31,10/2/2018,0.36,0.54,352,Likely,0.001,A,Siena College
+TX-07,9/18/2018,0.47,0.45,562,Voters,-0.021,B,Public Policy Polling
+MO-01,8/23/2018,0.4,0.51,983,Likely,0.027,C,Remington Research Group
+CO-06,9/14/2018,0.51,0.4,500,Likely,-0.001,A,Siena College
+CA-39,9/23/2018,0.49,0.48,552,Likely,-0.025,D,UC Berkeley
+AZ-02,10/1/2018,0.5,0.39,502,Likely,0.001,A,Siena College
+OK-02,9/25/2018,0.32,0.46,245,Likely,0.003,B,SoonerPoll.com
+FL-15,9/8/2018,0.48,0.47,400,Likely,-0.018,B,Greenberg Quinlan Rosner (Democracy Corps)
+CA-22,7/25/2018,0.43,0.48,400,Likely,-0.053,B,Tulchin Research
+CO-06,9/13/2018,0.44,0.43,400,Registered,0.05,B,Tarrance Group
+IA-01,9/8/2018,0.43,0.38,250,Registered,-0.009,B,Emerson College
+CA-39,9/16/2018,0.42,0.5,300,Likely,-0.011,A,Monmouth University
+LA-03,8/30/2018,0.62,0.8,1417,Likely,-0.011,C, Trafalgar Group
+CA-22,9/13/2018,0.44,0.5,402,Likely,-0.03,B,Strategies 360
+FL-27,9/13/2018,0.42,0.51,400,Likely,0.052,C,McLaughlin & Associates
+TX-31,10/2/2018,0.33,0.54,400,Likely,0.05,B,Tarrance Group*
+TX-07,9/18/2018,0.45,0.48,500,Likely,-0.001,A,Siena College
+FL-12,7/28/2018,0.3,0.49,615,Registered,-0.002,B,St. Pete Polls
+OK-03,9/25/2018,0.24,0.54,267,Likely,0.003,B,SoonerPoll.com
+FL-16,10/2/2018,0.4,0.49,551,Likely,-0.004,A,University of North Florida
+IL-06,9/10/2018,0.47,0.44,402,Likely,-0.031,B,Garin-Hart-Yang Research Group
+NV-04,7/22/2018,0.49,0.4,500,Likely,-0.016,C,Global Strategy Group
+TX-32,9/24/2018,0.47,0.48,500,Likely,-0.001,A,Siena College
+CA-39,8/6/2018,0.53,0.42,600,Likely,-0.053,B,Tulchin Research
+TX-10,8/4/2018,0.36,0.39,524,Registered,-0.038,D,Blink Insights
+IA-01,2/14/2018,0.47,0.41,400,Registered,-0.034,C,DCCC Targeting Team
+FL-27,9/4/2018,0.46,0.42,600,Likely,-0.051,B,Bendixen & Amandi International
+FL-16,10/1/2018,0.43,0.5,1248,Likely,0.002,B,St. Pete Polls
+OK-04,9/25/2018,0.25,0.58,291,Likely,0.003,B,SoonerPoll.com
+MT-01,9/22/2018,0.42,0.51,710,Likely,0.021,C,Gravis Marketing
+CA-22,9/23/2018,0.45,0.53,912,Likely,-0.025,D,UC Berkeley
+TX-07,5/31/2018,0.45,0.47,404,Likely,-0.034,C,DCCC Targeting Team
+TX-31,10/2/2018,0.42,0.46,500,Likely,-0.044,C,Anzalone Liszt Grove Research 
+NV-04,7/22/2018,0.42,0.32,500,Likely,-0.016,C,Global Strategy Group
+IL-12,4/17/2018,0.39,0.44,622,Voters,-0.021,B,Public Policy Polling
+TX-32,9/23/2018,0.49,0.47,600,Likely,-0.009,B,GBA Strategies
+FL-16,8/25/2018,0.44,0.48,400,Likely,-0.044,C,Anzalone Liszt Grove Research
+CA-07,6/14/2018,0.5,0.41,400,Likely,0.037,B,Public Opinion Strategies
+NV-04,8/7/2018,0.41,0.41,400,Likely,0.044,B,Moore Information
+CA-39,6/10/2018,0.43,0.45,536,Likely,-0.034,C,DCCC Targeting Team 
+KS-01,9/28/2018,0.17,0.44,193,Registered,-0.009,B,Emerson College
+IA-01,2/13/2018,0.43,0.42,742,Voters,-0.021,B,Public Policy Polling
+TX-31,11/29/2017,0.4,0.46,613,Voters,-0.021,B,Public Policy Polling
+AZ-01,9/28/2018,0.36,0.39,738,Likely,0.041,D,Go Right Strategies
+FL-19,9/12/2018,0.42,0.51,468,Registered,-0.062,C,Change Research
+FL-16,7/28/2018,0.35,0.44,681,Likely,0.02,B,St. Pete Polls
+IA-04,9/9/2018,0.37,0.43,380,Likely,-0.053,D,Expedition Strategies 
+CA-22,9/25/2018,0.41,0.55,582,Likely,0.005,A,SurveyUSA
+CA-39,1/11/2018,0.38,0.41,761,Likely,0.027,C,Remington Research Group
+NV-04,1/9/2018,0.42,0.37,400,Registered,-0.034,D,DCCC Targeting Team
+TX-21,7/9/2018,0.27,0.33,672,Registered,-0.054,C,Change Research
+FL-26,9/27/2018,0.49,0.48,500,Likely,-0.018,B,Greenberg Quinlan Rosner (Democracy Corps)
+OK-05,9/25/2018,0.37,0.5,1407,Likely,0.041,D,VCreek/AMG
+TX-32,9/18/2018,0.47,0.42,555,Voters,-0.021,B,Public Policy Polling
+FL-16,4/17/2018,0.37,0.49,655,Voters,-0.021,B,Public Policy Polling
+Il-12,9/6/2018,0.43,0.44,533,Likely,0.001,A,Sienna College
+FL-26,9/19/2018,0.46,0.45,511,Voters,-0.021,B,Public Policy Polling
+OK-05,9/25/2018,0.37,0.47,303,Likely,0.003,B,SoonerPoll.com
+CA-25,9/23/2018,0.5,0.46,650,Likely,0.025,D,UC Berkeley
+FL-26,9/17/2018,0.44,0.47,509,Likely,-0.001,A,Siena College
+NE-02,9/30/2018,0.45,0.49,400,Likely,-0.018,B,Greenberg Quinlan Rosner (Democracy Corps)
+TX-32,8/1/2018,0.45,0.47,500,Likely,-0.009,B,GBA Strategies
+IA-04,9/8/2018,0.31,0.41,240,Registered,-0.09,B,Emerson College
+Il-12,9/27/2018,0.43,0.44,574,Likely,0.034,D,DCCC Targeting Team
+FL-18,9/30/2018,0.45,0.48,400,Likely,-0.016,C,Global Strategy Group
+CA-24,7/15/2018,0.47,0.46,404,Likely,0.041,D,Olive Tree Strategies
+CA-10,9/23/2018,0.5,0.45,726,Likely,-0.025,D,UC Berkeley
+KS-01,9/22/2018,0.33,0.44,400,Likely,-0.078,D,Jayhawk Consulting
+FL-18,9/16/2018,0.44,0.5,600,Likely,-0.016,C,Global Strategy Group
+AZ-04,9/25/2018,0.25,0.57,370,Likely,0.008,C,OH Predictive Insights/MBQF 
+FL-18,5/6/2018,0.34,0.52,600,Likely,-0.016,C,Global Strategy Group
+FL-26,7/22/2018,0.41,0.48,500,Likely,-0.009,B,GBA Strategies
+CA-25,9/19/2018,0.45,0.47,500,Likely,-0.01,A,Siena College
+OK-05,9/6/2018,0.35,0.49,1182,Likely,0.041,D,VCreek/AMG
+Il-13,4/17/2018,0.42,0.45,726,Voters,0.021,B,Public Policy Polling
+FL-18,9/19/2018,0.43,0.46,533,Voters,-0.025,B,Public Policy Polling
+IA-02,9/11/2018,0.45,0.38,425,Adults,0.031,C,Gravis Marketing
+FL-06,9/19/2018,0.43,0.48,981,Registered,0.002,B,St. Pete Polls
+Il-14,4/17/2018,0.41,0.45,682,Voters,-0.021,B,Public Policy Polling
+FL-26,3/22/2018,0.4,0.45,400,Registered,-0.034,C,DCCC Targeting Team
+CA-25,7/12/2018,0.47,0.47,400,Registered,0.017,C,IMGE Insights
+CA-10,7/1/2018,0.48,0.48,501,Likely,-0.031,B,Garin-Hart Yang Research Group
+SC-01,8/31/2018,0.42,0.49,628,Voters,-0.021,B,Public Policy Polling
+KS-02,9/15/2018,0.45,0.44,500,Likely,-0.001,A,Siena College
+CA-45,9/25/2018,0.48,0.43,518,Likely,0.0049,A,Siena College
+CA-45,9/25/2018,0.48,0.43,518,Likely,0.0049,A,Siena College
+IA-02,9/8/2018,0.45,0.21,250,Registered,-0.009,B,Emerson College
+IA-03,9/30/2018,0.44,0.43,502,Likely,-0.001,A,Siena College
+NE-02,9/26/2018,0.42,0.51,512,Likely,-0.001,A,Siena College
+CA-25,6/21/2018,0.4,0.45,400,Likely,-0.016,C,Global Strategy Group
+FL-25,9/19/2018,0.36,0.41,541,Voters,-0.021,B,Public Policy Polling
+VA-09,6/28/2018,0.41,0.48,400,Likely,0.038,D,Thirty-ninth Street Strategies
+FL-25,5/23/2018,0.39,0.46,650,Voters,-0.021,B,Public Policy Polling
+IL-06,9/6/2018,0.44,0.45,512,Likely,-0.001,A,Siena College
+IA-03,9/8/2018,0.31,0.47,260,Registered,-0.009,B,Emerson College
+CA-25,2/15/2018,0.5,0.4,283,Registered,-0.021,B,Public Policy Polling
+KS-02,9/28/2018,0.35,0.31,243,Registered,0.009,B,Emerson College
+CA-25,1/28/2018,0.53,0.4,650,Likely,-0.056,B,"Fairbank, Maslin, Maullin, Metz & Associates"
+IA-03,9/5/2018,0.46,0.43,575,Likely,-0.034,C,DCCC Targeting Team
+CA-48,9/23/2018,0.48,0.48,623,Likely,-0.0028,D,UC Berkeley
+IL-06,9/6/2018,0.4,0.39,512,Registered,-0.001,A,Siena College
+FL-06,9/6/2018,0.46,0.47,400,Likely,-0.018,B,Greenberg Quinlan Rosner (Democracy Corps)
+SD-01,9/5/2018,0.33,0.54,400,Likely,0.037,B,Public Opinion Strategies
+CO-06,7/17/2018,0.47,0.45,506,Likely,-0.016,C,Global Strategy Group
+VA-10,3/21/2018,0.46,0.43,400,Registered,-0.034,C,DCCC Targeting Team
+SD-01,7/20/2018,0.33,0.43,641,Registered,-0.021,B,Public Policy Polling
+IA-03,7/12/2018,0.45,0.41,500,Likely,-0.044,C,Anzalone Liszt Grove Research
+CA-49,9/23/2018,0.51,0.41,507,Likely,0.0093,A,Siena College
+CO-06,7/12/2018,0.45,0.45,400,Registered,0.0017,C,IMGE Insight
+VA-10,6/24/2018,0.51,0.41,338,Likely,-0.011,A,Monmouth University
+IL-06,7/25/2018,0.37,0.44,600,Likely,0.019,D,Victory Research
+CO-06,2/15/2018,0.44,0.39,751,Registered,-0.021,B,Public Policy Polling
+CA-50,10/1/2018,0.44,0.45,400,Likely,-0.006,B,Tulchin Research
+VA-10,10/2/2018,0.52,0.43,752.5,Likely,-0.031,B,Christopher Newport University
+CO-06,7/11/2018,0.41,0.44,400,Likely,-0.0024,B,"Normington, Petts, and Associates"
+VA-10,9/30/2018,0.51,0.44,374,Likely,0.011,A,Monmouth University
+IL-06,4/23/2018,0.44,0.45,401,Likely,-0.031,B,Garin-Hart-Yang Research Group
+KS-03,8/15/2018,0.48,0.43,400,Likely,-0.016,C,Global Strategy Group
+FL-07,8/30/2018,0.47,0.46,435,Registered,0.002,B,St. Pete Polls
+KS-03,9/20/2018,0.4,0.43,610,Likely,0.042,D,Remington Research Group
+KS-03,9/23/2018,0.51,0.43,494,Likely,-0.001,A,Siena College
+VA-02,10/1/2018,0.41,0.49,500,Likely,-0.001,A,Siene College
+KS-03,9/28/2018,0.47,0.41,246,Registered,-0.009,B,Emerson College
+MT-01,9/16/2018,0.45,0.46,950,Likely,0.006,B,Benenson Strategy Group
+MT-01,9/22/2018,0.42,0.51,710,Likely,0.021,C,Gravis Marketing
+NH-01,9/27/2018,0.4,0.42,400,Likely,0.059,C,OnMessage Inc.
+VA-02,9/28/2018,0.46,0.46,758,Likely,-0.035,C,Change Research
+KS-04,7/19/2018,0.38,0.42,1896,Likely,0.054,D,Change Research
+VA-02,9/8/2018,0.51,0.43,404,Likely,-0.031,B,Garin-Hart-Yang Research Group
+NH-01,9/26/2018,0.55,0.33,400,Registered,-0.05,C,American Research Group
+VA-02,7/1/2018,0.44,0.48,404,Likely,-0.031,B,Garin-Hart-Yang Research Group
+KS-04,9/28/2018,0.26,0.5,256,Registered,0.009,B,Emerson College
+VA-02,4/17/2018,0.42,0.48,609,Voters,-0.021,B,Public Policy Polling 
+VA-07,9/24/2018,0.48,0.46,329,Likely,-0.011,A,Monmout University
+VA-07,9/20/2018,0.47,0.47,400,Likely,-0.024,B,"Normington, Petts, & Associates"
+VA-07,9/12/2018,0.43,0.47,501,Likely,-0.001,A,Siena College
