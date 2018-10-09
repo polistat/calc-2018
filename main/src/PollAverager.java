@@ -18,4 +18,6 @@ public interface PollAverager {
      * @return The standard deviation, where 0.01 is 1%.
      */
     double getStDv(Poll[] polls);
+    double getStDv(Poll[] polls, Map<Grade, Double> gradeQualityPoints);
+
 }
