@@ -43,14 +43,17 @@ public class Simulations {
         //Record the average chance the democrats win each district.
         double[] avgDistrictWinChances = new double[districts.length];
 
+        // Natl shift calculator
+        NationalShiftFunction calc = nationalShiftCalculator.getFunction(districts);
+        
         //Simulate different generic ballots
         for (int i = 0; i < iterations; i++) {
             //Calculate expected dem vote percentage and standard deviation, given a generic ballot percent.
             double genericBallot = genericAverage + generator.nextGaussian() * genericStDv;
-            double nationalShift = nationalShiftCalculator.calcNationalShift(districts, genericBallot);
+            double nationalShift = calc.getNationalShift(genericBallot);
             nationalCorrectionCalculator.calcAll(districts, nationalShift);
             pollCalculator.calcAll(districts);
-
+            
             //Check each district
             double expectedSeats = 0;
             for (int j = 0; j < districts.length; j++) {
@@ -68,10 +71,12 @@ public class Simulations {
                         System.out.println("aaaaaaaaaaaa " + districts[j].getName());
                     }
                 }
-                //The expected number of seats is the sum of the percent chance that democrats win each seat.
-                expectedSeats += winChance;
-                //Sum now, divide later.
-                avgDistrictWinChances[j] += winChance;
+                if (Math.random() < winChance) {
+                	//The expected number of seats is the sum of the percent chance that democrats win each seat.
+                	expectedSeats++;
+                	//Sum now, divide later.
+                	avgDistrictWinChances[j]++;
+                }
             }
             //Histogram uses integers, so we round.
             histogram[(int) Math.round(expectedSeats)] += 1;
@@ -85,7 +90,7 @@ public class Simulations {
         LocalDate today = LocalDate.now();
 
         //Recalculate dem % using average shift
-        double nationalShift = nationalShiftCalculator.calcNationalShift(districts, genericAverage);
+        double nationalShift = calc.getNationalShift(genericAverage);
         nationalCorrectionCalculator.calcAll(districts, nationalShift);
         pollCalculator.calcAll(districts);
 

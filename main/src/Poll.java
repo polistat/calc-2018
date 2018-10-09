@@ -1,11 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A single national or district-level poll.
@@ -88,41 +82,6 @@ public class Poll {
         this.daysBeforeElection = ChronoUnit.DAYS.between(dateTaken, ELECTION_DATE);
         this.pollsterName = pollsterName;
         this.standardDeviation = Math.sqrt(demPercent * (1 - demPercent) / sampleSize);
-    }
-
-    /**
-     * Read a set of national generic ballot polls from a file.
-     *
-     * @param filename The file with the poll data.
-     * @return A list of polls corresponding to the data in the file.
-     * @throws IOException If the file is missing or improperly formatted
-     */
-    public static Poll[] readNationalPolls(String filename) throws IOException {
-        //Define line out here to avoid garbage collection.
-        String line;
-        List<Poll> polls = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
-        //Clear header line
-        reader.readLine();
-        while ((line = reader.readLine()) != null) {
-            String[] commaSplit = line.split(",");
-            //File must be formatted as follows:
-            //final date the poll was taken,dem percent,rep percent,sample size,which voter model was used,pollster
-            // lean,pollster grade,pollster name
-            LocalDate date = LocalDate.parse(commaSplit[0], DateTimeFormatter.ofPattern("M/d/yyyy"));
-            double rawDemPercent = Double.parseDouble(commaSplit[1]);
-            double rawRepPercent = Double.parseDouble(commaSplit[2]);
-            double sampleSize = Double.parseDouble(commaSplit[3]);
-            VoterModel voterModel = VoterModel.parseFromString(commaSplit[4]);
-            double houseLean = Double.parseDouble(commaSplit[5]);
-            Grade grade = Grade.parseGrade(commaSplit[6]);
-            String pollsterName = commaSplit[7];
-            polls.add(new Poll(date, rawDemPercent, rawRepPercent, sampleSize, voterModel, houseLean, grade,
-                    pollsterName));
-        }
-        reader.close();
-
-        return polls.toArray(new Poll[1]);
     }
 
     /**
