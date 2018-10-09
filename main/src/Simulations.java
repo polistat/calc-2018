@@ -52,12 +52,12 @@ public class Simulations {
 
         // Natl shift calculator
         NationalShiftFunction calc = nationalShiftCalculator.getFunction(districts);
+        System.out.println("Shift standard deviation: "+calc.getNationalShiftStDv(genericStDv));
         
         //Simulate different generic ballots
         for (int i = 0; i < iterations; i++) {
             //Calculate expected dem vote percentage and standard deviation, given a generic ballot percent.
-            double genericBallot = genericAverage + generator.nextGaussian() * genericStDv;
-            double nationalShift = calc.getNationalShift(genericBallot);
+            double nationalShift = calc.getNationalShift(genericAverage) + generator.nextGaussian() * calc.getNationalShiftStDv(genericStDv);
             nationalCorrectionCalculator.calcAll(districts, nationalShift);
             pollCalculator.calcAll(districts);
             

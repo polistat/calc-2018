@@ -47,7 +47,17 @@ public class SimpleNatlShiftCalc implements NationalShiftCalculator {
             }
         }
         final double demVoteShare = numerator / denominator;
+
+        double varianceSum = 0;
+        for (District district : districts){
+            if (districtToVoteMap.containsKey(district.getName())) {
+                varianceSum += Math.pow(districtToVoteMap.get(district.getName()) / denominator * district.getFundamentalStDv(), 2);
+            }
+        }
+
+        double stDv = Math.sqrt(varianceSum);
+
         //Return the difference between the generic ballot and our predicted national percent of dem votes.
-        return genericDemPercent -> (genericDemPercent - demVoteShare);
+        return new SimpleNationalShiftFunction(demVoteShare, stDv);
     }
 }
