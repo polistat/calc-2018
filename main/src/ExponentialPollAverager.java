@@ -1,3 +1,5 @@
+import java.util.Map;
+
 /**
  * Averages polls using a weighting function that's an exponential decay over time.
  */

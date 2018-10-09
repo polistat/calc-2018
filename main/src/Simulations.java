@@ -55,7 +55,7 @@ public class Simulations {
             pollCalculator.calcAll(districts);
             
             //Check each district
-            double expectedSeats = 0;
+            int expectedSeats = 0;
             for (int j = 0; j < districts.length; j++) {
                 double winChance;
                 //Normal.normalCDF doesn't like standard deviations of 0, so we handle that here.
@@ -79,7 +79,7 @@ public class Simulations {
                 }
             }
             //Histogram uses integers, so we round.
-            histogram[(int) Math.round(expectedSeats)] += 1;
+            histogram[expectedSeats] += 1;
         }
 
         //Divide the district win chances.
