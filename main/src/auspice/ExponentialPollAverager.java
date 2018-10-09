@@ -1,3 +1,7 @@
+package auspice;
+
+import dataholder.Poll;
+
 /**
  * Averages polls using a weighting function that's an exponential decay over time.
  */

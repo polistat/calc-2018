@@ -1,3 +1,15 @@
+import auspice.*;
+import bigmood.DZhuNatlShiftCalc;
+import bigmood.NationalCorrectionCalculator;
+import bigmood.NationalShiftCalculator;
+import bigmood.SimpleNationalCorrection;
+import dataholder.District;
+import dataholder.Grade;
+import dataholder.Poll;
+import seer.FundamentalCalculator;
+import seer.LinearFundamentalCalculator;
+import util.DataReader;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -13,7 +25,7 @@ public class Main {
      * @throws IOException If a file needed somewhere is improperly formatted or missing.
      */
     public static void main(String[] args) throws IOException {
-        //Grade quality points are hard-coded.
+        //dataholder.Grade quality points are hard-coded.
         Map<Grade, Double> gradeQualityPoints = new HashMap<>();
         gradeQualityPoints.put(Grade.A, 0.176981753181247);
         gradeQualityPoints.put(Grade.B, 0.150950231708606);

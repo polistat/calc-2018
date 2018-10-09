@@ -1,3 +1,5 @@
+package util;
+
 /**
  * I don't know how this works so don't ask. Blatantly stolen from http://dst.lbl.gov/ACSSoftware/colt/.
  */

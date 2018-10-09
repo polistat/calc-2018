@@ -1,3 +1,7 @@
+package seer;
+
+import dataholder.District;
+
 /**
  * Calculates the fundamentals as a linear function of Blair Partisan Index (BPI) and incumbency. BPI is itself a linear
  * function of obama margin, hillary margin, and democrat 2014 & 2016 margins.

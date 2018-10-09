@@ -1,3 +1,10 @@
+import auspice.PollCalculator;
+import bigmood.NationalCorrectionCalculator;
+import bigmood.NationalShiftCalculator;
+import bigmood.NationalShiftFunction;
+import dataholder.District;
+import util.Normal;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -58,7 +65,7 @@ public class Simulations {
             int expectedSeats = 0;
             for (int j = 0; j < districts.length; j++) {
                 double winChance;
-                //Normal.normalCDF doesn't like standard deviations of 0, so we handle that here.
+                //util.Normal.normalCDF doesn't like standard deviations of 0, so we handle that here.
                 if (districts[j].getFinalStDv() == 0) {
                     winChance = districts[j].getFinalDemPercent() > 0.5 ? 1 : 0;
                 } else {

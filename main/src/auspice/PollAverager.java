@@ -1,3 +1,7 @@
+package auspice;
+
+import dataholder.Poll;
+
 /**
  * Finds the average democratic vote percent and standard deviation for a list of polls.
  */

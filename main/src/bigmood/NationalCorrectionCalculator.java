@@ -1,3 +1,7 @@
+package bigmood;
+
+import dataholder.District;
+
 /**
  * Use the national shift to adjust an individual district's expected democratic vote percent.
  */

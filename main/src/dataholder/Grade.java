@@ -1,3 +1,5 @@
+package dataholder;
+
 /**
  * An enum representing 538's pollster grades.
  */
@@ -5,7 +7,7 @@ public enum Grade {
     A, B, C, D;
 
     /**
-     * Parse a Grade object from a character. Not case-sensitive.
+     * Parse a dataholder.Grade object from a character. Not case-sensitive.
      *
      * @param grade A character representing a grade.
      * @return The corresponding grade, or null if the letter entered isn't A, B, C, or D.
@@ -25,7 +27,7 @@ public enum Grade {
     }
 
     /**
-     * Parse a Grade object from the first character of a string. Not case-sensitive.
+     * Parse a dataholder.Grade object from the first character of a string. Not case-sensitive.
      *
      * @param grade A string representing a grade.
      * @return The corresponding grade, or null if the letter entered isn't A, B, C, or D.

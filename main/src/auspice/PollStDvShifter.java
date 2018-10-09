@@ -1,3 +1,9 @@
+package auspice;
+
+import dataholder.District;
+import dataholder.Grade;
+import dataholder.Poll;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -1,3 +1,7 @@
+package auspice;
+
+import dataholder.District;
+
 /**
  * Predict democratic votes percent using district-level polls or Blairvoyance.
  */

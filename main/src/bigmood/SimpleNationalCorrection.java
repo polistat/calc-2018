@@ -1,3 +1,7 @@
+package bigmood;
+
+import dataholder.District;
+
 /**
  * Applies the national correction by multiplying by elasticity then adding to fundamental percent.
  */

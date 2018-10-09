@@ -1,3 +1,5 @@
+package dataholder;
+
 /**
  * A representation of a single congressional district.
  */
@@ -119,9 +121,9 @@ public class District {
      * @param demRunning             Whether a democrat is running in this district's general election.
      */
     public District(String name, Poll[] polls, boolean repIncumbent,
-                     boolean demIncumbent, double obama2012, Double dem2014,
-                     double hillary2016, Double dem2016, double elasticity,
-                     Double blairvoyanceDemPercent, boolean repRunning, boolean demRunning) {
+                    boolean demIncumbent, double obama2012, Double dem2014,
+                    double hillary2016, Double dem2016, double elasticity,
+                    Double blairvoyanceDemPercent, boolean repRunning, boolean demRunning) {
         this.name = name;
         this.polls = polls;
         this.repIncumbent = repIncumbent;

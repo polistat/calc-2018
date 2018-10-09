@@ -1,3 +1,4 @@
+package bigmood;
 
 public interface NationalShiftFunction {
 	/**

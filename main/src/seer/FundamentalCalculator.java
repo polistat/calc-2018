@@ -1,3 +1,7 @@
+package seer;
+
+import dataholder.District;
+
 /**
  * Calculates the "fundamental" percent of democratic vote for a district, given only background information about the
  * district like voting history and incumbency.

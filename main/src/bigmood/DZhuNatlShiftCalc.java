@@ -1,10 +1,12 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
+package bigmood;
+
+import dataholder.District;
+import util.DataReader;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 /**
  * Calculate the national shift using Daniel Zhu's method of interpolating with
@@ -65,8 +67,6 @@ public class DZhuNatlShiftCalc implements NationalShiftCalculator {
 	 *
 	 * @param districts         A list of every district, with the fundamental dem
 	 *                          win percent filled in.
-	 * @param genericDemPercent The democratic share of the two-party vote on the
-	 *                          national generic ballot, from 0 to 1.
 	 * @return The national shift to apply to each district, where 0.01 is 1% in
 	 *         favor of the democrats and -0.01 is 1% for the republicans.
 	 */
