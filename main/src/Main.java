@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Central class for running everything.
@@ -23,6 +20,8 @@ public class Main {
         gradeQualityPoints.put(Grade.C, 0.130417204637636);
         gradeQualityPoints.put(Grade.D, 0.076745970836531);
 
+        double[] avgGradeStDvs = {0.056503, 0.066247, 0.076677, 0.1303};
+
         //Which states got redistricted when is hard-coded.
         Set<String> redistricted2018 = new HashSet<>();
         redistricted2018.add("PA");
@@ -41,6 +40,9 @@ public class Main {
         //Read in the districts
         District[] districts = DataReader.parseFromCSV("district_input.csv", "poll_input.csv",
                 "blairvoyance_input.csv");
+
+        //Shift average poll standard deviations to match historical data.
+        PollStDvShifter.shiftPolls(districts, avgGradeStDvs);
 
         //Calculate fundamentals
         fundamentalCalculator.calcAll(districts);
@@ -67,7 +69,7 @@ public class Main {
 
         //Weight the polls vs fundamentals using arctan.
         PollCalculator pollCalculator = new ArctanPollCalculator(pollAverager, gradeQualityPoints, 1. / 167.,
-                0.9, 0, 16.6, 0.0, 0.05);
+                0.75, 0, 13.19, 0.0, 0.05);
 
         //Run simulations
         System.out.println("Dem win chance: " + (100. * Simulations.write(districts, nationalPollAverage, 0.02,

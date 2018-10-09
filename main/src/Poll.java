@@ -51,9 +51,13 @@ public class Poll {
      */
     private final double demPercent;
     /**
-     * The standard deviation of this poll.
+     * The standard deviation of this poll, according to just the sample size..
      */
-    private final double standardDeviation;
+    private final double theoreticalStandardDeviation;
+    /**
+     * The adjusted standard deviation of this poll.
+     */
+    private double standardDeviation;
 
     /**
      * Default constructor.
@@ -81,7 +85,9 @@ public class Poll {
         this.grade = grade;
         this.daysBeforeElection = ChronoUnit.DAYS.between(dateTaken, ELECTION_DATE);
         this.pollsterName = pollsterName;
-        this.standardDeviation = Math.sqrt(demPercent * (1 - demPercent) / sampleSize);
+        this.theoreticalStandardDeviation = Math.sqrt(demPercent * (1 - demPercent) / sampleSize);
+        //Start with adjusted the same as theoretical
+        this.standardDeviation = this.theoreticalStandardDeviation;
     }
 
     /**
@@ -156,10 +162,24 @@ public class Poll {
     }
 
     /**
-     * @return The standard deviation of this poll.
+     * @return The standard deviation of this poll, according to just the sample size.
+     */
+    public double getTheoreticalStandardDeviation() {
+        return theoreticalStandardDeviation;
+    }
+
+    /**
+     * @return The adjusted standard deviation of this poll.
      */
     public double getStandardDeviation() {
         return standardDeviation;
+    }
+
+    /**
+     * @param standardDeviation The adjusted standard deviation of this poll.
+     */
+    public void setStandardDeviation(double standardDeviation) {
+        this.standardDeviation = standardDeviation;
     }
 
     /**
