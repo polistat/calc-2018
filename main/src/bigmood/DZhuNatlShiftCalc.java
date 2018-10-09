@@ -74,22 +74,18 @@ public class DZhuNatlShiftCalc implements NationalShiftCalculator {
 	public NationalShiftFunction getFunction(District[] districts) {
 		double numerator = 0;
 		double denominator = 0;
+		double varianceSum = 0;
 
 		// Find the total number of democrat votes we expect and total number of dem
 		// votes we expect
 		for (District district : districts) {
 			numerator += districtToVoteMap.get(district.getName()) * district.getFundamentalDemPercent();
+			varianceSum += Math.pow(districtToVoteMap.get(district.getName()) * district.getFundamentalStDv(), 2);
 			denominator += districtToVoteMap.get(district.getName());
 		}
 
 		double demBaseline = numerator / denominator;
-
-		double varianceSum = 0;
-		for (District district : districts){
-			varianceSum += Math.pow(districtToVoteMap.get(district.getName())/denominator * district.getFundamentalStDv(), 2);
-		}
-
-		double stDv = Math.sqrt(varianceSum);
+		double stDv = Math.sqrt(varianceSum)/denominator;
 
 		// Return the difference between the generic ballot and our predicted national
 		// percent of dem votes.
