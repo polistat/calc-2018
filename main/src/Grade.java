@@ -33,4 +33,18 @@ public enum Grade {
     public static Grade parseGrade(String grade) {
         return parseGrade(grade.charAt(0));
     }
+    
+    public static int indexGrade(Grade grade) {
+        switch (grade) {
+            case A:
+                return 0;
+            case B:
+                return 1;
+            case C:
+                return 2;
+            case D:
+                return 3;
+        }
+        return 4;
+    }
 }

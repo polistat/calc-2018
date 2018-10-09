@@ -58,4 +58,34 @@ public class ExponentialPollAverager implements PollAverager {
         //Take the square root of the variance to get the standard deviation.
         return Math.sqrt(variance);
     }
+    
+    public double getStDv(Poll[] polls, Map<Grade, Double> gradeQualityPoints) {
+    	double[] avgPollStDv = new double[4]; // average poll StDv by grade
+    	int[] countPollsByGrade = new int[4]; // number of polls of certain grade
+    	for (Poll poll : polls) {
+    		avgPollStDv[Grade.indexGrade(poll.getGrade())] += poll.getStandardDeviation();
+    		countPollsByGrade[Grade.indexGrade(poll.getGrade())]++;
+    	}
+    	for (int i = 0; i < 4; i++) {
+    		if (countPollsByGrade[i] != 0) {
+    			avgPollStDv[i] /= countPollsByGrade[i];
+    		}
+    	}
+    	
+    	//Sum all of the weights
+        double weightSum = 0;
+        for (Poll poll : polls) {
+            weightSum += Math.exp(-exponentialCoefficient * poll.getDaysBeforeElection());
+        }
+
+        double variance = 0;
+        //Find the variance as the sum of the (normalized weight * poll SD)^2
+        for (Poll poll : polls) {
+            variance += Math.pow(Math.exp(-exponentialCoefficient * poll.getDaysBeforeElection()) / weightSum * 
+            		(poll.getStandardDeviation() + (.01 / gradeQualityPoints.get(poll.getGrade()) - avgPollStDv[Grade.indexGrade(poll.getGrade())])), 2);
+        }
+        //Take the square root of the variance to get the standard deviation.
+        return Math.sqrt(variance);
+    	
+    }
 }
