@@ -99,7 +99,7 @@ public class ArctanPollCalculator extends PollCalculator {
             //If there's no polls, just use Blairvoyance.
             pollAverage = district.getBlairvoyanceDemPercent();
             pollStDv = blairvoyanceStDv;
-            pollWeight = blairvoyanceWeight;
+            pollWeight = blairvoyanceWeight * district.getBlairvoyanceWeight();
         }
 
         //Weights are normalized already so we don't need to divide or anything
