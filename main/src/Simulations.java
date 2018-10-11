@@ -49,13 +49,15 @@ public class Simulations {
         //Simulate different generic ballots
         for (int i = 0; i < iterations; i++) {
             //Calculate expected dem vote percentage and standard deviation, given a generic ballot percent.
-            double genericBallot = genericAverage + generator.nextGaussian() * genericStDv;
+            double genericBallot = genericAverage;
             double nationalShift = calc.getNationalShift(genericBallot);
             nationalCorrectionCalculator.calcAll(districts, nationalShift);
             pollCalculator.calcAll(districts);
             
+            double noise = genericStDv*generator.nextGaussian();
+            
             //Check each district
-            double expectedSeats = 0;
+            int expectedSeats = 0;
             for (int j = 0; j < districts.length; j++) {
                 double winChance;
                 //Normal.normalCDF doesn't like standard deviations of 0, so we handle that here.
@@ -64,7 +66,8 @@ public class Simulations {
                 } else {
                     //Since the vote percent is normally distributed, we can just calculate the chance that democrats
                     // win.
-                    winChance = 1 - Normal.normalCDF(districts[j].getFinalDemPercent(), districts[j].getFinalStDv(),
+                    winChance = 1 - Normal.normalCDF(districts[j].getFinalDemPercent() + noise*districts[j].getElasticity(), 
+                    		Math.sqrt(Math.pow(districts[j].getFinalStDv(),2)-Math.pow(genericStDv*districts[j].getElasticity(),2)),
                             0.5);
                     //If a win chance is less than 0% or more than 100%, something has gone horribly wrong.
                     if (winChance > 1 || winChance < 0) {
@@ -79,7 +82,7 @@ public class Simulations {
                 }
             }
             //Histogram uses integers, so we round.
-            histogram[(int) Math.round(expectedSeats)] += 1;
+            histogram[expectedSeats] += 1;
         }
 
         //Divide the district win chances.

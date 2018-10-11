@@ -112,9 +112,11 @@ public class LinearFundamentalCalculator extends FundamentalCalculator {
         //Not else if because PA-17 has both a democrat and republican incumbent.
         if (district.isDemIncumbent()) {
             predictedDemMargin += this.demIncumbentWeight;
+            //predictedDemMargin += this.demIncumbentWeight * district.getElasticity();
         }
         if (district.isRepIncumbent()) {
             predictedDemMargin += this.repIncumbentWeight;
+            //predictedDemMargin += this.repIncumbentWeight * district.getElasticity();
         }
 
         //Convert from margin to %.
