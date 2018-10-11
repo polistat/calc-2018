@@ -95,6 +95,8 @@ public class District {
      * The standard deviation of the final prediction.
      */
     private double finalStDv;
+    
+    private int dInc14, rInc14, dInc16, rInc16;
 
     /**
      * Default constructor.
@@ -121,7 +123,8 @@ public class District {
     public District(String name, Poll[] polls, boolean repIncumbent,
                      boolean demIncumbent, double obama2012, Double dem2014,
                      double hillary2016, Double dem2016, double elasticity,
-                     Double blairvoyanceDemPercent, boolean repRunning, boolean demRunning) {
+                     Double blairvoyanceDemPercent, boolean repRunning, boolean demRunning,
+                     int dInc14, int rInc14, int dInc16, int rInc16) {
         this.name = name;
         this.polls = polls;
         this.repIncumbent = repIncumbent;
@@ -130,6 +133,10 @@ public class District {
         this.dem2014 = dem2014;
         this.hillary2016 = hillary2016;
         this.dem2016 = dem2016;
+        this.dInc14 = dInc14;
+        this.rInc14 = rInc14;
+        this.dInc16 = dInc16;
+        this.rInc16 = rInc16;
         this.elasticity = elasticity;
         this.blairvoyanceDemPercent = blairvoyanceDemPercent;
         this.contested = repRunning && demRunning;
@@ -207,7 +214,23 @@ public class District {
         return dem2016;
     }
 
-    /**
+    public int getdInc14() {
+		return dInc14;
+	}
+
+	public int getrInc14() {
+		return rInc14;
+	}
+
+	public int getdInc16() {
+		return dInc16;
+	}
+
+	public int getrInc16() {
+		return rInc16;
+	}
+
+	/**
      * @return 538's elasticity score for this district, representing how much it's affected by changes in the national
      * mood.
      */
