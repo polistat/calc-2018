@@ -56,6 +56,12 @@ public class District {
      * null if Blairvoyance doesn't have a prediction.
      */
     private final Double blairvoyanceDemPercent;
+	
+    /**
+     * The weight assigned to each district based on how well Blairvoyance can predict the results. Because Blairvoyance is
+     * based on polling, which happens in close districts, this number is larger for closer districts.
+     */
+    private final Double blairvoyanceWeight;
 
     /**
      * Whether a republican and a democrat are running against each other in this district's general election. A
@@ -123,7 +129,7 @@ public class District {
     public District(String name, Poll[] polls, boolean repIncumbent,
                      boolean demIncumbent, double obama2012, Double dem2014,
                      double hillary2016, Double dem2016, double elasticity,
-                     Double blairvoyanceDemPercent, boolean repRunning, boolean demRunning,
+                     Double blairvoyanceDemPercent, Double blairvoyanceWeight, boolean repRunning, boolean demRunning,
                      int dInc14, int rInc14, int dInc16, int rInc16) {
         this.name = name;
         this.polls = polls;
@@ -139,6 +145,7 @@ public class District {
         this.rInc16 = rInc16;
         this.elasticity = elasticity;
         this.blairvoyanceDemPercent = blairvoyanceDemPercent;
+	this.blairvoyanceWeight = blairvoyanceWeight;
         this.contested = repRunning && demRunning;
 
         if (!contested) {
@@ -244,6 +251,13 @@ public class District {
      */
     public Double getBlairvoyanceDemPercent() {
         return blairvoyanceDemPercent;
+    }
+    
+    /**
+     * @return The weight for Blairvoyance in this specific district.
+     */
+    public Double getBlairvoyanceWeight() {
+        return blairvoyanceWeight;
     }
 
     /**

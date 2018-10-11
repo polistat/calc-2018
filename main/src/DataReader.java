@@ -101,12 +101,14 @@ public class DataReader {
         //Associate district names to Blairvoyance predictions so they can be used later when constructing district
         // objects.
         Map<String, Double> nameToBlairvoyanceMap = new HashMap<>();
+	Map<String, Double> nameToBlairvoyanceWeight = new HashMap<>();
         while ((line = blairvoyanceFileReader.readLine()) != null) {
             String[] commaSplit = line.split(",");
             //File must be formatted as follows:
-            //district name,dem percent according to blairvoyance
+            //district name,dem percent according to blairvoyance,weight for blairvoyance
             String name = commaSplit[0].toUpperCase(); //Capitalize state postal code
             nameToBlairvoyanceMap.put(name, Double.parseDouble(commaSplit[1]));
+	    nameToBlairvoyanceWeight.put(name, Double.parseDouble(commaSplit[2]));
         }
         blairvoyanceFileReader.close();
 
@@ -157,12 +159,14 @@ public class DataReader {
 
             //Find the Blairvoyance data for this district, or leave it null if there's none.
             Double blairvoyanceDemPercent = null;
+	    Double blairvoyanceWeight = null;
             if (nameToBlairvoyanceMap.containsKey(name)) {
                 blairvoyanceDemPercent = nameToBlairvoyanceMap.get(name);
+		blairvoyanceWeight = nameToBlairvoyanceWeight.get(name);
             }
 
             toRet.add(new District(name, polls, repIncumbent, demIncumbent, obama2012, dem2014,
-                    hillary2016, dem2016, elasticity, blairvoyanceDemPercent, repRunning, demRunning,
+                    hillary2016, dem2016, elasticity, blairvoyanceDemPercent, blairvoyanceWeight, repRunning, demRunning,
                     dInc14, rInc14, dInc16, rInc16));
         }
         districtFileReader.close();
