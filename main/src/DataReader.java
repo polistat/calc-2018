@@ -143,6 +143,11 @@ public class DataReader {
             double elasticity = Double.parseDouble(commaSplit[7]);
             boolean repRunning = Boolean.parseBoolean(commaSplit[8]);
             boolean demRunning = Boolean.parseBoolean(commaSplit[9]);
+            
+            int dInc14 = Integer.parseInt(commaSplit[10]);
+            int rInc14 = Integer.parseInt(commaSplit[11]);
+            int dInc16 = Integer.parseInt(commaSplit[12]);
+            int rInc16 = Integer.parseInt(commaSplit[13]);
 
             //Find all the polls for this district, or leave polls null if there are none.
             Poll[] polls = null;
@@ -157,7 +162,8 @@ public class DataReader {
             }
 
             toRet.add(new District(name, polls, repIncumbent, demIncumbent, obama2012, dem2014,
-                    hillary2016, dem2016, elasticity, blairvoyanceDemPercent, repRunning, demRunning));
+                    hillary2016, dem2016, elasticity, blairvoyanceDemPercent, repRunning, demRunning,
+                    dInc14, rInc14, dInc16, rInc16));
         }
         districtFileReader.close();
 
