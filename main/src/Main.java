@@ -67,7 +67,7 @@ public class Main {
 
         //Weight the polls vs fundamentals using arctan.
         PollCalculator pollCalculator = new ArctanPollCalculator(pollAverager, gradeQualityPoints, 1. / 167.,
-                0.95, 0, 6.12, 0.265, 0.08);
+                0.95, 0, 6.12, 0.497, 0.077);
 
         //Run simulations
         System.out.println("Dem win chance: " + (100. * Simulations.write(districts, nationalPollAverage, 0.0138,
