@@ -84,7 +84,7 @@ public class DZhuNatlShiftCalc implements NationalShiftCalculator {
 		for (District district : districts) {
 			districtVotes = districtToVoteMap.get(district.getName()) * district.getFundamentalDemPercent();
 			numerator += districtVotes;
-			varianceSum += Math.pow(districtVotes, 2);
+			varianceSum += Math.pow(districtVotes*district.getFundamentalStDv(), 2);
 			denominator += districtToVoteMap.get(district.getName());
 		}
 
