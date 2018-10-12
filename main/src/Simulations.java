@@ -54,15 +54,14 @@ public class Simulations {
         NationalShiftFunction calc = nationalShiftCalculator.getFunction(districts);
         System.out.println("Shift standard deviation: " + calc.getNationalShiftStDv(genericStDv));
 
+        double avgExpectedSeats = 0;
+
         //Simulate different generic ballots
         for (int i = 0; i < iterations; i++) {
             //Calculate expected dem vote percentage and standard deviation, given a generic ballot percent.
-//            double nationalShift = calc.getNationalShift(genericAverage) + generator.nextGaussian() * calc.getNationalShiftStDv(genericStDv);
             double nationalShift = calc.getNationalShift(genericAverage);
             nationalCorrectionCalculator.calcAll(districts, nationalShift);
             pollCalculator.calcAll(districts);
-
-//            double noise = genericStDv*generator.nextGaussian();
             double noise = calc.getNationalShiftStDv(genericStDv) * generator.nextGaussian();
 
             //Check each district
@@ -92,7 +91,11 @@ public class Simulations {
             }
             //Histogram uses integers, so we round.
             histogram[expectedSeats] += 1;
+            avgExpectedSeats += expectedSeats;
         }
+
+        //Divide the expected seats
+        avgExpectedSeats /= iterations;
 
         //Divide the district win chances.
         for (int i = 0; i < avgDistrictWinChances.length; i++) {
@@ -107,11 +110,13 @@ public class Simulations {
         pollCalculator.calcAll(districts);
 
         //Record the day this simulation was run, the final expected democratic vote percent, the standard deviation
-        // of the vote percent, and the chance democrats win the district.
+        // of the vote percent, the chance democrats win the district, the SEER percent, and the bigmood percent.
         for (int i = 0; i < districts.length; i++) {
             out1.println(today.getYear() + "," + today.getMonthValue() + "," +
                     today.getDayOfMonth() + "," + districts[i].getName() + ","
-                    + districts[i].getFinalDemPercent() + "," + districts[i].getFinalStDv() + "," + avgDistrictWinChances[i]);
+                    + districts[i].getFinalDemPercent() + "," + districts[i].getFinalStDv() + ","
+                    + avgDistrictWinChances[i] + "," + districts[i].getFundamentalDemPercent() + ","
+                    + districts[i].getGenericCorrectedDemPercent());
         }
 
 
@@ -129,6 +134,8 @@ public class Simulations {
         //Make it a probability
         out2.println(totalDemProb / iterations);
 
+        //Add expected seats
+        out2.println(avgExpectedSeats);
 
         out1.close();
         out2.close();

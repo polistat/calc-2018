@@ -107,7 +107,7 @@ public class District {
     /**
      * Whether there were Democrat/Republican incumbents in past elections.
      */
-    private int dInc14, rInc14, dInc16, rInc16;
+    private final int dInc14, rInc14, dInc16, rInc16;
 
     /**
      * Default constructor.
