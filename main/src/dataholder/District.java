@@ -58,6 +58,12 @@ public class District {
      * null if Blairvoyance doesn't have a prediction.
      */
     private final Double blairvoyanceDemPercent;
+	
+    /**
+     * The weight assigned to each district based on how well Blairvoyance can predict the results. Because Blairvoyance is
+     * based on polling, which happens in close districts, this number is larger for closer districts.
+     */
+    private final Double blairvoyanceWeight;
 
     /**
      * Whether a republican and a democrat are running against each other in this district's general election. A
@@ -99,6 +105,11 @@ public class District {
     private double finalStDv;
 
     /**
+     * Whether there were Democrat/Republican incumbents in past elections.
+     */
+    private int dInc14, rInc14, dInc16, rInc16;
+
+    /**
      * Default constructor.
      *
      * @param name                   The name of this district, in the format ST-##, where ST is the state's postal code
@@ -121,9 +132,10 @@ public class District {
      * @param demRunning             Whether a democrat is running in this district's general election.
      */
     public District(String name, Poll[] polls, boolean repIncumbent,
-                    boolean demIncumbent, double obama2012, Double dem2014,
-                    double hillary2016, Double dem2016, double elasticity,
-                    Double blairvoyanceDemPercent, boolean repRunning, boolean demRunning) {
+                     boolean demIncumbent, double obama2012, Double dem2014,
+                     double hillary2016, Double dem2016, double elasticity,
+                     Double blairvoyanceDemPercent, Double blairvoyanceWeight, boolean repRunning, boolean demRunning,
+                     int dInc14, int rInc14, int dInc16, int rInc16) {
         this.name = name;
         this.polls = polls;
         this.repIncumbent = repIncumbent;
@@ -132,8 +144,13 @@ public class District {
         this.dem2014 = dem2014;
         this.hillary2016 = hillary2016;
         this.dem2016 = dem2016;
+        this.dInc14 = dInc14;
+        this.rInc14 = rInc14;
+        this.dInc16 = dInc16;
+        this.rInc16 = rInc16;
         this.elasticity = elasticity;
         this.blairvoyanceDemPercent = blairvoyanceDemPercent;
+        this.blairvoyanceWeight = blairvoyanceWeight;
         this.contested = repRunning && demRunning;
 
         if (!contested) {
@@ -209,7 +226,23 @@ public class District {
         return dem2016;
     }
 
-    /**
+    public int getdInc14() {
+		return dInc14;
+	}
+
+	public int getrInc14() {
+		return rInc14;
+	}
+
+	public int getdInc16() {
+		return dInc16;
+	}
+
+	public int getrInc16() {
+		return rInc16;
+	}
+
+	/**
      * @return 538's elasticity score for this district, representing how much it's affected by changes in the national
      * mood.
      */
@@ -223,6 +256,13 @@ public class District {
      */
     public Double getBlairvoyanceDemPercent() {
         return blairvoyanceDemPercent;
+    }
+    
+    /**
+     * @return The weight for Blairvoyance in this specific district.
+     */
+    public Double getBlairvoyanceWeight() {
+        return blairvoyanceWeight;
     }
 
     /**

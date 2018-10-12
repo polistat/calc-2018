@@ -39,8 +39,8 @@ public class Main {
 
         //Simple linear fundamentals.
         FundamentalCalculator fundamentalCalculator = new LinearFundamentalCalculator(0.133,
-                0.278, 0.244, 0.345, 1.1645,
-                0.1558, -0.1405, 0.1, 0.15);
+                0.278, 0.244, 0.345, 2,
+                0.06815999728, -0.08171914802, 0.132, 0.149);
 
         //Use Daniel's thing because it's better.
         NationalShiftCalculator natlShiftCalc = new DZhuNatlShiftCalc("2014.csv",
@@ -78,10 +78,10 @@ public class Main {
 
         //Weight the polls vs fundamentals using arctan.
         PollCalculator pollCalculator = new ArctanPollCalculator(pollAverager, gradeQualityPoints, 1. / 167.,
-                0.75, 0, 13.19, 0.0, 0.05);
+                0.95, 0, 6.12, 0.497, 0.077);
 
         //Run simulations
-        System.out.println("Dem win chance: " + (100. * Simulations.write(districts, nationalPollAverage, 0.02,
+        System.out.println("Dem win chance: " + (100. * Simulations.write(districts, nationalPollAverage, 0.0138,
                 natlShiftCalc, natlCorrectCalc, pollCalculator,
                 100000)) + "%");
     }

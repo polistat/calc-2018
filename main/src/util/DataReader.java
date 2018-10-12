@@ -105,12 +105,14 @@ public class DataReader {
         //Associate district names to Blairvoyance predictions so they can be used later when constructing district
         // objects.
         Map<String, Double> nameToBlairvoyanceMap = new HashMap<>();
+        Map<String, Double> nameToBlairvoyanceWeight = new HashMap<>();
         while ((line = blairvoyanceFileReader.readLine()) != null) {
             String[] commaSplit = line.split(",");
             //File must be formatted as follows:
-            //district name,dem percent according to blairvoyance
+            //district name,dem percent according to blairvoyance,weight for blairvoyance
             String name = commaSplit[0].toUpperCase(); //Capitalize state postal code
             nameToBlairvoyanceMap.put(name, Double.parseDouble(commaSplit[1]));
+            nameToBlairvoyanceWeight.put(name, Double.parseDouble(commaSplit[2]));
         }
         blairvoyanceFileReader.close();
 
@@ -122,7 +124,7 @@ public class DataReader {
             String[] commaSplit = line.split(",");
             //File must be formatted as follows:
             //district name,rep incumbent (1 or 0),dem incumbent (1 or 0),Obama's 2012 margin,dem 2014 margin,
-            // Hillary's 2016 margin,dem 2016 margin,elasticity,rep running (true or false),dem running (true or false)
+            // Hillary's 2016 margin,dem 2016 margin,elasticity,rep running (true or false),dem running (true or false), dem incumbent 2014 (1 or 0), rep incumbent 2014 (1 or 0), dem incumbent 2016 (1 or 0), rep incumbent 2016 (1 or 0)
             String name = commaSplit[0].toUpperCase(); //Capitalize state postal code
             boolean repIncumbent = Integer.parseInt(commaSplit[1]) == 1;
             boolean demIncumbent = Integer.parseInt(commaSplit[2]) == 1;
@@ -148,6 +150,11 @@ public class DataReader {
             boolean repRunning = Boolean.parseBoolean(commaSplit[8]);
             boolean demRunning = Boolean.parseBoolean(commaSplit[9]);
 
+            int dInc14 = Integer.parseInt(commaSplit[10]);
+            int rInc14 = Integer.parseInt(commaSplit[11]);
+            int dInc16 = Integer.parseInt(commaSplit[12]);
+            int rInc16 = Integer.parseInt(commaSplit[13]);
+
             //Find all the polls for this district, or leave polls null if there are none.
             Poll[] polls = null;
             if (nameToPollMap.containsKey(name)) {
@@ -156,52 +163,55 @@ public class DataReader {
 
             //Find the Blairvoyance data for this district, or leave it null if there's none.
             Double blairvoyanceDemPercent = null;
+            Double blairvoyanceWeight = null;
             if (nameToBlairvoyanceMap.containsKey(name)) {
                 blairvoyanceDemPercent = nameToBlairvoyanceMap.get(name);
+                blairvoyanceWeight = nameToBlairvoyanceWeight.get(name);
             }
 
             toRet.add(new District(name, polls, repIncumbent, demIncumbent, obama2012, dem2014,
-                    hillary2016, dem2016, elasticity, blairvoyanceDemPercent, repRunning, demRunning));
+                    hillary2016, dem2016, elasticity, blairvoyanceDemPercent, blairvoyanceWeight, repRunning, demRunning,
+                    dInc14, rInc14, dInc16, rInc16));
         }
         districtFileReader.close();
 
         return toRet.toArray(new District[435]);
     }
 
-	public static Map<String, Integer> get2014Turnout(String file) throws IOException {
-		String line;
-		BufferedReader fileReader = new BufferedReader(new FileReader(file));
-	    //Clear header
-	    fileReader.readLine();
-	    Map<String, Integer> districtToVoteMap = new HashMap<>();
-	    while ((line = fileReader.readLine()) != null) {
-	        String[] splitLine = line.split(",");
-	        int demVote = Integer.parseInt(splitLine[1]);
-	        int repVote = Integer.parseInt(splitLine[2]);
-	        //Only count contested districts
-	        if (demVote != 0 && repVote != 0) {
-	            districtToVoteMap.put(splitLine[0].toUpperCase(), demVote + repVote);
-	        }
-	    }
-	    fileReader.close();
-	    
-	    return districtToVoteMap;
-	}
-	
-	public static Map<String, Integer> get2016Turnout(String file) throws IOException {
-		String line;
-		BufferedReader fileReader = new BufferedReader(new FileReader(file));
-	    //Clear header
-	    fileReader.readLine();
-	    Map<String, Integer> districtToVoteMap = new HashMap<>();
-	    while ((line = fileReader.readLine()) != null) {
-	        String[] splitLine = line.split(",");
-	        int votes = Integer.parseInt(splitLine[1]);
-	        districtToVoteMap.put(splitLine[0].toUpperCase(), votes);
-	    }
-	    fileReader.close();
-	    
-	    return districtToVoteMap;
-	}
+    public static Map<String, Integer> get2014Turnout(String file) throws IOException {
+        String line;
+        BufferedReader fileReader = new BufferedReader(new FileReader(file));
+        //Clear header
+        fileReader.readLine();
+        Map<String, Integer> districtToVoteMap = new HashMap<>();
+        while ((line = fileReader.readLine()) != null) {
+            String[] splitLine = line.split(",");
+            int demVote = Integer.parseInt(splitLine[1]);
+            int repVote = Integer.parseInt(splitLine[2]);
+            //Only count contested districts
+            if (demVote != 0 && repVote != 0) {
+                districtToVoteMap.put(splitLine[0].toUpperCase(), demVote + repVote);
+            }
+        }
+        fileReader.close();
+
+        return districtToVoteMap;
+    }
+
+    public static Map<String, Integer> get2016Turnout(String file) throws IOException {
+        String line;
+        BufferedReader fileReader = new BufferedReader(new FileReader(file));
+        //Clear header
+        fileReader.readLine();
+        Map<String, Integer> districtToVoteMap = new HashMap<>();
+        while ((line = fileReader.readLine()) != null) {
+            String[] splitLine = line.split(",");
+            int votes = Integer.parseInt(splitLine[1]);
+            districtToVoteMap.put(splitLine[0].toUpperCase(), votes);
+        }
+        fileReader.close();
+
+        return districtToVoteMap;
+    }
 
 }
