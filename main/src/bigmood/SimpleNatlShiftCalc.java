@@ -36,26 +36,25 @@ public class SimpleNatlShiftCalc implements NationalShiftCalculator {
      */
     @Override
     public NationalShiftFunction getFunction(District[] districts) {
+        //Dummy variable to avoid garbage collection
+        double districtVotes;
+
         double numerator = 0;
         double denominator = 0;
+        double varianceSum = 0;
+
         //Find the total number of democrat votes we expect and total number of dem votes we expect, in districts
         // where 2014 was contested.
         for (District district : districts) {
             if (districtToVoteMap.containsKey(district.getName())) {
-                numerator += districtToVoteMap.get(district.getName()) * district.getFundamentalDemPercent();
+                districtVotes = districtToVoteMap.get(district.getName()) * district.getFundamentalDemPercent();
+                numerator += districtVotes;
+                varianceSum += Math.pow(districtVotes, 2);
                 denominator += districtToVoteMap.get(district.getName());
             }
         }
         final double demVoteShare = numerator / denominator;
-
-        double varianceSum = 0;
-        for (District district : districts){
-            if (districtToVoteMap.containsKey(district.getName())) {
-                varianceSum += Math.pow(districtToVoteMap.get(district.getName()) / denominator * district.getFundamentalStDv(), 2);
-            }
-        }
-
-        double stDv = Math.sqrt(varianceSum);
+        double stDv = Math.sqrt(varianceSum)/denominator;
 
         //Return the difference between the generic ballot and our predicted national percent of dem votes.
         return new SimpleNationalShiftFunction(demVoteShare, stDv);

@@ -1,8 +1,5 @@
 import auspice.*;
-import bigmood.DZhuNatlShiftCalc;
-import bigmood.NationalCorrectionCalculator;
-import bigmood.NationalShiftCalculator;
-import bigmood.SimpleNationalCorrection;
+import bigmood.*;
 import dataholder.District;
 import dataholder.Grade;
 import dataholder.Poll;

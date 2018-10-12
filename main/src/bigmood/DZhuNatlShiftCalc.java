@@ -72,6 +72,9 @@ public class DZhuNatlShiftCalc implements NationalShiftCalculator {
 	 */
 	@Override
 	public NationalShiftFunction getFunction(District[] districts) {
+		//Dummy variable to avoid garbage collection
+		double districtVotes;
+
 		double numerator = 0;
 		double denominator = 0;
 		double varianceSum = 0;
@@ -79,8 +82,9 @@ public class DZhuNatlShiftCalc implements NationalShiftCalculator {
 		// Find the total number of democrat votes we expect and total number of dem
 		// votes we expect
 		for (District district : districts) {
-			numerator += districtToVoteMap.get(district.getName()) * district.getFundamentalDemPercent();
-			varianceSum += Math.pow(districtToVoteMap.get(district.getName()) * district.getFundamentalStDv(), 2);
+			districtVotes = districtToVoteMap.get(district.getName()) * district.getFundamentalDemPercent();
+			numerator += districtVotes;
+			varianceSum += Math.pow(districtVotes, 2);
 			denominator += districtToVoteMap.get(district.getName());
 		}
 

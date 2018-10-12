@@ -29,7 +29,6 @@ public class PollStDvShifter {
             stDvByGrade[i] /= numPollsByGrade[i];
             shiftByGrade[i] = avgGradeStDvs[i] - stDvByGrade[i];
         }
-        System.out.println(Arrays.toString(shiftByGrade));
         for (Poll poll : allDistrictPolls){
             poll.setStandardDeviation(poll.getTheoreticalStandardDeviation() +
                     shiftByGrade[Grade.indexGrade(poll.getGrade())]);
