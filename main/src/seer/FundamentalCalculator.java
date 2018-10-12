@@ -32,8 +32,8 @@ public abstract class FundamentalCalculator {
      */
     public void calcAll(District[] districts) {
         for (District district : districts) {
-            district.setFundamentalDemPercent(calcFundamentalDemPercent(district));
-            district.setFundamentalStDv(calcFundamentalStDv(district));
+            district.setSeerDemPercent(calcFundamentalDemPercent(district));
+            district.setSeerStDv(calcFundamentalStDv(district));
         }
     }
 }

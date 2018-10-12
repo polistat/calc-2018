@@ -69,13 +69,13 @@ public class Simulations {
             for (int j = 0; j < districts.length; j++) {
                 double winChance;
                 //util.Normal.normalCDF doesn't like standard deviations of 0, so we handle that here.
-                if (districts[j].getFinalStDv() == 0) {
-                    winChance = districts[j].getFinalDemPercent() > 0.5 ? 1 : 0;
+                if (districts[j].getAuspiceStDv() == 0) {
+                    winChance = districts[j].getAuspiceDemPercent() > 0.5 ? 1 : 0;
                 } else {
                     //Since the vote percent is normally distributed, we can just calculate the chance that democrats
                     // win.
-                    winChance = 1 - Normal.normalCDF(districts[j].getFinalDemPercent() + noise * districts[j].getElasticity(),
-                            Math.sqrt(Math.pow(districts[j].getFinalStDv(), 2) - Math.pow(genericStDv * districts[j].getElasticity(), 2)),
+                    winChance = 1 - Normal.normalCDF(districts[j].getAuspiceDemPercent() + noise * districts[j].getElasticity(),
+                            Math.sqrt(Math.pow(districts[j].getAuspiceStDv(), 2) - Math.pow(genericStDv * districts[j].getElasticity(), 2)),
                             0.5);
                     //If a win chance is less than 0% or more than 100%, something has gone horribly wrong.
                     if (winChance > 1 || winChance < 0) {
@@ -114,9 +114,9 @@ public class Simulations {
         for (int i = 0; i < districts.length; i++) {
             out1.println(today.getYear() + "," + today.getMonthValue() + "," +
                     today.getDayOfMonth() + "," + districts[i].getName() + ","
-                    + districts[i].getFinalDemPercent() + "," + districts[i].getFinalStDv() + ","
-                    + avgDistrictWinChances[i] + "," + districts[i].getFundamentalDemPercent() + ","
-                    + districts[i].getGenericCorrectedDemPercent());
+                    + districts[i].getAuspiceDemPercent() + "," + districts[i].getAuspiceStDv() + ","
+                    + avgDistrictWinChances[i] + "," + districts[i].getSeerDemPercent() + ","
+                    + districts[i].getBigmoodDemPercent());
         }
 
 

@@ -101,16 +101,16 @@ public class LinearFundamentalCalculator extends FundamentalCalculator {
         //If 2014 was uncontested, don't use it in the numerator or include its weight in the denominator.
         if (district.getDem2014() != null) {
             numerator += dem2014weight * (district.getDem2014()
-                    - district.getdInc14() * demIncumbentWeight / 2
-                    - district.getrInc14() * repIncumbentWeight / 2);
+                    - district.getDemInc14() * demIncumbentWeight / 2
+                    - district.getRepInc14() * repIncumbentWeight / 2);
             denominator += dem2014weight;
         }
 
         //Same for 2016.
         if (district.getDem2016() != null) {
             numerator += dem2016weight * (district.getDem2016()
-                    - district.getdInc16() * demIncumbentWeight / 2
-                    - district.getrInc16() * repIncumbentWeight / 2);
+                    - district.getDemInc16() * demIncumbentWeight / 2
+                    - district.getRepInc16() * repIncumbentWeight / 2);
             denominator += dem2016weight;
         }
 

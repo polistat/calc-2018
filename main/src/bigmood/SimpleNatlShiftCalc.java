@@ -47,9 +47,9 @@ public class SimpleNatlShiftCalc implements NationalShiftCalculator {
         // where 2014 was contested.
         for (District district : districts) {
             if (districtToVoteMap.containsKey(district.getName())) {
-                districtVotes = districtToVoteMap.get(district.getName()) * district.getFundamentalDemPercent();
+                districtVotes = districtToVoteMap.get(district.getName()) * district.getSeerDemPercent();
                 numerator += districtVotes;
-                varianceSum += Math.pow(districtVotes * district.getFundamentalStDv(), 2);
+                varianceSum += Math.pow(districtVotes * district.getSeerStDv(), 2);
                 denominator += districtToVoteMap.get(district.getName());
             }
         }

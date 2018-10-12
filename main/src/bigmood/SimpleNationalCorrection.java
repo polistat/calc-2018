@@ -18,7 +18,7 @@ public class SimpleNationalCorrection extends NationalCorrectionCalculator {
      */
     @Override
     public double calcNationalDemPercent(District district, double nationalShift) {
-        return district.getFundamentalDemPercent() + district.getElasticity() * nationalShift;
+        return district.getSeerDemPercent() + district.getElasticity() * nationalShift;
     }
 
     /**
@@ -34,6 +34,6 @@ public class SimpleNationalCorrection extends NationalCorrectionCalculator {
      */
     @Override
     public double calcNationalStDv(District district, double nationalShift) {
-        return district.getFundamentalStDv();
+        return district.getSeerStDv();
     }
 }

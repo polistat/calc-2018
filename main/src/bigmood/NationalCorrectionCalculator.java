@@ -43,8 +43,8 @@ public abstract class NationalCorrectionCalculator {
     public void calcAll(District[] districts, double nationalShift) {
         for (District district : districts) {
             if (district.isContested()) {
-                district.setGenericCorrectedDemPercent(calcNationalDemPercent(district, nationalShift));
-                district.setGenericCorrectedStDv(calcNationalStDv(district, nationalShift));
+                district.setBigmoodDemPercent(calcNationalDemPercent(district, nationalShift));
+                district.setBigmoodStDv(calcNationalStDv(district, nationalShift));
             }
         }
     }

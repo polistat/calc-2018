@@ -78,9 +78,9 @@ public class DZhuNatlShiftCalc implements NationalShiftCalculator {
         // Find the total number of democrat votes we expect and total number of dem
         // votes we expect
         for (District district : districts) {
-            districtVotes = districtToVoteMap.get(district.getName()) * district.getFundamentalDemPercent();
+            districtVotes = districtToVoteMap.get(district.getName()) * district.getSeerDemPercent();
             numerator += districtVotes;
-            varianceSum += Math.pow(districtVotes * district.getFundamentalStDv(), 2);
+            varianceSum += Math.pow(districtVotes * district.getSeerStDv(), 2);
             denominator += districtToVoteMap.get(district.getName());
         }
 

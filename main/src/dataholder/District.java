@@ -60,7 +60,7 @@ public class District {
     private final Double blairvoyanceDemPercent;
 
     /**
-     * The weight assigned to each district based on how well Blairvoyance can predict the results. Because Blairvoyance
+     * The weight assigned to this district based on how well Blairvoyance can predict the results. Because Blairvoyance
      * is based on polling, which happens in close districts, this number is larger for closer districts.
      */
     private final Double blairvoyanceWeight;
@@ -74,40 +74,40 @@ public class District {
 
     /**
      * The predicted percent of the two-party vote the democrats will win in this district, according to the
-     * fundamentals model.
+     * SEER model.
      */
-    private double fundamentalDemPercent;
+    private double seerDemPercent;
 
     /**
-     * The standard deviation of the fundamentals model's prediction.
+     * The standard deviation of the SEER model's prediction.
      */
-    private double fundamentalStDv;
+    private double seerStDv;
 
     /**
      * The predicted percent of the two-party vote the democrats will win in this district, according to the
-     * fundamentals model corrected for the national mood.
+     * SEER model corrected for the national mood.
      */
-    private double genericCorrectedDemPercent;
+    private double bigmoodDemPercent;
 
     /**
-     * The standard deviation of the fundamentals model's prediction, corrected for the national mood.
+     * The standard deviation of the SEER model's prediction, corrected for the national mood.
      */
-    private double genericCorrectedStDv;
+    private double bigmoodStDv;
 
     /**
-     * The final prediction for what percent of the two-party vote the democrats will win in this district.
+     * The AUSPICE prediction for what percent of the two-party vote the democrats will win in this district.
      */
-    private double finalDemPercent;
+    private double auspiceDemPercent;
 
     /**
-     * The standard deviation of the final prediction.
+     * The standard deviation of the AUSPICE prediction.
      */
-    private double finalStDv;
+    private double auspiceStDv;
 
     /**
      * Whether there were Democrat/Republican incumbents in past elections.
      */
-    private final int dInc14, rInc14, dInc16, rInc16;
+    private final int demInc14, repInc14, demInc16, repInc16;
 
     /**
      * Default constructor.
@@ -128,14 +128,19 @@ public class District {
      *                               changes in the national mood.
      * @param blairvoyanceDemPercent The percent of the two-party vote democrats will get in this district according to
      *                               Blairvoyance, from 0 to 1, or null if Blairvoyance doesn't have a prediction.
+     * @param blairvoyanceWeight The weight assigned to this district based on how well Blairvoyance can predict the results. Because Blairvoyance is based on polling, which happens in close districts, this number is larger for closer districts.
      * @param repRunning             Whether a republican is running in this district's general election.
      * @param demRunning             Whether a democrat is running in this district's general election.
+     * @param demInc14 Whether a Democrat was incumbent in this district in 2014.
+     * @param repInc14 Whether a Republican was incumbent in this district in 2014.
+     * @param demInc16 Whether a Democrat was incumbent in this district in 2016.
+     * @param repInc16 Whether a Republican was incumbent in this district in 2016.
      */
     public District(String name, Poll[] polls, boolean repIncumbent,
                     boolean demIncumbent, double obama2012, Double dem2014,
                     double hillary2016, Double dem2016, double elasticity,
                     Double blairvoyanceDemPercent, Double blairvoyanceWeight, boolean repRunning, boolean demRunning,
-                    int dInc14, int rInc14, int dInc16, int rInc16) {
+                    int demInc14, int repInc14, int demInc16, int repInc16) {
         this.name = name;
         this.polls = polls;
         this.repIncumbent = repIncumbent;
@@ -144,10 +149,10 @@ public class District {
         this.dem2014 = dem2014;
         this.hillary2016 = hillary2016;
         this.dem2016 = dem2016;
-        this.dInc14 = dInc14;
-        this.rInc14 = rInc14;
-        this.dInc16 = dInc16;
-        this.rInc16 = rInc16;
+        this.demInc14 = demInc14;
+        this.repInc14 = repInc14;
+        this.demInc16 = demInc16;
+        this.repInc16 = repInc16;
         this.elasticity = elasticity;
         this.blairvoyanceDemPercent = blairvoyanceDemPercent;
         this.blairvoyanceWeight = blairvoyanceWeight;
@@ -155,14 +160,14 @@ public class District {
 
         if (!contested) {
             //Set generic and final percents, but not fundamentals because we use them to calculate shift.
-            this.genericCorrectedStDv = 0;
-            this.finalStDv = 0;
+            this.bigmoodStDv = 0;
+            this.auspiceStDv = 0;
             if (!repRunning) {
-                this.genericCorrectedDemPercent = 1;
-                this.finalDemPercent = 1;
+                this.bigmoodDemPercent = 1;
+                this.auspiceDemPercent = 1;
             } else {
-                this.genericCorrectedDemPercent = 0;
-                this.finalDemPercent = 0;
+                this.bigmoodDemPercent = 0;
+                this.auspiceDemPercent = 0;
             }
         }
     }
@@ -226,20 +231,32 @@ public class District {
         return dem2016;
     }
 
-    public int getdInc14() {
-        return dInc14;
+    /**
+     * @return 1 if a Democrat was incumbent in this district in 2014, 0 otherwise.
+     */
+    public int getDemInc14() {
+        return demInc14;
     }
 
-    public int getrInc14() {
-        return rInc14;
+    /**
+     * @return 1 if a Republican was incumbent in this district in 2014, 0 otherwise.
+     */
+    public int getRepInc14() {
+        return repInc14;
     }
 
-    public int getdInc16() {
-        return dInc16;
+    /**
+     * @return 1 if a Democrat was incumbent in this district in 2016, 0 otherwise.
+     */
+    public int getDemInc16() {
+        return demInc16;
     }
 
-    public int getrInc16() {
-        return rInc16;
+    /**
+     * @return 1 if a Republican was incumbent in this district in 2016, 0 otherwise.
+     */
+    public int getRepInc16() {
+        return repInc16;
     }
 
     /**
@@ -259,7 +276,7 @@ public class District {
     }
 
     /**
-     * @return The weight for Blairvoyance in this specific district.
+     * @return The weight assigned to this district based on how well Blairvoyance can predict the results. Because Blairvoyance is based on polling, which happens in close districts, this number is larger for closer districts.
      */
     public Double getBlairvoyanceWeight() {
         return blairvoyanceWeight;
@@ -267,92 +284,91 @@ public class District {
 
     /**
      * @return The predicted percent of the two-party vote the democrats will win in this district, according to the
-     * fundamentals model.
+     * SEER model.
      */
-    public double getFundamentalDemPercent() {
-        return fundamentalDemPercent;
+    public double getSeerDemPercent() {
+        return seerDemPercent;
     }
 
     /**
-     * @param fundamentalDemPercent The predicted percent of the two-party vote the democrats will win in this district,
-     *                              according to the fundamentals model.
+     * @param seerDemPercent The predicted percent of the two-party vote the democrats will win in this district, according to the SEER model.
      */
-    public void setFundamentalDemPercent(double fundamentalDemPercent) {
-        this.fundamentalDemPercent = fundamentalDemPercent;
+    public void setSeerDemPercent(double seerDemPercent) {
+        this.seerDemPercent = seerDemPercent;
     }
 
     /**
      * @return The predicted percent of the two-party vote the democrats will win in this district, according to the
-     * fundamentals model corrected for the national mood.
+     * SEER model corrected for the national mood.
      */
-    public double getGenericCorrectedDemPercent() {
-        return genericCorrectedDemPercent;
+    public double getBigmoodDemPercent() {
+        return bigmoodDemPercent;
     }
 
     /**
-     * @param genericCorrectedDemPercent The predicted percent of the two-party vote the democrats will win in this
-     *                                   district, according to the fundamentals model corrected for the national mood.
+     * @param bigmoodDemPercent The predicted percent of the two-party vote the democrats will win in this
+     *                                   district, according to the SEER model corrected for the national mood.
      */
-    public void setGenericCorrectedDemPercent(double genericCorrectedDemPercent) {
-        this.genericCorrectedDemPercent = genericCorrectedDemPercent;
+    public void setBigmoodDemPercent(double bigmoodDemPercent) {
+        this.bigmoodDemPercent = bigmoodDemPercent;
     }
 
     /**
-     * @return The final prediction for what percent of the two-party vote the democrats will win in this district.
+     * @return The AUSPICE prediction for what percent of the two-party vote the democrats will win in this district.
      */
-    public double getFinalDemPercent() {
-        return finalDemPercent;
+    public double getAuspiceDemPercent() {
+        return auspiceDemPercent;
     }
 
     /**
-     * @param finalDemPercent The final prediction for what percent of the two-party vote the democrats will win in this
+     * @param auspiceDemPercent The AUSPICE prediction for what percent of the two-party vote the democrats will win in this
      *                        district.
      */
-    public void setFinalDemPercent(double finalDemPercent) {
-        this.finalDemPercent = finalDemPercent;
+    public void setAuspiceDemPercent(double auspiceDemPercent) {
+        this.auspiceDemPercent = auspiceDemPercent;
     }
 
     /**
-     * @return The standard deviation of the fundamentals model's prediction.
+     * @return The standard deviation of the SEER model's prediction.
      */
-    public double getFundamentalStDv() {
-        return fundamentalStDv;
+    public double getSeerStDv() {
+        return seerStDv;
     }
 
     /**
-     * @param fundamentalStDv The standard deviation of the fundamentals model's prediction.
+     * @param seerStDv The standard deviation of the SEER model's prediction.
      */
-    public void setFundamentalStDv(double fundamentalStDv) {
-        this.fundamentalStDv = fundamentalStDv;
+    public void setSeerStDv(double seerStDv) {
+        this.seerStDv = seerStDv;
     }
 
     /**
-     * @return The standard deviation of the fundamentals model's prediction, corrected for the national mood.
+     * @return The standard deviation of the SEER model's prediction, corrected for the national mood.
      */
-    public double getGenericCorrectedStDv() {
-        return genericCorrectedStDv;
+    public double getBigmoodStDv() {
+        return bigmoodStDv;
     }
 
     /**
-     * @param genericCorrectedStDv The standard deviation of the fundamentals model's prediction, corrected for the
+     * @param bigmoodStDv The standard deviation of the SEER model's prediction, corrected for the
      *                             national mood.
      */
-    public void setGenericCorrectedStDv(double genericCorrectedStDv) {
-        this.genericCorrectedStDv = genericCorrectedStDv;
+    public void setBigmoodStDv(double bigmoodStDv) {
+        this.bigmoodStDv = bigmoodStDv;
     }
 
     /**
-     * @return The standard deviation of the final prediction.
+     * @return The standard deviation of the AUSPICE prediction.
      */
-    public double getFinalStDv() {
-        return finalStDv;
+    public double getAuspiceStDv() {
+        return auspiceStDv;
     }
 
     /**
-     * @param finalStDv The standard deviation of the final prediction.
+     * @param auspiceStDv The standard deviation of the AUSPICE prediction.
      */
-    public void setFinalStDv(double finalStDv) {
-        this.finalStDv = finalStDv;
+    public void setAuspiceStDv(double auspiceStDv) {
+        this.auspiceStDv = auspiceStDv;
     }
 
     /**
@@ -375,6 +391,6 @@ public class District {
     public String toString() {
         return getName() + ", polls: " + this.hasPolls() + ", dem2014: " + this.getDem2014() + ", dem2016: " + this.getDem2016()
                 + ", Obama: " + this.getObama2012() + ", Hillary: " + this.getHillary2016() + ", fundamental dem %: " +
-                this.getFundamentalDemPercent() + ", final dem %: " + this.getFinalDemPercent();
+                this.getSeerDemPercent() + ", final dem %: " + this.getAuspiceDemPercent();
     }
 }

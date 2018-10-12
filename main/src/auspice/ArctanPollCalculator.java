@@ -108,9 +108,9 @@ public class ArctanPollCalculator extends PollCalculator {
         }
 
         //Weights are normalized already so we don't need to divide or anything
-        district.setFinalDemPercent(pollWeight * pollAverage + (1 - pollWeight) * district.getGenericCorrectedDemPercent());
+        district.setAuspiceDemPercent(pollWeight * pollAverage + (1 - pollWeight) * district.getBigmoodDemPercent());
 
         //Pythagorean theorem of statistics
-        district.setFinalStDv(Math.sqrt(Math.pow(pollStDv * pollWeight, 2) + Math.pow(district.getGenericCorrectedStDv() * (1 - pollWeight), 2)));
+        district.setAuspiceStDv(Math.sqrt(Math.pow(pollStDv * pollWeight, 2) + Math.pow(district.getBigmoodStDv() * (1 - pollWeight), 2)));
     }
 }
