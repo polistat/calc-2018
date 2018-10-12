@@ -1,5 +1,8 @@
 import auspice.*;
-import bigmood.*;
+import bigmood.DZhuNatlShiftCalc;
+import bigmood.NationalCorrectionCalculator;
+import bigmood.NationalShiftCalculator;
+import bigmood.SimpleNationalCorrection;
 import dataholder.District;
 import dataholder.Grade;
 import dataholder.Poll;
@@ -8,7 +11,10 @@ import seer.LinearFundamentalCalculator;
 import util.DataReader;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Central class for running everything.
@@ -22,7 +28,7 @@ public class Main {
      * @throws IOException If a file needed somewhere is improperly formatted or missing.
      */
     public static void main(String[] args) throws IOException {
-        //dataholder.Grade quality points are hard-coded.
+        //Grade quality points are hard-coded.
         Map<Grade, Double> gradeQualityPoints = new HashMap<>();
         gradeQualityPoints.put(Grade.A, 0.176981753181247);
         gradeQualityPoints.put(Grade.B, 0.150950231708606);
@@ -68,7 +74,7 @@ public class Main {
         //Log generic ballot average and the corresponding shift.
         System.out.println("National average: " + Math.round(nationalPollAverage * 10000.) / 100. + "%");
         System.out.println("Mean shift: " + Math.round(natlShiftCalc.getFunction(districts)
-        		.getNationalShift(nationalPollAverage) * 10000.) / 100. + " percentage points");
+                .getNationalShift(nationalPollAverage) * 10000.) / 100. + " percentage points");
 
         //Define the national correction calculator.
         NationalCorrectionCalculator natlCorrectCalc = new SimpleNationalCorrection();

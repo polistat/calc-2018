@@ -35,7 +35,7 @@ public enum Grade {
     public static Grade parseGrade(String grade) {
         return parseGrade(grade.charAt(0));
     }
-    
+
     public static int indexGrade(Grade grade) {
         switch (grade) {
             case A:

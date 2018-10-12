@@ -58,10 +58,10 @@ public class District {
      * null if Blairvoyance doesn't have a prediction.
      */
     private final Double blairvoyanceDemPercent;
-	
+
     /**
-     * The weight assigned to each district based on how well Blairvoyance can predict the results. Because Blairvoyance is
-     * based on polling, which happens in close districts, this number is larger for closer districts.
+     * The weight assigned to each district based on how well Blairvoyance can predict the results. Because Blairvoyance
+     * is based on polling, which happens in close districts, this number is larger for closer districts.
      */
     private final Double blairvoyanceWeight;
 
@@ -132,10 +132,10 @@ public class District {
      * @param demRunning             Whether a democrat is running in this district's general election.
      */
     public District(String name, Poll[] polls, boolean repIncumbent,
-                     boolean demIncumbent, double obama2012, Double dem2014,
-                     double hillary2016, Double dem2016, double elasticity,
-                     Double blairvoyanceDemPercent, Double blairvoyanceWeight, boolean repRunning, boolean demRunning,
-                     int dInc14, int rInc14, int dInc16, int rInc16) {
+                    boolean demIncumbent, double obama2012, Double dem2014,
+                    double hillary2016, Double dem2016, double elasticity,
+                    Double blairvoyanceDemPercent, Double blairvoyanceWeight, boolean repRunning, boolean demRunning,
+                    int dInc14, int rInc14, int dInc16, int rInc16) {
         this.name = name;
         this.polls = polls;
         this.repIncumbent = repIncumbent;
@@ -227,22 +227,22 @@ public class District {
     }
 
     public int getdInc14() {
-		return dInc14;
-	}
+        return dInc14;
+    }
 
-	public int getrInc14() {
-		return rInc14;
-	}
+    public int getrInc14() {
+        return rInc14;
+    }
 
-	public int getdInc16() {
-		return dInc16;
-	}
+    public int getdInc16() {
+        return dInc16;
+    }
 
-	public int getrInc16() {
-		return rInc16;
-	}
+    public int getrInc16() {
+        return rInc16;
+    }
 
-	/**
+    /**
      * @return 538's elasticity score for this district, representing how much it's affected by changes in the national
      * mood.
      */
@@ -257,7 +257,7 @@ public class District {
     public Double getBlairvoyanceDemPercent() {
         return blairvoyanceDemPercent;
     }
-    
+
     /**
      * @return The weight for Blairvoyance in this specific district.
      */

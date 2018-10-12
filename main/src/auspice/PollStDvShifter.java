@@ -10,9 +10,9 @@ import java.util.List;
 
 public class PollStDvShifter {
 
-    public static void shiftPolls(District[] districts, double[] avgGradeStDvs){
+    public static void shiftPolls(District[] districts, double[] avgGradeStDvs) {
         List<Poll> allDistrictPolls = new ArrayList<>();
-        for (District district : districts){
+        for (District district : districts) {
             if (district.hasPolls()) {
                 allDistrictPolls.addAll(Arrays.asList(district.getPolls()));
             }
@@ -21,15 +21,15 @@ public class PollStDvShifter {
         double[] stDvByGrade = new double[4];
         double[] numPollsByGrade = new double[4];
         double[] shiftByGrade = new double[4];
-        for (Poll poll : allDistrictPolls){
+        for (Poll poll : allDistrictPolls) {
             stDvByGrade[Grade.indexGrade(poll.getGrade())] += poll.getTheoreticalStandardDeviation();
             numPollsByGrade[Grade.indexGrade(poll.getGrade())]++;
         }
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             stDvByGrade[i] /= numPollsByGrade[i];
             shiftByGrade[i] = avgGradeStDvs[i] - stDvByGrade[i];
         }
-        for (Poll poll : allDistrictPolls){
+        for (Poll poll : allDistrictPolls) {
             poll.setStandardDeviation(poll.getTheoreticalStandardDeviation() +
                     shiftByGrade[Grade.indexGrade(poll.getGrade())]);
         }

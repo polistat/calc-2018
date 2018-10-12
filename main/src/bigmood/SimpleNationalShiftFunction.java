@@ -1,23 +1,28 @@
 package bigmood;
 
 /**
- * A simple function of the generic democrat percent and standard deviation that gives the national shift and standard deviation.
+ * A simple function of the generic democrat percent and standard deviation that gives the national shift and standard
+ * deviation.
  */
-public class SimpleNationalShiftFunction implements NationalShiftFunction{
+public class SimpleNationalShiftFunction implements NationalShiftFunction {
 
     /**
      * What percent of the national vote we expect democrats to receive based only on fundamentals.
      */
     private final double demBaseLine;
     /**
-     * The standard deviation of the percent of the national vote we expect democrats to receive based only on fundamentals.
+     * The standard deviation of the percent of the national vote we expect democrats to receive based only on
+     * fundamentals.
      */
     private final double demBaseLineStDv;
 
     /**
      * Default constructor.
-     * @param demBaseLine What percent of the national vote we expect democrats to receive based only on fundamentals.
-     * @param demBaseLineStDv The standard deviation of the percent of the national vote we expect democrats to receive based only on fundamentals.
+     *
+     * @param demBaseLine     What percent of the national vote we expect democrats to receive based only on
+     *                        fundamentals.
+     * @param demBaseLineStDv The standard deviation of the percent of the national vote we expect democrats to receive
+     *                        based only on fundamentals.
      */
     public SimpleNationalShiftFunction(double demBaseLine, double demBaseLineStDv) {
         this.demBaseLine = demBaseLine;

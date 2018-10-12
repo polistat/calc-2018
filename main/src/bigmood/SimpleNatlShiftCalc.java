@@ -26,11 +26,11 @@ public class SimpleNatlShiftCalc implements NationalShiftCalculator {
     public SimpleNatlShiftCalc(String congressionalTurnout2014) throws IOException {
         districtToVoteMap = DataReader.get2014Turnout(congressionalTurnout2014);
     }
-    
+
     /**
      * Calculate the national shift.
      *
-     * @param districts         A list of every district, with the fundamental dem win percent filled in.
+     * @param districts A list of every district, with the fundamental dem win percent filled in.
      * @return The national shift to apply to each district, where 0.01 is 1% in favor of the democrats and -0.01 is 1%
      * for the republicans.
      */
@@ -49,12 +49,12 @@ public class SimpleNatlShiftCalc implements NationalShiftCalculator {
             if (districtToVoteMap.containsKey(district.getName())) {
                 districtVotes = districtToVoteMap.get(district.getName()) * district.getFundamentalDemPercent();
                 numerator += districtVotes;
-                varianceSum += Math.pow(districtVotes*district.getFundamentalStDv(), 2);
+                varianceSum += Math.pow(districtVotes * district.getFundamentalStDv(), 2);
                 denominator += districtToVoteMap.get(district.getName());
             }
         }
         final double demVoteShare = numerator / denominator;
-        double stDv = Math.sqrt(varianceSum)/denominator;
+        double stDv = Math.sqrt(varianceSum) / denominator;
 
         //Return the difference between the generic ballot and our predicted national percent of dem votes.
         return new SimpleNationalShiftFunction(demVoteShare, stDv);
