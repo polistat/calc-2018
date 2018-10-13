@@ -30,3 +30,5 @@ hs_err_pid*
 outputP.txt
 district_results.csv
 histogram.csv
+.RData
+.Rhistory
