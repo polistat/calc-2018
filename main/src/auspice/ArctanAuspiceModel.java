@@ -7,7 +7,7 @@ import dataholder.Poll;
 import java.util.Map;
 
 /**
- * Predict democratic votes percent using district-level polls or Blairvoyance. The weight of the polls versus the
+ * Predict Democratic votes percent using district-level polls or Blairvoyance. The weight of the polls versus the
  * shifted fundamentals is an arctan function.
  */
 public class ArctanAuspiceModel extends AuspiceModel {
@@ -44,7 +44,7 @@ public class ArctanAuspiceModel extends AuspiceModel {
     private final double blairvoyanceWeight;
 
     /**
-     * The standard deviation of the Blairvoyance predicted democrat percent.
+     * The standard deviation of the Blairvoyance predicted Democrat percent.
      */
     private final double blairvoyanceStDv;
 
@@ -63,7 +63,7 @@ public class ArctanAuspiceModel extends AuspiceModel {
      *                           arctanShift.
      * @param blairvoyanceWeight The weight to give to Blairvoyance relative to the shifted fundamentals in districts
      *                           with no polls, from 0 to 1.
-     * @param blairvoyanceStDv   The standard deviation of the Blairvoyance predicted democrat percent.
+     * @param blairvoyanceStDv   The standard deviation of the Blairvoyance predicted Democrat percent.
      */
     public ArctanAuspiceModel(PollAverager pollAverager, Map<Grade, Double> gradeQualityPoints,
                               double daysCoefficient, double maxPollWeight, double arctanShift,
@@ -79,7 +79,7 @@ public class ArctanAuspiceModel extends AuspiceModel {
     }
 
     /**
-     * Calculate democratic vote percent and standard deviation using the polls in that district or Blairvoyance. This
+     * Calculate Democratic vote percent and standard deviation using the polls in that district or Blairvoyance. This
      * modifies the district's auspiceDemPercent and auspiceDemStDv.
      *
      * @param district A district with the bigmood dem percent and standard deviation already calculated.

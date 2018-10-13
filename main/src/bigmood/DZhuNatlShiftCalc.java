@@ -63,8 +63,8 @@ public class DZhuNatlShiftCalc implements NationalShiftCalculator {
      * Calculate the national shift.
      *
      * @param districts A list of every district, with the fundamental dem win percent filled in.
-     * @return The national shift to apply to each district, where 0.01 is 1% in favor of the democrats and -0.01 is 1%
-     * for the republicans.
+     * @return The national shift to apply to each district, where 0.01 is 1% in favor of the Democrats and -0.01 is 1%
+     * for the Republicans.
      */
     @Override
     public NationalShiftFunction getFunction(District[] districts) {
@@ -75,7 +75,7 @@ public class DZhuNatlShiftCalc implements NationalShiftCalculator {
         double denominator = 0;
         double varianceSum = 0;
 
-        // Find the total number of democrat votes we expect and total number of dem
+        // Find the total number of Democrat votes we expect and total number of dem
         // votes we expect
         for (District district : districts) {
             districtVotes = districtToVoteMap.get(district.getName()) * district.getSeerDemPercent();

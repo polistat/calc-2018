@@ -3,7 +3,7 @@ package bigmood;
 import dataholder.District;
 
 /**
- * Calculates the national shift from the democratic percent of the vote on the national generic ballot.
+ * Calculates the national shift from the Democratic percent of the vote on the national generic ballot.
  */
 public interface NationalShiftCalculator {
 

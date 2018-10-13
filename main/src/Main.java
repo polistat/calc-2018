@@ -1,13 +1,13 @@
 import auspice.*;
+import bigmood.BigmoodModel;
 import bigmood.DZhuNatlShiftCalc;
-import bigmood.NationalCorrectionCalculator;
 import bigmood.NationalShiftCalculator;
-import bigmood.SimpleNationalCorrection;
+import bigmood.SimpleBigmoodModel;
 import dataholder.District;
 import dataholder.Grade;
 import dataholder.Poll;
-import seer.FundamentalCalculator;
-import seer.LinearFundamentalCalculator;
+import seer.LinearSeerModel;
+import seer.SeerModel;
 import util.DataReader;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class Main {
         redistricted2016.add("NC");
 
         //Simple linear fundamentals.
-        FundamentalCalculator fundamentalCalculator = new LinearFundamentalCalculator(0.133,
+        SeerModel seerModel = new LinearSeerModel(0.133,
                 0.278, 0.244, 0.345, 2,
                 0.06815999728, -0.08171914802, 0.132, 0.149);
 
@@ -60,7 +60,7 @@ public class Main {
         PollStDvShifter.shiftPolls(districts, avgGradeStDvs);
 
         //Calculate fundamentals
-        fundamentalCalculator.calcAll(districts);
+        seerModel.calcAll(districts);
 
         //Average the generic ballot polls using an exponential averager.
         PollAverager nationalPollAverager = new ExponentialPollAverager(1. / 30.);
@@ -76,19 +76,18 @@ public class Main {
         System.out.println("Mean shift: " + Math.round(natlShiftCalc.getFunction(districts)
                 .getNationalShift(nationalPollAverage) * 10000.) / 100. + " percentage points");
 
-        //Define the national correction calculator.
-        NationalCorrectionCalculator natlCorrectCalc = new SimpleNationalCorrection();
+        //Define the bigmood model.
+        BigmoodModel bigmoodModel = new SimpleBigmoodModel();
 
         //Define the poll averager for district-level polls.
         PollAverager pollAverager = new ExponentialPollAverager(1. / 30.);
 
-        //Weight the polls vs fundamentals using arctan.
+        //Weight the polls vs SEER using arctan.
         AuspiceModel auspiceModel = new ArctanAuspiceModel(pollAverager, gradeQualityPoints, 1. / 167.,
                 0.95, 0, 6.12, 0.265, 0.077);
 
         //Run simulations
         System.out.println("Dem win chance: " + (100. * Simulations.write(districts, nationalPollAverage, 0.0138,
-                natlShiftCalc, natlCorrectCalc, auspiceModel,
-                100000)) + "%");
+                natlShiftCalc, bigmoodModel, auspiceModel, 100000)) + "%");
     }
 }

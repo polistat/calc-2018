@@ -49,7 +49,7 @@ public class Poll {
      */
     private final long daysBeforeElection;
     /**
-     * The percent of the two-party vote the democrats will get, according to this poll.
+     * The percent of the two-party vote the Democrats will get, according to this poll.
      */
     private final double demPercent;
     /**
@@ -107,7 +107,7 @@ public class Poll {
     }
 
     /**
-     * @return The percent of the two-party vote the democrats will get, according to this poll.
+     * @return The percent of the two-party vote the Democrats will get, according to this poll.
      */
     public double getDemPercent() {
         return demPercent;

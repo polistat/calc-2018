@@ -1,5 +1,5 @@
 import auspice.AuspiceModel;
-import bigmood.NationalCorrectionCalculator;
+import bigmood.BigmoodModel;
 import bigmood.NationalShiftCalculator;
 import bigmood.NationalShiftFunction;
 import dataholder.District;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.Random;
 
 /**
- * Runs the simulations to determine the actual democrat win % for the country.
+ * Runs the simulations to determine the actual Democrat win % for the country.
  */
 public class Simulations {
 
@@ -21,21 +21,20 @@ public class Simulations {
      * Simulate the house races and write the histogram of how many seats Democrats win to one file, and the
      * per-district stats to another.
      *
-     * @param districts                    The districts to simulate, with fundamentals already calculated.
-     * @param genericAverage               The average dem percent in the national generic ballot.
-     * @param genericStDv                  The standard deviation of the national generic ballot.
-     * @param nationalShiftCalculator      The object to calculate the national shift from the generic ballot.
-     * @param nationalCorrectionCalculator The correction calculator to adjust each district according to the national
-     *                                     shift.
-     * @param auspiceModel               The poll calculator to adjust each district according to that district's poll
-     *                                     or Blairvoyance.
-     * @param iterations                   The number of generic ballots to simulate.
+     * @param districts               The districts to simulate, with fundamentals already calculated.
+     * @param genericAverage          The average dem percent in the national generic ballot.
+     * @param genericStDv             The standard deviation of the national generic ballot.
+     * @param nationalShiftCalculator The calculator to find the national shift from the generic ballot.
+     * @param bigmoodModel            The bigmood model to adjust each district according to the national shift.
+     * @param auspiceModel            The AUSPICE model to adjust each district according to that district's poll or
+     *                                Blairvoyance.
+     * @param iterations              The number of generic ballots to simulate.
      * @return The probability that Democrats win a majority in the House.
      * @throws IOException If the file writing fails.
      */
     public static double write(District[] districts, double genericAverage, double genericStDv,
                                NationalShiftCalculator nationalShiftCalculator,
-                               NationalCorrectionCalculator nationalCorrectionCalculator, AuspiceModel auspiceModel,
+                               BigmoodModel bigmoodModel, AuspiceModel auspiceModel,
                                int iterations) throws IOException {
         Random generator = new Random();
 
@@ -47,20 +46,21 @@ public class Simulations {
         //Record how many seats Democrats won in each simulation.
         double[] histogram = new double[districts.length + 1];
 
-        //Record the average chance the democrats win each district.
+        //Record the average chance the Democrats win each district.
         double[] avgDistrictWinChances = new double[districts.length];
 
         // Natl shift calculator
         NationalShiftFunction calc = nationalShiftCalculator.getFunction(districts);
         System.out.println("Shift standard deviation: " + calc.getNationalShiftStDv(genericStDv));
 
+        //How many seats the Democrats will win, on average.
         double avgExpectedSeats = 0;
 
         //Simulate different generic ballots
         for (int i = 0; i < iterations; i++) {
             //Calculate expected dem vote percentage and standard deviation, given a generic ballot percent.
             double nationalShift = calc.getNationalShift(genericAverage);
-            nationalCorrectionCalculator.calcAll(districts, nationalShift);
+            bigmoodModel.calcAll(districts, nationalShift);
             auspiceModel.calcAll(districts);
             double noise = calc.getNationalShiftStDv(genericStDv) * generator.nextGaussian();
 
@@ -68,22 +68,23 @@ public class Simulations {
             int expectedSeats = 0;
             for (int j = 0; j < districts.length; j++) {
                 double winChance;
-                //util.Normal.normalCDF doesn't like standard deviations of 0, so we handle that here.
+                //Normal.normalCDF doesn't like standard deviations of 0, so we handle that here.
                 if (districts[j].getAuspiceStDv() == 0) {
                     winChance = districts[j].getAuspiceDemPercent() > 0.5 ? 1 : 0;
                 } else {
-                    //Since the vote percent is normally distributed, we can just calculate the chance that democrats
+                    //Since the vote percent is normally distributed, we can just calculate the chance that Democrats
                     // win.
-                    winChance = 1 - Normal.normalCDF(districts[j].getAuspiceDemPercent() + noise * districts[j].getElasticity(),
-                            Math.sqrt(Math.pow(districts[j].getAuspiceStDv(), 2) - Math.pow(genericStDv * districts[j].getElasticity(), 2)),
-                            0.5);
+                    winChance =
+                            1 - Normal.normalCDF(districts[j].getAuspiceDemPercent() + noise * districts[j].getElasticity(),
+                                    Math.sqrt(Math.pow(districts[j].getAuspiceStDv(), 2) - Math.pow(genericStDv * districts[j].getElasticity(), 2)),
+                                    0.5);
                     //If a win chance is less than 0% or more than 100%, something has gone horribly wrong.
                     if (winChance > 1 || winChance < 0) {
                         System.out.println("aaaaaaaaaaaa " + districts[j].getName());
                     }
                 }
                 if (Math.random() < winChance) {
-                    //The expected number of seats is the sum of the percent chance that democrats win each seat.
+                    //The expected number of seats is the sum of the percent chance that Democrats win each seat.
                     expectedSeats++;
                     //Sum now, divide later.
                     avgDistrictWinChances[j]++;
@@ -106,11 +107,11 @@ public class Simulations {
 
         //Recalculate dem % using average shift
         double nationalShift = calc.getNationalShift(genericAverage);
-        nationalCorrectionCalculator.calcAll(districts, nationalShift);
+        bigmoodModel.calcAll(districts, nationalShift);
         auspiceModel.calcAll(districts);
 
-        //Record the day this simulation was run, the final expected democratic vote percent, the standard deviation
-        // of the vote percent, the chance democrats win the district, the SEER percent, and the bigmood percent.
+        //Record the day this simulation was run, the AUSPICE Democratic vote percent, the standard deviation of the
+        // AUSPICE percent, the chance Democrats win the district, the SEER percent, and the bigmood percent.
         for (int i = 0; i < districts.length; i++) {
             out1.println(today.getYear() + "," + today.getMonthValue() + "," +
                     today.getDayOfMonth() + "," + districts[i].getName() + ","
@@ -125,7 +126,7 @@ public class Simulations {
             out2.println((timesDemWonN / iterations));
         }
 
-        //Count how many times the democrats won control of the House.
+        //Count how many times the Democrats won control of the House.
         double totalDemProb = 0;
         for (int i = 218; i < histogram.length; i++) {
             totalDemProb += histogram[i];

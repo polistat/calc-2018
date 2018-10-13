@@ -3,7 +3,7 @@ package auspice;
 import dataholder.District;
 
 /**
- * Predict democratic votes percent using district-level polls or Blairvoyance.
+ * Predict Democratic votes percent using district-level polls or Blairvoyance.
  */
 public abstract class AuspiceModel {
 
@@ -22,7 +22,7 @@ public abstract class AuspiceModel {
     }
 
     /**
-     * Calculate democratic vote percent and standard deviation using the polls in that district or Blairvoyance. This
+     * Calculate Democratic vote percent and standard deviation using the polls in that district or Blairvoyance. This
      * modifies the district's auspiceDemPercent and auspiceDemStDv.
      *
      * @param district A district with the bigmood dem percent and standard deviation already calculated.
@@ -30,7 +30,7 @@ public abstract class AuspiceModel {
     public abstract void calculateAuspice(District district);
 
     /**
-     * Calculate democratic vote percent and standard deviation for each competitive district using polls or
+     * Calculate Democratic vote percent and standard deviation for each competitive district using polls or
      * Blairvoyance. This modifies each competitive district's auspiceDemPercent and auspiceDemStDv.
      *
      * @param districts A list of all the districts, with bigmood dem percent and standard deviation calculated.

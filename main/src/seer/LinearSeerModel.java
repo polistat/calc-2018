@@ -4,9 +4,9 @@ import dataholder.District;
 
 /**
  * Calculates the fundamentals as a linear function of Blair Partisan Index (BPI) and incumbency. BPI is itself a linear
- * function of obama margin, hillary margin, and democrat 2014 & 2016 margins.
+ * function of obama margin, hillary margin, and Democrat 2014 & 2016 margins.
  */
-public class LinearFundamentalCalculator extends FundamentalCalculator {
+public class LinearSeerModel extends SeerModel {
 
     /**
      * The weight to give Obama's 2012 margin when calculating BPI.
@@ -34,12 +34,12 @@ public class LinearFundamentalCalculator extends FundamentalCalculator {
     private final double partisanshipWeight;
 
     /**
-     * The weight to give democrat incumbency when calculating fundamental margin.
+     * The weight to give Democrat incumbency when calculating fundamental margin.
      */
     private final double demIncumbentWeight;
 
     /**
-     * The weight to give republican incumbency when calculating fundamental margin.
+     * The weight to give Republican incumbency when calculating fundamental margin.
      */
     private final double repIncumbentWeight;
 
@@ -66,15 +66,15 @@ public class LinearFundamentalCalculator extends FundamentalCalculator {
      *                           weights will be normalized.
      * @param partisanshipWeight The weight to give BPI when calculating fundamental margin. BPI weights will be
      *                           normalized.
-     * @param demIncumbentWeight The weight to give democrat incumbency when calculating fundamental margin.
-     * @param repIncumbentWeight The weight to give republican incumbency when calculating fundamental margin.
+     * @param demIncumbentWeight The weight to give Democrat incumbency when calculating fundamental margin.
+     * @param repIncumbentWeight The weight to give Republican incumbency when calculating fundamental margin.
      * @param incumbentStDv      The standard deviation of the fundamental MARGIN in elections with one incumbent.
      * @param openStDv           The standard deviation of the fundamental MARGIN in elections without an incumbent or
      *                           with 2 incumbents.
      */
-    public LinearFundamentalCalculator(double obama2012weight, double dem2014weight, double hillary2016weight,
-                                       double dem2016weight, double partisanshipWeight, double demIncumbentWeight,
-                                       double repIncumbentWeight, double incumbentStDv, double openStDv) {
+    public LinearSeerModel(double obama2012weight, double dem2014weight, double hillary2016weight,
+                           double dem2016weight, double partisanshipWeight, double demIncumbentWeight,
+                           double repIncumbentWeight, double incumbentStDv, double openStDv) {
         this.obama2012weight = obama2012weight;
         this.dem2014weight = dem2014weight;
         this.hillary2016weight = hillary2016weight;
@@ -87,13 +87,13 @@ public class LinearFundamentalCalculator extends FundamentalCalculator {
     }
 
     /**
-     * Calculate the fundamental percent of the vote the democratic candidate will get for a given district.
+     * Calculate the fundamental percent of the vote the Democratic candidate will get for a given district.
      *
-     * @param district The district to calculate the fundamental vote percent for.
-     * @return The fundamental democratic vote percent, from 0 to 1.
+     * @param district The district to calculate the SEER vote percent for.
+     * @return The fundamental Democratic vote percent, from 0 to 1.
      */
     @Override
-    public double calcFundamentalDemPercent(District district) {
+    public double calcSeerDemPercent(District district) {
         //Do the sum of the data points we have over the sum of the weights used.
         double numerator = obama2012weight * district.getObama2012() + hillary2016weight * district.getHillary2016();
         double denominator = obama2012weight + hillary2016weight;
@@ -117,7 +117,7 @@ public class LinearFundamentalCalculator extends FundamentalCalculator {
         double BPI = numerator / denominator;
         double predictedDemMargin = BPI * this.partisanshipWeight;
 
-        //Not else if because PA-17 has both a democrat and republican incumbent.
+        //Not else if because PA-17 has both a Democrat and Republican incumbent.
         if (district.isDemIncumbent()) {
             predictedDemMargin += this.demIncumbentWeight;
         }
@@ -130,12 +130,12 @@ public class LinearFundamentalCalculator extends FundamentalCalculator {
     }
 
     /**
-     * Calculate the standard deviation of the fundamental percent of democratic vote for a given district.
+     * Calculate the standard deviation of the fundamental percent of Democratic vote for a given district.
      *
-     * @param district The district to calculate the fundamental standard deviation for.
+     * @param district The district to calculate the SEER standard deviation for.
      * @return The standard deviation of the vote percent, where 0.01 is 1%.
      */
-    public double calcFundamentalStDv(District district) {
+    public double calcSeerStDv(District district) {
         //We want dem incumbent xor rep incumbent because double-incumbent seats should count as open.
         if (district.isDemIncumbent() ^ district.isRepIncumbent()) {
             //Multiply by 0.5 to convert from margin standard deviation to vote percent standard deviation.

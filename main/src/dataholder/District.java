@@ -17,12 +17,12 @@ public class District {
     private final Poll[] polls;
 
     /**
-     * Whether the republican running in this district is an incumbent.
+     * Whether the Republican running in this district is an incumbent.
      */
     private final boolean repIncumbent;
 
     /**
-     * Whether the democrat running in this district is an incumbent.
+     * Whether the Democrat running in this district is an incumbent.
      */
     private final boolean demIncumbent;
 
@@ -32,7 +32,7 @@ public class District {
     private final double obama2012;
 
     /**
-     * The MARGIN of the two-party vote the democratic congressional candidate got in this district in 2014, from -1 to
+     * The MARGIN of the two-party vote the Democratic congressional candidate got in this district in 2014, from -1 to
      * 1, or null if the 2014 race wasn't contested.
      */
     private final Double dem2014;
@@ -43,7 +43,7 @@ public class District {
     private final double hillary2016;
 
     /**
-     * The MARGIN of the two-party vote the democratic congressional candidate got in this district in 2016, from -1 to
+     * The MARGIN of the two-party vote the Democratic congressional candidate got in this district in 2016, from -1 to
      * 1, or null if the 2014 race wasn't contested.
      */
     private final Double dem2016;
@@ -54,7 +54,7 @@ public class District {
     private final double elasticity;
 
     /**
-     * The percent of the two-party vote democrats will get in this district according to Blairvoyance, from 0 to 1, or
+     * The percent of the two-party vote Democrats will get in this district according to Blairvoyance, from 0 to 1, or
      * null if Blairvoyance doesn't have a prediction.
      */
     private final Double blairvoyanceDemPercent;
@@ -66,48 +66,41 @@ public class District {
     private final Double blairvoyanceWeight;
 
     /**
-     * Whether a republican and a democrat are running against each other in this district's general election. A
-     * district where no dem or republican has been nominated is not contested, and neither is a race between two
+     * Whether a Republican and a Democrat are running against each other in this district's general election. A
+     * district where no Democrat or Republican has been nominated is not contested, and neither is a race between two
      * members of the same party in a top-two primary district.
      */
     private final boolean contested;
-
-    /**
-     * The predicted percent of the two-party vote the democrats will win in this district, according to the
-     * SEER model.
-     */
-    private double seerDemPercent;
-
-    /**
-     * The standard deviation of the SEER model's prediction.
-     */
-    private double seerStDv;
-
-    /**
-     * The predicted percent of the two-party vote the democrats will win in this district, according to the
-     * SEER model corrected for the national mood.
-     */
-    private double bigmoodDemPercent;
-
-    /**
-     * The standard deviation of the SEER model's prediction, corrected for the national mood.
-     */
-    private double bigmoodStDv;
-
-    /**
-     * The AUSPICE prediction for what percent of the two-party vote the democrats will win in this district.
-     */
-    private double auspiceDemPercent;
-
-    /**
-     * The standard deviation of the AUSPICE prediction.
-     */
-    private double auspiceStDv;
-
     /**
      * Whether there were Democrat/Republican incumbents in past elections.
      */
     private final int demInc14, repInc14, demInc16, repInc16;
+    /**
+     * The predicted percent of the two-party vote the Democrats will win in this district, according to the SEER
+     * model.
+     */
+    private double seerDemPercent;
+    /**
+     * The standard deviation of the SEER model's prediction.
+     */
+    private double seerStDv;
+    /**
+     * The predicted percent of the two-party vote the Democrats will win in this district, according to the SEER model
+     * corrected for the national mood.
+     */
+    private double bigmoodDemPercent;
+    /**
+     * The standard deviation of the SEER model's prediction, corrected for the national mood.
+     */
+    private double bigmoodStDv;
+    /**
+     * The AUSPICE prediction for what percent of the two-party vote the Democrats will win in this district.
+     */
+    private double auspiceDemPercent;
+    /**
+     * The standard deviation of the AUSPICE prediction.
+     */
+    private double auspiceStDv;
 
     /**
      * Default constructor.
@@ -115,26 +108,28 @@ public class District {
      * @param name                   The name of this district, in the format ST-##, where ST is the state's postal code
      *                               and ## is the district's 2-digit number, e.g. 01 for the first district.
      * @param polls                  A list of all the polls taken in this district.
-     * @param repIncumbent           Whether the republican running in this district is an incumbent.
-     * @param demIncumbent           Whether the democrat running in this district is an incumbent.
+     * @param repIncumbent           Whether the Republican running in this district is an incumbent.
+     * @param demIncumbent           Whether the Democrat running in this district is an incumbent.
      * @param obama2012              The MARGIN of the two-party vote Obama got in this district in 2012, from -1 to 1.
-     * @param dem2014                The MARGIN of the two-party vote the democratic congressional candidate got in this
+     * @param dem2014                The MARGIN of the two-party vote the Democratic congressional candidate got in this
      *                               district in 2014, from -1 to 1, or null if the 2014 race wasn't contested.
      * @param hillary2016            The MARGIN of the two-party vote Hillary got in this district in 2016, from -1 to
      *                               1.
-     * @param dem2016                The MARGIN of the two-party vote the democratic congressional candidate got in this
+     * @param dem2016                The MARGIN of the two-party vote the Democratic congressional candidate got in this
      *                               district in 2016, from -1 to 1, or null if the 2014 race wasn't contested.
      * @param elasticity             538's elasticity score for this district, representing how much it's affected by
      *                               changes in the national mood.
-     * @param blairvoyanceDemPercent The percent of the two-party vote democrats will get in this district according to
+     * @param blairvoyanceDemPercent The percent of the two-party vote Democrats will get in this district according to
      *                               Blairvoyance, from 0 to 1, or null if Blairvoyance doesn't have a prediction.
-     * @param blairvoyanceWeight The weight assigned to this district based on how well Blairvoyance can predict the results. Because Blairvoyance is based on polling, which happens in close districts, this number is larger for closer districts.
-     * @param repRunning             Whether a republican is running in this district's general election.
-     * @param demRunning             Whether a democrat is running in this district's general election.
-     * @param demInc14 Whether a Democrat was incumbent in this district in 2014.
-     * @param repInc14 Whether a Republican was incumbent in this district in 2014.
-     * @param demInc16 Whether a Democrat was incumbent in this district in 2016.
-     * @param repInc16 Whether a Republican was incumbent in this district in 2016.
+     * @param blairvoyanceWeight     The weight assigned to this district based on how well Blairvoyance can predict the
+     *                               results. Because Blairvoyance is based on polling, which happens in close
+     *                               districts, this number is larger for closer districts.
+     * @param repRunning             Whether a Republican is running in this district's general election.
+     * @param demRunning             Whether a Democrat is running in this district's general election.
+     * @param demInc14               Whether a Democrat was incumbent in this district in 2014.
+     * @param repInc14               Whether a Republican was incumbent in this district in 2014.
+     * @param demInc16               Whether a Democrat was incumbent in this district in 2016.
+     * @param repInc16               Whether a Republican was incumbent in this district in 2016.
      */
     public District(String name, Poll[] polls, boolean repIncumbent,
                     boolean demIncumbent, double obama2012, Double dem2014,
@@ -188,14 +183,14 @@ public class District {
     }
 
     /**
-     * @return Whether the republican running in this district is an incumbent.
+     * @return Whether the Republican running in this district is an incumbent.
      */
     public boolean isRepIncumbent() {
         return repIncumbent;
     }
 
     /**
-     * @return Whether the democrat running in this district is an incumbent.
+     * @return Whether the Democrat running in this district is an incumbent.
      */
     public boolean isDemIncumbent() {
         return demIncumbent;
@@ -209,7 +204,7 @@ public class District {
     }
 
     /**
-     * @return The MARGIN of the two-party vote the democratic congressional candidate got in this district in 2014,
+     * @return The MARGIN of the two-party vote the Democratic congressional candidate got in this district in 2014,
      * from -1 to 1, or null if the 2014 race wasn't contested.
      */
     public Double getDem2014() {
@@ -224,7 +219,7 @@ public class District {
     }
 
     /**
-     * @return The MARGIN of the two-party vote the democratic congressional candidate got in this district in 2016,
+     * @return The MARGIN of the two-party vote the Democratic congressional candidate got in this district in 2016,
      * from -1 to 1, or null if the 2014 race wasn't contested.
      */
     public Double getDem2016() {
@@ -268,7 +263,7 @@ public class District {
     }
 
     /**
-     * @return The percent of the two-party vote democrats will get in this district according to Blairvoyance, from 0
+     * @return The percent of the two-party vote Democrats will get in this district according to Blairvoyance, from 0
      * to 1, or null if Blairvoyance doesn't have a prediction.
      */
     public Double getBlairvoyanceDemPercent() {
@@ -276,14 +271,15 @@ public class District {
     }
 
     /**
-     * @return The weight assigned to this district based on how well Blairvoyance can predict the results. Because Blairvoyance is based on polling, which happens in close districts, this number is larger for closer districts.
+     * @return The weight assigned to this district based on how well Blairvoyance can predict the results. Because
+     * Blairvoyance is based on polling, which happens in close districts, this number is larger for closer districts.
      */
     public Double getBlairvoyanceWeight() {
         return blairvoyanceWeight;
     }
 
     /**
-     * @return The predicted percent of the two-party vote the democrats will win in this district, according to the
+     * @return The predicted percent of the two-party vote the Democrats will win in this district, according to the
      * SEER model.
      */
     public double getSeerDemPercent() {
@@ -291,14 +287,15 @@ public class District {
     }
 
     /**
-     * @param seerDemPercent The predicted percent of the two-party vote the democrats will win in this district, according to the SEER model.
+     * @param seerDemPercent The predicted percent of the two-party vote the Democrats will win in this district,
+     *                       according to the SEER model.
      */
     public void setSeerDemPercent(double seerDemPercent) {
         this.seerDemPercent = seerDemPercent;
     }
 
     /**
-     * @return The predicted percent of the two-party vote the democrats will win in this district, according to the
+     * @return The predicted percent of the two-party vote the Democrats will win in this district, according to the
      * SEER model corrected for the national mood.
      */
     public double getBigmoodDemPercent() {
@@ -306,23 +303,23 @@ public class District {
     }
 
     /**
-     * @param bigmoodDemPercent The predicted percent of the two-party vote the democrats will win in this
-     *                                   district, according to the SEER model corrected for the national mood.
+     * @param bigmoodDemPercent The predicted percent of the two-party vote the Democrats will win in this district,
+     *                          according to the SEER model corrected for the national mood.
      */
     public void setBigmoodDemPercent(double bigmoodDemPercent) {
         this.bigmoodDemPercent = bigmoodDemPercent;
     }
 
     /**
-     * @return The AUSPICE prediction for what percent of the two-party vote the democrats will win in this district.
+     * @return The AUSPICE prediction for what percent of the two-party vote the Democrats will win in this district.
      */
     public double getAuspiceDemPercent() {
         return auspiceDemPercent;
     }
 
     /**
-     * @param auspiceDemPercent The AUSPICE prediction for what percent of the two-party vote the democrats will win in this
-     *                        district.
+     * @param auspiceDemPercent The AUSPICE prediction for what percent of the two-party vote the Democrats will win in
+     *                          this district.
      */
     public void setAuspiceDemPercent(double auspiceDemPercent) {
         this.auspiceDemPercent = auspiceDemPercent;
@@ -350,8 +347,7 @@ public class District {
     }
 
     /**
-     * @param bigmoodStDv The standard deviation of the SEER model's prediction, corrected for the
-     *                             national mood.
+     * @param bigmoodStDv The standard deviation of the SEER model's prediction, corrected for the national mood.
      */
     public void setBigmoodStDv(double bigmoodStDv) {
         this.bigmoodStDv = bigmoodStDv;
@@ -379,8 +375,8 @@ public class District {
     }
 
     /**
-     * @return Whether a republican and a democrat are running against each other in this district's general election. A
-     * district where no dem or republican has been nominated is not contested, and neither is a race between two
+     * @return Whether a Republican and a Democrat are running against each other in this district's general election. A
+     * district where no Democrat or Republican has been nominated is not contested, and neither is a race between two
      * members of the same party in a top-two primary district.
      */
     public boolean isContested() {

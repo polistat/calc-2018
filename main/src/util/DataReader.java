@@ -124,7 +124,9 @@ public class DataReader {
             String[] commaSplit = line.split(",");
             //File must be formatted as follows:
             //district name,rep incumbent (1 or 0),dem incumbent (1 or 0),Obama's 2012 margin,dem 2014 margin,
-            // Hillary's 2016 margin,dem 2016 margin,elasticity,rep running (true or false),dem running (true or false), dem incumbent 2014 (1 or 0), rep incumbent 2014 (1 or 0), dem incumbent 2016 (1 or 0), rep incumbent 2016 (1 or 0)
+            // Hillary's 2016 margin,dem 2016 margin,elasticity,rep running (true or false),dem running (true or
+            // false), dem incumbent 2014 (1 or 0), rep incumbent 2014 (1 or 0), dem incumbent 2016 (1 or 0), rep
+            // incumbent 2016 (1 or 0)
             String name = commaSplit[0].toUpperCase(); //Capitalize state postal code
             boolean repIncumbent = Integer.parseInt(commaSplit[1]) == 1;
             boolean demIncumbent = Integer.parseInt(commaSplit[2]) == 1;
@@ -170,7 +172,8 @@ public class DataReader {
             }
 
             toRet.add(new District(name, polls, repIncumbent, demIncumbent, obama2012, dem2014,
-                    hillary2016, dem2016, elasticity, blairvoyanceDemPercent, blairvoyanceWeight, repRunning, demRunning,
+                    hillary2016, dem2016, elasticity, blairvoyanceDemPercent, blairvoyanceWeight, repRunning,
+                    demRunning,
                     dInc14, rInc14, dInc16, rInc16));
         }
         districtFileReader.close();

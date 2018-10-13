@@ -3,12 +3,12 @@ package auspice;
 import dataholder.Poll;
 
 /**
- * Finds the average democratic vote percent and standard deviation for a list of polls.
+ * Finds the average Democratic vote percent and standard deviation for a list of polls.
  */
 public interface PollAverager {
 
     /**
-     * Find the average democratic vote percent for a list of polls.
+     * Find the average Democratic vote percent for a list of polls.
      *
      * @param polls The polls to average.
      * @return The average dem vote percent, from 0 to 1.
@@ -16,7 +16,7 @@ public interface PollAverager {
     double getAverage(Poll[] polls);
 
     /**
-     * Find the standard deviation of the democratic vote percent for a list of polls.
+     * Find the standard deviation of the Democratic vote percent for a list of polls.
      *
      * @param polls The polls to find the standard deviation of.
      * @return The standard deviation, where 0.01 is 1%.
