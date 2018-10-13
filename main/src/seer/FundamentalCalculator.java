@@ -26,7 +26,7 @@ public abstract class FundamentalCalculator {
 
     /**
      * Calculate the fundamental percent of the vote the democratic candidate will get, and the standard deviation, for
-     * each district. This modifies each district's fundamentalDemPercent and fundamentalStDv.
+     * each district. This modifies each district's seerDemPercent and seerStDv.
      *
      * @param districts The districts to calculate the fundamentals for.
      */

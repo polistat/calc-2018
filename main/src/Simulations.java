@@ -1,4 +1,4 @@
-import auspice.PollCalculator;
+import auspice.AuspiceModel;
 import bigmood.NationalCorrectionCalculator;
 import bigmood.NationalShiftCalculator;
 import bigmood.NationalShiftFunction;
@@ -27,7 +27,7 @@ public class Simulations {
      * @param nationalShiftCalculator      The object to calculate the national shift from the generic ballot.
      * @param nationalCorrectionCalculator The correction calculator to adjust each district according to the national
      *                                     shift.
-     * @param pollCalculator               The poll calculator to adjust each district according to that district's poll
+     * @param auspiceModel               The poll calculator to adjust each district according to that district's poll
      *                                     or Blairvoyance.
      * @param iterations                   The number of generic ballots to simulate.
      * @return The probability that Democrats win a majority in the House.
@@ -35,7 +35,7 @@ public class Simulations {
      */
     public static double write(District[] districts, double genericAverage, double genericStDv,
                                NationalShiftCalculator nationalShiftCalculator,
-                               NationalCorrectionCalculator nationalCorrectionCalculator, PollCalculator pollCalculator,
+                               NationalCorrectionCalculator nationalCorrectionCalculator, AuspiceModel auspiceModel,
                                int iterations) throws IOException {
         Random generator = new Random();
 
@@ -61,7 +61,7 @@ public class Simulations {
             //Calculate expected dem vote percentage and standard deviation, given a generic ballot percent.
             double nationalShift = calc.getNationalShift(genericAverage);
             nationalCorrectionCalculator.calcAll(districts, nationalShift);
-            pollCalculator.calcAll(districts);
+            auspiceModel.calcAll(districts);
             double noise = calc.getNationalShiftStDv(genericStDv) * generator.nextGaussian();
 
             //Check each district
@@ -107,7 +107,7 @@ public class Simulations {
         //Recalculate dem % using average shift
         double nationalShift = calc.getNationalShift(genericAverage);
         nationalCorrectionCalculator.calcAll(districts, nationalShift);
-        pollCalculator.calcAll(districts);
+        auspiceModel.calcAll(districts);
 
         //Record the day this simulation was run, the final expected democratic vote percent, the standard deviation
         // of the vote percent, the chance democrats win the district, the SEER percent, and the bigmood percent.

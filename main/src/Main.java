@@ -83,12 +83,12 @@ public class Main {
         PollAverager pollAverager = new ExponentialPollAverager(1. / 30.);
 
         //Weight the polls vs fundamentals using arctan.
-        PollCalculator pollCalculator = new ArctanPollCalculator(pollAverager, gradeQualityPoints, 1. / 167.,
+        AuspiceModel auspiceModel = new ArctanAuspiceModel(pollAverager, gradeQualityPoints, 1. / 167.,
                 0.95, 0, 6.12, 0.265, 0.077);
 
         //Run simulations
         System.out.println("Dem win chance: " + (100. * Simulations.write(districts, nationalPollAverage, 0.0138,
-                natlShiftCalc, natlCorrectCalc, pollCalculator,
+                natlShiftCalc, natlCorrectCalc, auspiceModel,
                 100000)) + "%");
     }
 }

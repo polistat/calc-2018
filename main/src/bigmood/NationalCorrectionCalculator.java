@@ -33,8 +33,7 @@ public abstract class NationalCorrectionCalculator {
 
     /**
      * Calculate the percent of the vote the democratic candidate will get, and the standard deviation, for each
-     * competitive district. This modifies each competitive district's genericCorrectedDemPercent and
-     * genericCorrectedStDv.
+     * competitive district. This modifies each competitive district's bigmoodDemPercent and bigmoodStDv.
      *
      * @param districts     The districts to calculate the mood-adjusted dem percent for.
      * @param nationalShift The number of percentage points to shift the average district by, according to national

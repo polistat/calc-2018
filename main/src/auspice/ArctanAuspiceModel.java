@@ -10,7 +10,7 @@ import java.util.Map;
  * Predict democratic votes percent using district-level polls or Blairvoyance. The weight of the polls versus the
  * shifted fundamentals is an arctan function.
  */
-public class ArctanPollCalculator extends PollCalculator {
+public class ArctanAuspiceModel extends AuspiceModel {
 
     /**
      * A map of each 538 pollster grade to the "quality point" score associated with that grade.
@@ -65,9 +65,9 @@ public class ArctanPollCalculator extends PollCalculator {
      *                           with no polls, from 0 to 1.
      * @param blairvoyanceStDv   The standard deviation of the Blairvoyance predicted democrat percent.
      */
-    public ArctanPollCalculator(PollAverager pollAverager, Map<Grade, Double> gradeQualityPoints,
-                                double daysCoefficient, double maxPollWeight, double arctanShift,
-                                double arctanSteepness, double blairvoyanceWeight, double blairvoyanceStDv) {
+    public ArctanAuspiceModel(PollAverager pollAverager, Map<Grade, Double> gradeQualityPoints,
+                              double daysCoefficient, double maxPollWeight, double arctanShift,
+                              double arctanSteepness, double blairvoyanceWeight, double blairvoyanceStDv) {
         super(pollAverager);
         this.gradeQualityPoints = gradeQualityPoints;
         this.daysCoefficient = daysCoefficient;
@@ -80,13 +80,12 @@ public class ArctanPollCalculator extends PollCalculator {
 
     /**
      * Calculate democratic vote percent and standard deviation using the polls in that district or Blairvoyance. This
-     * modifies the district's finalDemPercent and finalDemStDv.
+     * modifies the district's auspiceDemPercent and auspiceDemStDv.
      *
-     * @param district A district with the generic-corrected average dem percent and standard deviation already
-     *                 calculated.
+     * @param district A district with the bigmood dem percent and standard deviation already calculated.
      */
     @Override
-    public void calculatePolls(District district) {
+    public void calculateAuspice(District district) {
         double pollAverage;
         double pollStDv;
         double pollWeight;
