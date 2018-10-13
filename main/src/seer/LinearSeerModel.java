@@ -60,7 +60,7 @@ public class LinearSeerModel extends SeerModel {
      *                           normalized.
      * @param dem2014weight      The weight to give the 2014 Democrat house candidate's margin when calculating BPI. BPI
      *                           weights will be normalized.
-     * @param hillary2016weight  The weight to give Hillary's 2012 margin when calculating BPI.BPI weights will be
+     * @param hillary2016weight  The weight to give Hillary's 2012 margin when calculating BPI. BPI weights will be
      *                           normalized.
      * @param dem2016weight      The weight to give the 2016 Democrat house candidate's margin when calculating BPI. BPI
      *                           weights will be normalized.

@@ -1,8 +1,5 @@
 import auspice.*;
-import bigmood.BigmoodModel;
-import bigmood.DZhuNatlShiftCalc;
-import bigmood.NationalShiftCalculator;
-import bigmood.SimpleBigmoodModel;
+import bigmood.*;
 import dataholder.District;
 import dataholder.Grade;
 import dataholder.Poll;
@@ -71,13 +68,26 @@ public class Main {
         //Find the average of the generic ballot polls
         double nationalPollAverage = nationalPollAverager.getAverage(nationalPolls);
 
+        // National shift calculator
+        NationalShiftFunction nationalShiftFunction = natlShiftCalc.getFunction(districts);
+
+        //National shift
+        double nationalShift = nationalShiftFunction.getNationalShift(nationalPollAverage);
+
+        //National shift standard deviation
+        double nationalShiftStDv = nationalShiftFunction.getNationalShiftStDv(0.0138);
+
         //Log generic ballot average and the corresponding shift.
         System.out.println("National average: " + Math.round(nationalPollAverage * 10000.) / 100. + "%");
-        System.out.println("Mean shift: " + Math.round(natlShiftCalc.getFunction(districts)
-                .getNationalShift(nationalPollAverage) * 10000.) / 100. + " percentage points");
+        System.out.println("Mean shift: " + Math.round(nationalShift * 10000.) / 100. + " percentage points");
+        System.out.println("Shift standard deviation: " + Math.round(nationalShiftStDv * 10000.) / 100. + " " +
+                "percentage points");
 
         //Define the bigmood model.
         BigmoodModel bigmoodModel = new SimpleBigmoodModel();
+
+        //Calculate bigmood
+        bigmoodModel.calcAll(districts, nationalShift);
 
         //Define the poll averager for district-level polls.
         PollAverager pollAverager = new ExponentialPollAverager(1. / 30.);
@@ -86,8 +96,11 @@ public class Main {
         AuspiceModel auspiceModel = new ArctanAuspiceModel(pollAverager, gradeQualityPoints, 1. / 167.,
                 0.95, 0, 6.12, 0.265, 0.077);
 
+        //Calculate AUSPICE
+        auspiceModel.calcAll(districts);
+
         //Run simulations
-        System.out.println("Dem win chance: " + (100. * Simulations.write(districts, nationalPollAverage, 0.0138,
-                natlShiftCalc, bigmoodModel, auspiceModel, 100000)) + "%");
+        System.out.println("Dem win chance: " + Math.round(10000. * Simulations.write(districts, nationalShiftStDv,
+                100000)) / 100. + "%");
     }
 }
