@@ -101,6 +101,6 @@ public class Main {
 
         //Run simulations
         System.out.println("Dem win chance: " + Math.round(10000. * Simulations.write(districts, nationalShiftStDv,
-                100000)) / 100. + "%");
+                10000000)) / 100. + "%");
     }
 }

@@ -163,7 +163,7 @@ CA-22,7/25/2018,0.43,0.48,400,Likely,-0.053,B,Tulchin Research
 CO-06,9/13/2018,0.44,0.43,400,Registered,0.05,B,Tarrance Group
 IA-01,9/8/2018,0.43,0.38,250,Registered,-0.009,B,Emerson College
 CA-39,9/16/2018,0.42,0.5,300,Likely,-0.011,A,Monmouth University
-LA-03,8/30/2018,0.62,0.8,1417,Likely,-0.011,C, Trafalgar Group
+LA-03,8/30/2018,0.176,0.745,1417,Likely,-0.011,C, Trafalgar Group
 CA-22,9/13/2018,0.44,0.5,402,Likely,-0.03,B,Strategies 360
 FL-27,9/13/2018,0.42,0.51,400,Likely,0.052,C,McLaughlin & Associates
 TX-31,10/2/2018,0.33,0.54,400,Likely,0.05,B,Tarrance Group*
@@ -332,7 +332,7 @@ MN-07,9/10/2018,0.53,0.35,500,Likely,-0.0044,C,Anzalone Liszt Grove Research
 WA-08,10/9/2018,0.39,0.43,400,Registered,0.0015,A,Elway Research
 VA-10,10/9/2018,0.47,0.48,400,Likely,0.0054,D,Mclaughlin and Associates
 PA-17,10/7/2018,0.46,0.45,404,Likely,-0.0018,C,Global Strategy Group
-FL-08,10/4/2018,0.45,0.45,400,Likely,-0.0018,B,Greenberg Quinlan Rosner
+FL-06,10/4/2018,0.45,0.45,400,Likely,-0.0018,B,Greenberg Quinlan Rosner
 IL-13,10/1/2018,0.37,0.5,400,Likely,-0.0016,B,American Viewpoint
 NY-27,10/8/2018,0.42,0.42,400,Likely,-0.0049,B,Tulchin Research
 FL-27,10/6/2018,0.42,0.44,625,Likely,-0.001,B,Mason Dixon
@@ -340,11 +340,44 @@ NJ-03,10/4/2018,0.4,0.44,400,Likely,-0.003,B,National Research
 IL-12,7/30/2018,0.41,0.5,400,Likely,-0.0018,C,Global Strategy
 AK-01,10/6/2018,0.46,0.5,500,Likely,0.04,D,Alaska Survey Research
 AK-01,10/12/2018,0.43,0.46,645,Voters,-0.022,B,Public Policy Polling
-MN-08,10/11/2018,0.29,0.54,188,Likely,0.0005,A,Siena College
-WA-03,10/11/2018,0.45,0.43,400,Likely,-0.0034,B,Lake Research
-AZ-01,10/10/2018,0.38,0.44,943,Likely,0.0042,D,Go Right Strategies
-NY-01,10/10/2018,0.45,0.5,500,Likely,-0.0017,B,GBA Strategies
-UT-04,10/10/2018,0.47,0.45,400,Likely,-0.0042,B,Mellman Group
-NV-04,10/8/2018,0.37,0.41,400,Likely,0.0054,B,Moore Information
-IA-01,10/4/2018,0.44,0.43,400,Registered,0.0042,C,The Polling Company
-TX-17,9/1/2018,0.38,0.54,961,Registered,-0.0043,D,Change Research
+MN-08,10/11/2018,0.29,0.54,188,Likely,0.005,A,Siena College
+WA-03,10/11/2018,0.45,0.43,400,Likely,-0.034,B,Lake Research
+AZ-01,10/10/2018,0.38,0.44,943,Likely,0.042,D,Go Right Strategies
+NY-01,10/10/2018,0.45,0.5,500,Likely,-0.017,B,GBA Strategies
+UT-04,10/10/2018,0.47,0.45,400,Likely,-0.042,B,Mellman Group
+NV-04,10/8/2018,0.37,0.41,400,Likely,0.054,B,Moore Information
+IA-01,10/4/2018,0.44,0.43,400,Registered,0.05,C,The Polling Company
+TX-17,9/1/2018,0.38,0.54,961,Registered,-0.04,D,Change Research
+PA-01,10/4/2018,0.42,0.5,400,Likely,-0.036,B,Public Opinion Strategies
+TX-23,10/14/2018,0.34,0.56,263,Likely,0.007,A,Siena College/NYT
+NJ-11,10/4/2018,0.5,0.37,231,Likely,0.007,A,Siena College/NYT
+CO-06,10/4/2018,0.44,0.41,230,Likely,0.007,A,Siena College/NYT
+PA-01,10/14/2018,0.5,0.43,570,Likely,0.006,A,Siena College
+PA-07,10/14/2018,0.45,0.34,585,Registered,-0.014,D,DeSales University
+NH-02,10/12/2018,0.44,0.25,461,Likely,-0.003,B,Emerson College
+NH-01,10/12/2018,0.4,0.35,387,Likely,-0.003,B,Emerson College
+NV-04,10/12/2018,0.36,0.34,157,Likely,-0.003,B,Emerson College
+NV-03,10/12/2018,0.41,0.39,178,Likely,-0.003,B,Emerson College
+NV-02,10/12/2018,0.16,0.23,169,Likely,-0.003,B,Emerson College
+NV-01,10/12/2018,0.5,0.2,121,Likely,-0.003,B,Emerson College
+NC-13,10/12/2018,0.41,0.44,533,Likely,0.002,A,Survey USA
+VA-02,10/12/2018,0.43,0.5,798,Likely,-0.014,B,Christopher Newport
+UT-04,10/11/2018,0.46,0.45,403,Registered,-0.003,D,University of Utah
+MI-06,10/10/2018,0.46,0.49,605,Likely,-0.031,D,DCCC targeting Team
+NJ-03,10/10/2018,0.45,0.47,546,Likely,0.022,B,Stockton University
+FL-26,10/9/2018,0.45,0.46,625,Likely,-0.006,B,Mason Dixon
+OR-05,10/8/2018,0.33,0.56,359,Likely,0.029,C,Gravis
+ME-02,10/16/2018,0.44,0.41,341,Likely,0.006,A,Siena College/NYT
+FL-27,10/16/2018,0.49,0.34,276,Likely,0.006,A,Siena College/NYT
+WV-3,10/16/2018,0.41,0.47,311,Likely,0.006,A,Siena College/NYT
+MI-02,10/15/2018,0.42,0.48,400,Likely,-0.034,B,Lake Research
+fL-27,10/14/2018,0.44,0.39,500,Likely,-0.041,C,Anzalone Liszt
+WV-03,10/14/2018,0.46,0.48,350,Likely,-0.001,A,Monmouth
+IA-01,10/13/2018,0.45,0.43,400,Registered,0.05,C,The Polling Company
+NY-22,10/13/2018,0.42,0.5,400,Likely,0.05,C,The Polling Company
+MI-11,10/13/2018,0.36,0.35,400,Likely,0.046,B,harper Polling
+NY-27,10/11/2018,0.43,0.46,400,Likely,0.006,A,Siena College
+PA-16,10/10/2018,0.48,0.49,548,Likely,-0.031,D,DCCC Targeting Team
+NY-11,9/5/2018,0.39,0.47,509,Voters,-0.021,B,Public Policy Polling
+MI-02,7/15/2018,0.28,0.5,400,Likely,-0.034,B,Lake Research
+KS-03,10/16/2018,0.48,0.39,342,Likely,0.006,A,Siena College/NYT
