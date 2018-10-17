@@ -94,13 +94,13 @@ public class Main {
 
         //Weight the polls vs SEER using arctan.
         AuspiceModel auspiceModel = new ArctanAuspiceModel(pollAverager, gradeQualityPoints, 1. / 167.,
-                0.95, 0, 6.12, 0.265, 0.077);
+                0.95, 0, 6.12, 0.265, 0.086500555313);
 
         //Calculate AUSPICE
         auspiceModel.calcAll(districts);
 
         //Run simulations
         System.out.println("Dem win chance: " + Math.round(10000. * Simulations.write(districts, nationalShiftStDv,
-                100000)) / 100. + "%");
+                10000000)) / 100. + "%");
     }
 }
