@@ -32,3 +32,4 @@ district_results.csv
 histogram.csv
 .RData
 .Rhistory
+build/
