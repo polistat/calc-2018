@@ -7,7 +7,11 @@ import dataholder.District;
  * district like voting history and incumbency.
  */
 public abstract class SeerModel {
-
+	/**
+	 * Calculate the BPI of a district.
+	 */
+	public abstract double calcBpi(District district);
+	
     /**
      * Calculate the fundamental percent of the vote the Democratic candidate will get for a given district.
      *
@@ -32,7 +36,8 @@ public abstract class SeerModel {
      */
     public void calcAll(District[] districts) {
         for (District district : districts) {
-            district.setSeerDemPercent(calcSeerDemPercent(district));
+            district.setBpi(calcBpi(district));
+        	district.setSeerDemPercent(calcSeerDemPercent(district));
             district.setSeerStDv(calcSeerStDv(district));
         }
     }

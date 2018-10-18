@@ -51,7 +51,7 @@ public class Main {
 
         //Read in the districts
         District[] districts = DataReader.parseFromCSV("district_input.csv", "poll_input.csv",
-                "blairvoyance_input.csv");
+                "bv_out.csv");
 
         //Shift average poll standard deviations to match historical data.
         PollStDvShifter.shiftPolls(districts, avgGradeStDvs);
@@ -91,9 +91,10 @@ public class Main {
 
         //Define the poll averager for district-level polls.
         PollAverager pollAverager = new ExponentialPollAverager(1. / 30.);
+        BlairvoyanceWeightCalculator bwCalc = district -> (1-Math.abs(2*district.getBpi()-1));
 
         //Weight the polls vs SEER using arctan.
-        AuspiceModel auspiceModel = new ArctanAuspiceModel(pollAverager, gradeQualityPoints, 1. / 167.,
+        AuspiceModel auspiceModel = new ArctanAuspiceModel(pollAverager, bwCalc, gradeQualityPoints, 1. / 167.,
                 0.95, 0, 6.12, 0.265, 0.077);
 
         //Calculate AUSPICE

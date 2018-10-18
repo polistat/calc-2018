@@ -60,12 +60,6 @@ public class District {
     private final Double blairvoyanceDemPercent;
 
     /**
-     * The weight assigned to this district based on how well Blairvoyance can predict the results. Because Blairvoyance
-     * is based on polling, which happens in close districts, this number is larger for closer districts.
-     */
-    private final Double blairvoyanceWeight;
-
-    /**
      * Whether a Republican and a Democrat are running against each other in this district's general election. A
      * district where no Democrat or Republican has been nominated is not contested, and neither is a race between two
      * members of the same party in a top-two primary district.
@@ -75,6 +69,10 @@ public class District {
      * Whether there were Democrat/Republican incumbents in past elections.
      */
     private final int demInc14, repInc14, demInc16, repInc16;
+    /**
+     * BPI of the district.
+     */
+    private double bpi;
     /**
      * The predicted percent of the two-party vote the Democrats will win in this district, according to the SEER
      * model.
@@ -134,7 +132,7 @@ public class District {
     public District(String name, Poll[] polls, boolean repIncumbent,
                     boolean demIncumbent, double obama2012, Double dem2014,
                     double hillary2016, Double dem2016, double elasticity,
-                    Double blairvoyanceDemPercent, Double blairvoyanceWeight, boolean repRunning, boolean demRunning,
+                    Double blairvoyanceDemPercent, boolean repRunning, boolean demRunning,
                     int demInc14, int repInc14, int demInc16, int repInc16) {
         this.name = name;
         this.polls = polls;
@@ -150,7 +148,6 @@ public class District {
         this.repInc16 = repInc16;
         this.elasticity = elasticity;
         this.blairvoyanceDemPercent = blairvoyanceDemPercent;
-        this.blairvoyanceWeight = blairvoyanceWeight;
         this.contested = repRunning && demRunning;
 
         if (!contested) {
@@ -270,15 +267,15 @@ public class District {
         return blairvoyanceDemPercent;
     }
 
-    /**
-     * @return The weight assigned to this district based on how well Blairvoyance can predict the results. Because
-     * Blairvoyance is based on polling, which happens in close districts, this number is larger for closer districts.
-     */
-    public Double getBlairvoyanceWeight() {
-        return blairvoyanceWeight;
-    }
+    public double getBpi() {
+		return bpi;
+	}
 
-    /**
+	public void setBpi(double bpi) {
+		this.bpi = bpi;
+	}
+
+	/**
      * @return The predicted percent of the two-party vote the Democrats will win in this district, according to the
      * SEER model.
      */

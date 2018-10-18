@@ -86,15 +86,9 @@ public class LinearSeerModel extends SeerModel {
         this.openStDv = openStDv;
     }
 
-    /**
-     * Calculate the fundamental percent of the vote the Democratic candidate will get for a given district.
-     *
-     * @param district The district to calculate the SEER vote percent for.
-     * @return The fundamental Democratic vote percent, from 0 to 1.
-     */
     @Override
-    public double calcSeerDemPercent(District district) {
-        //Do the sum of the data points we have over the sum of the weights used.
+    public double calcBpi(District district) {
+    	//Do the sum of the data points we have over the sum of the weights used.
         double numerator = obama2012weight * district.getObama2012() + hillary2016weight * district.getHillary2016();
         double denominator = obama2012weight + hillary2016weight;
 
@@ -114,8 +108,18 @@ public class LinearSeerModel extends SeerModel {
             denominator += dem2016weight;
         }
 
-        double BPI = numerator / denominator;
-        double predictedDemMargin = BPI * this.partisanshipWeight;
+        return numerator / denominator;
+    }
+    
+    /**
+     * Calculate the fundamental percent of the vote the Democratic candidate will get for a given district.
+     *
+     * @param district The district to calculate the SEER vote percent for.
+     * @return The fundamental Democratic vote percent, from 0 to 1.
+     */
+    @Override
+    public double calcSeerDemPercent(District district) {
+        double predictedDemMargin = district.getBpi() * this.partisanshipWeight;
 
         //Not else if because PA-17 has both a Democrat and Republican incumbent.
         if (district.isDemIncumbent()) {

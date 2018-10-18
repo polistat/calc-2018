@@ -48,6 +48,8 @@ public class ArctanAuspiceModel extends AuspiceModel {
      */
     private final double blairvoyanceStDv;
 
+	private final BlairvoyanceWeightCalculator bvCalc;
+
     /**
      * Default constructor.
      *
@@ -65,7 +67,7 @@ public class ArctanAuspiceModel extends AuspiceModel {
      *                           with no polls, from 0 to 1.
      * @param blairvoyanceStDv   The standard deviation of the Blairvoyance predicted Democrat percent.
      */
-    public ArctanAuspiceModel(PollAverager pollAverager, Map<Grade, Double> gradeQualityPoints,
+    public ArctanAuspiceModel(PollAverager pollAverager, BlairvoyanceWeightCalculator bvCalc, Map<Grade, Double> gradeQualityPoints,
                               double daysCoefficient, double maxPollWeight, double arctanShift,
                               double arctanSteepness, double blairvoyanceWeight, double blairvoyanceStDv) {
         super(pollAverager);
@@ -76,6 +78,7 @@ public class ArctanAuspiceModel extends AuspiceModel {
         this.arctanSteepness = arctanSteepness;
         this.blairvoyanceWeight = blairvoyanceWeight;
         this.blairvoyanceStDv = blairvoyanceStDv;
+        this.bvCalc = bvCalc;
     }
 
     /**
@@ -103,7 +106,7 @@ public class ArctanAuspiceModel extends AuspiceModel {
             //If there's no polls, just use Blairvoyance.
             pollAverage = district.getBlairvoyanceDemPercent();
             pollStDv = blairvoyanceStDv;
-            pollWeight = blairvoyanceWeight * district.getBlairvoyanceWeight();
+            pollWeight = blairvoyanceWeight * bvCalc.getBlairvoyanceWeight(district);
         }
 
         //Weights are normalized already so we don't need to divide or anything
