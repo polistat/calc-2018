@@ -91,7 +91,7 @@ public class Main {
 
         //Define the poll averager for district-level polls.
         PollAverager pollAverager = new ExponentialPollAverager(1. / 30.);
-        BlairvoyanceWeightCalculator bwCalc = district -> (1-Math.abs(2*district.getBpi()-1));
+        BlairvoyanceWeightCalculator bwCalc = district -> Math.abs(2*district.getBpi()-1);
 
         //Weight the polls vs SEER using arctan.
         AuspiceModel auspiceModel = new ArctanAuspiceModel(pollAverager, bwCalc, gradeQualityPoints, 1. / 167.,
