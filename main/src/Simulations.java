@@ -89,12 +89,13 @@ public class Simulations {
 
         //Record the day this simulation was run, the AUSPICE Democratic vote percent, the standard deviation of the
         // AUSPICE percent, the chance Democrats win the district, the SEER percent, and the bigmood percent.
+        out1.println("year,month,day,district,auspice,stdev,chance,seer,bigmood,bpi");
         for (int i = 0; i < districts.length; i++) {
             out1.println(today.getYear() + "," + today.getMonthValue() + "," +
                     today.getDayOfMonth() + "," + districts[i].getName() + ","
                     + districts[i].getAuspiceDemPercent() + "," + districts[i].getAuspiceStDv() + ","
                     + avgDistrictWinChances[i] + "," + districts[i].getSeerDemPercent() + ","
-                    + districts[i].getBigmoodDemPercent());
+                    + districts[i].getBigmoodDemPercent() + "," + districts[i].getBpi());
         }
 
 
