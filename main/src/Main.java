@@ -43,7 +43,7 @@ public class Main {
         //Simple linear fundamentals.
         SeerModel seerModel = new LinearSeerModel(0.133,
                 0.278, 0.244, 0.345, 2,
-                0.06898607537, -0.08171914802, 0.1319270249, 0.1486546255);
+                0.06898607537, -0.08171914802, 0.1317467159, 0.1538100093);
 
         //Use Daniel's thing because it's better.
         NationalShiftCalculator natlShiftCalc = new DZhuNatlShiftCalc("2014.csv",
@@ -95,7 +95,7 @@ public class Main {
 
         //Weight the polls vs SEER using arctan.
         AuspiceModel auspiceModel = new ArctanAuspiceModel(pollAverager, bwCalc, gradeQualityPoints, 1. / 167.,
-                0.95, 0, 6.12, 0.265, 0.086500555313);
+                0.95, 0, 6.12, 0.265, 0.0798);
 
         //Calculate AUSPICE
         auspiceModel.calcAll(districts);
