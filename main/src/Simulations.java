@@ -118,6 +118,32 @@ public class Simulations {
 
         out1.close();
         out2.close();
+        
+        
+        //aggregates and creates state_results output
+        PrintWriter pw = new PrintWriter(new File("state_results.csv"));
+        String currState = "AL";
+        int distCount = 0;
+        double currMean = 0;
+        double currStDev = 0;
+        pw.println("State, Mean, StDev");
+        for(District d : districts){ //for each district
+        	pw.flush();
+        	if(!d.getName().substring(0,2).contentEquals(currState)){//if new state, reset everything
+        		pw.println(currState + "," + (currMean / distCount) + "," + (Math.sqrt(currStDev) / distCount));
+        		currState = d.getName().substring(0,2);
+        		distCount = 0;
+        		currMean = 0;
+        		currStDev = 0;
+        	}
+        	distCount++;
+        	currMean += d.getAuspiceDemPercent();
+        	currStDev += d.getAuspiceStDv()*d.getAuspiceStDv();
+        }
+        pw.println(currState + "," + (currMean / distCount) + "," + (Math.sqrt(currStDev) / distCount));
+        pw.close();
+        
+        
         return totalDemProb / iterations;
     }
 
