@@ -121,7 +121,7 @@ public class Simulations {
         
         
         //aggregates and creates state_results output
-        PrintWriter pw = new PrintWriter(new File("state_results.csv"));
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("state_results.csv")));
         String currState = "AL";
         int distCount = 0;
         double currMean = 0;
