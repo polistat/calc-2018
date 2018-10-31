@@ -121,15 +121,15 @@ public class Simulations {
         
         
         //aggregates and creates state_results output
-        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("state_results.csv")));
+        PrintWriter pw = new PrintWriter(new File("state_results.csv"));
         String currState = "AL";
         int distCount = 0;
         double currMean = 0;
         double currStDev = 0;
         pw.println("State, Mean, StDev");
-        for(District d : districts){ //for each district
+        for(District d : districts){
         	pw.flush();
-        	if(!d.getName().substring(0,2).contentEquals(currState)){//if new state, reset everything
+        	if(!d.getName().substring(0,2).contentEquals(currState)){
         		pw.println(currState + "," + (currMean / distCount) + "," + (Math.sqrt(currStDev) / distCount));
         		currState = d.getName().substring(0,2);
         		distCount = 0;
@@ -139,6 +139,12 @@ public class Simulations {
         	distCount++;
         	currMean += d.getAuspiceDemPercent();
         	currStDev += d.getAuspiceStDv()*d.getAuspiceStDv();
+        	if(!d.isContested()){
+        		currMean -= d.getAuspiceDemPercent();
+            	currStDev -= d.getAuspiceStDv()*d.getAuspiceStDv();
+        		currMean += d.getSeerDemPercent();
+            	currStDev += d.getSeerStDv()*d.getSeerStDv();
+        	}
         }
         pw.println(currState + "," + (currMean / distCount) + "," + (Math.sqrt(currStDev) / distCount));
         pw.close();
