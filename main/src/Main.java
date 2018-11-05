@@ -43,7 +43,7 @@ public class Main {
         //Simple linear fundamentals.
         SeerModel seerModel = new LinearSeerModel(0.133,
                 0.278, 0.244, 0.345, 2,
-                0.06898607537, -0.08171914802, 0.1317467159, 0.1496166305);
+                0.071258656, -0.08732089377, 0.1317467159, 0.1496166305);
 
         //Use Daniel's thing because it's better.
         NationalShiftCalculator natlShiftCalc = new DZhuNatlShiftCalc("2014.csv",
