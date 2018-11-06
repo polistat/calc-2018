@@ -48,7 +48,7 @@ public class ArctanAuspiceModel extends AuspiceModel {
      */
     private final double blairvoyanceStDv;
 
-	private final BlairvoyanceWeightCalculator bvCalc;
+    private final BlairvoyanceWeightCalculator bvCalc;
 
     /**
      * Default constructor.
@@ -67,7 +67,8 @@ public class ArctanAuspiceModel extends AuspiceModel {
      *                           with no polls, from 0 to 1.
      * @param blairvoyanceStDv   The standard deviation of the Blairvoyance predicted Democrat percent.
      */
-    public ArctanAuspiceModel(PollAverager pollAverager, BlairvoyanceWeightCalculator bvCalc, Map<Grade, Double> gradeQualityPoints,
+    public ArctanAuspiceModel(PollAverager pollAverager, BlairvoyanceWeightCalculator bvCalc,
+                              Map<Grade, Double> gradeQualityPoints,
                               double daysCoefficient, double maxPollWeight, double arctanShift,
                               double arctanSteepness, double blairvoyanceWeight, double blairvoyanceStDv) {
         super(pollAverager);

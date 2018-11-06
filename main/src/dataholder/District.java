@@ -268,14 +268,14 @@ public class District {
     }
 
     public double getBpi() {
-		return bpi;
-	}
+        return bpi;
+    }
 
-	public void setBpi(double bpi) {
-		this.bpi = bpi;
-	}
+    public void setBpi(double bpi) {
+        this.bpi = bpi;
+    }
 
-	/**
+    /**
      * @return The predicted percent of the two-party vote the Democrats will win in this district, according to the
      * SEER model.
      */

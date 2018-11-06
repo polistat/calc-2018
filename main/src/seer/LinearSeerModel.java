@@ -88,7 +88,7 @@ public class LinearSeerModel extends SeerModel {
 
     @Override
     public double calcBpi(District district) {
-    	//Do the sum of the data points we have over the sum of the weights used.
+        //Do the sum of the data points we have over the sum of the weights used.
         double numerator = obama2012weight * district.getObama2012() + hillary2016weight * district.getHillary2016();
         double denominator = obama2012weight + hillary2016weight;
 
@@ -110,7 +110,7 @@ public class LinearSeerModel extends SeerModel {
 
         return numerator / denominator;
     }
-    
+
     /**
      * Calculate the fundamental percent of the vote the Democratic candidate will get for a given district.
      *
