@@ -72,7 +72,6 @@ public class Simulations {
                     avgDistrictWinChances[j]++;
                 }
             }
-            //Histogram uses integers, so we round.
             histogram[expectedSeats] += 1;
             avgExpectedSeats += expectedSeats;
         }
