@@ -213,4 +213,21 @@ public class DataReader {
         return districtToVoteMap;
     }
 
+    public static Map<String, Double> getCompletedDistricts(String file) throws IOException {
+        String line;
+        BufferedReader fileReader = new BufferedReader(new FileReader(file));
+        //Clear header
+        fileReader.readLine();
+        Map<String, Double> districtToVoteMap = new HashMap<>();
+        while ((line = fileReader.readLine()) != null) {
+            String[] splitLine = line.split(",");
+            double rawDemPercent = Double.parseDouble(splitLine[1]);
+            double rawRepPercent = Double.parseDouble(splitLine[2]);
+            districtToVoteMap.put(splitLine[0].toUpperCase(), rawDemPercent/(rawDemPercent+rawRepPercent));
+        }
+        fileReader.close();
+
+        return districtToVoteMap;
+    }
+
 }

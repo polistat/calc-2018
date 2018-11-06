@@ -1,4 +1,5 @@
 import dataholder.District;
+import util.DataReader;
 import util.Normal;
 
 import java.io.BufferedWriter;
@@ -6,7 +7,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Runs the simulations to determine the actual Democrat win % for the country.
@@ -26,6 +30,39 @@ public class Simulations {
      */
     public static double write(District[] districts, double nationalShiftStDv, int iterations) throws IOException {
         Random generator = new Random();
+
+        Map<String, Double> completedDistricts = DataReader.getCompletedDistricts("live_results.csv");
+
+        double meanError = 0;
+        double errorStDv = 0;
+        double resultWeight;
+        Set<District> completedContestedDistricts = new HashSet<>();
+        for (District district : districts){
+            if (completedDistricts.keySet().contains(district.getName()) && district.isContested()){
+                meanError += completedDistricts.get(district.getName()) - district.getAuspiceDemPercent();
+                completedContestedDistricts.add(district);
+            }
+        }
+
+        if (completedContestedDistricts.size() > 1) {
+            meanError = meanError / ((double) completedContestedDistricts.size());
+            for (District district : completedContestedDistricts) {
+                errorStDv += Math.pow((completedDistricts.get(district.getName()) - district.getAuspiceDemPercent()) - meanError, 2);
+            }
+            errorStDv = Math.sqrt(errorStDv / (completedContestedDistricts.size() - 1.0));
+
+            //Use logistic weighting
+            resultWeight = 1./(1.+Math.exp(-0.25*(completedContestedDistricts.size()-15)));
+
+            //Adjust national shift standard deviation based on weight
+            nationalShiftStDv = Math.sqrt(Math.pow(errorStDv*resultWeight,2) + Math.pow(nationalShiftStDv*(1-resultWeight),2));
+        } else {
+            resultWeight = 0;
+        }
+
+        System.out.println("Result weight: "+resultWeight);
+        System.out.println("Mean error: "+meanError);
+        System.out.println("Error standard deviation: "+errorStDv);
 
         //Outputs info about each district.
         PrintWriter out1 = new PrintWriter(new BufferedWriter(new FileWriter("district_results.csv")));
@@ -53,11 +90,13 @@ public class Simulations {
                 //Normal.normalCDF doesn't like standard deviations of 0, so we handle that here.
                 if (districts[j].getAuspiceStDv() == 0) {
                     winChance = districts[j].getAuspiceDemPercent() > 0.5 ? 1 : 0;
+                } else if (completedContestedDistricts.contains(districts[j])) {
+                    winChance = completedDistricts.get(districts[j].getName()) > 0.5 ? 1 : 0;
                 } else {
                     //Since the vote percent is normally distributed, we can just calculate the chance that Democrats
                     // win.
                     winChance =
-                            1 - Normal.normalCDF(districts[j].getAuspiceDemPercent() + noise * districts[j].getElasticity(),
+                            1 - Normal.normalCDF(districts[j].getAuspiceDemPercent() + resultWeight*meanError + noise * districts[j].getElasticity(),
                                     Math.sqrt(Math.pow(districts[j].getAuspiceStDv(), 2) - Math.pow(nationalShiftStDv * districts[j].getElasticity(), 2)),
                                     0.5);
                     //If a win chance is less than 0% or more than 100%, something has gone horribly wrong.
