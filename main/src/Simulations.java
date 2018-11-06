@@ -115,6 +115,7 @@ public class Simulations {
 
         //Add expected seats
         out2.println(avgExpectedSeats);
+        System.out.println("Average expected seats: " + avgExpectedSeats);
 
         out1.close();
         out2.close();
